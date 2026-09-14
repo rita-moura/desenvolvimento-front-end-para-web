@@ -1,0 +1,14 @@
+.grafico-svg circle {
+    transition: r 0.3s ease;
+}
+
+.grafico-svg circle:hover {
+    r: 60;
+    fill: #e67e22;
+}
+
+.icone-svg {
+    width: 24px;
+    height: 24px;
+    fill: currentColor;
+}
