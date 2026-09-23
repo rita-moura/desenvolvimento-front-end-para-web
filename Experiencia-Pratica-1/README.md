@@ -48,7 +48,7 @@ O menu usa uma lista porque reúne opções relacionadas. `aria-current="page"` 
 4. Navegue usando Tab e Enter e experimente “Pular para o conteúdo”.
 5. Altere a missão da ONG preservando a hierarquia dos títulos.
 
-A aparência inicial é a padrão do navegador: esta etapa concentra-se no HTML. A pasta `imagens` contém uma ilustração SVG de um livro aberto, criada para este exercício. A página inicial apresenta contato fictício em `address` e um link de e-mail com `mailto:`. O domínio `.example` indica um endereço de demonstração. Ao adicionar uma imagem, use um texto `alt` que comunique sua finalidade, ou `alt=""` se ela for apenas decorativa.
+A estrutura HTML recebe os estilos compartilhados de estilos.css. A pasta `imagens` contém uma ilustração SVG de um livro aberto, criada para este exercício. A página inicial apresenta contato fictício em `address` e um link de e-mail com `mailto:`. O domínio `.example` indica um endereço de demonstração. Ao adicionar uma imagem, use um texto `alt` que comunique sua finalidade, ou `alt=""` se ela for apenas decorativa.
 
 ## Etapa de cadastro
 
@@ -63,3 +63,17 @@ As validações mostram mensagens junto aos campos ao perderem foco e ao conclui
 ## Entrega final
 
 A pasta `entrega` reúne os pacotes ZIP e uma cópia consolidada do HTML. As quatro páginas foram validadas no W3C sem mensagens. A imagem usa `picture` com SVG e WebP e fallback PNG, com texto alternativo na tag `img`. Os relatórios individuais estão em `validacao`.
+
+## Estilo e testes automatizados
+
+As quatro páginas compartilham `estilos.css`, na raiz desta pasta. O layout adapta menus e formulários a telas menores e mantém foco visível e mensagens de erro. A organização das páginas e as regras do formulário foram preservadas.
+
+Para testar, instale Node.js e Python 3. Dentro de `Experiencia-Pratica-1`, execute:
+
+```bash
+npm ci
+npx playwright install chromium
+npm test
+```
+
+`site.spec.js` verifica navegação, carregamento de recursos, ausência de transbordamento horizontal, acesso por teclado, campos inválidos, máscaras, correção do cadastro e funcionamento sem JavaScript. A configuração em `playwright.config.js` executa os cenários com larguras de desktop e celular, iniciando um servidor local na porta 8765. As dependências e os resultados gerados são ignorados pelo Git.
