@@ -1,0 +1,311 @@
+<!-- Arquivo: html/cadastro.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro | Laços da Comunidade</title>
+  <script src="../js/cadastro.js" defer></script>
+  <style>
+    .erro { display: block; color: #a31515; margin-top: 0.25rem; }
+    [aria-invalid="true"] { outline: 2px solid #a31515; outline-offset: 1px; }
+  </style>
+</head>
+<body>
+  <a href="#conteudo">Pular para o conteúdo</a>
+  <header>
+    <p>Laços da Comunidade</p>
+    <nav aria-label="Navegação principal">
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="projetos.html">Projetos sociais</a></li>
+        <li><a href="participe.html">Participe</a></li>
+        <li><a href="cadastro.html" aria-current="page">Cadastro</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main id="conteudo">
+    <h1>Cadastro de participação</h1>
+    <p id="orientacao">Exercício acadêmico: use apenas dados fictícios. Os dados não são enviados nem armazenados. Todos os campos são obrigatórios, exceto o complemento.</p>
+    <noscript><p>Ative o JavaScript para experimentar as máscaras e a validação demonstrativa.</p></noscript>
+    <form aria-describedby="orientacao">
+      <!-- Habilitado pelo script: impede envio acidental se o JavaScript estiver indisponível. -->
+      <fieldset id="campos" disabled>
+        <legend>Cadastro demonstrativo</legend>
+        <fieldset>
+          <legend>Dados pessoais</legend>
+          <p><label for="nome">Nome completo</label><br><input id="nome" name="nome" type="text" autocomplete="name" minlength="3" maxlength="100" required></p>
+          <p><label for="email">E-mail</label><br><input id="email" name="email" type="email" autocomplete="email" maxlength="150" required></p>
+          <p><label for="nascimento">Data de nascimento</label><br><input id="nascimento" name="nascimento" type="date" autocomplete="bday" required></p>
+          <p><label for="cpf">CPF</label><br><input id="cpf" name="cpf" type="text" inputmode="numeric" pattern="[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}" aria-describedby="ajuda-cpf" required><br><small id="ajuda-cpf">Formato: 000.000.000-00. A pontuação é inserida automaticamente.</small></p>
+          <p><label for="telefone">Telefone com DDD</label><br><input id="telefone" name="telefone" type="tel" autocomplete="tel" inputmode="numeric" pattern="\([0-9]{2}\) [0-9]{4,5}-[0-9]{4}" aria-describedby="ajuda-telefone" required><br><small id="ajuda-telefone">Formato: (00) 0000-0000 ou (00) 00000-0000.</small></p>
+        </fieldset>
+        <fieldset>
+          <legend>Endereço</legend>
+          <p><label for="cep">CEP</label><br><input id="cep" name="cep" type="text" autocomplete="postal-code" inputmode="numeric" pattern="[0-9]{5}-[0-9]{3}" aria-describedby="ajuda-cep" required><br><small id="ajuda-cep">Formato: 00000-000.</small></p>
+          <p><label for="logradouro">Logradouro</label><br><input id="logradouro" name="logradouro" type="text" autocomplete="address-line1" required></p>
+          <p><label for="numero">Número (ou s/n)</label><br><input id="numero" name="numero" type="text" required></p>
+          <p><label for="complemento">Complemento (opcional)</label><br><input id="complemento" name="complemento" type="text" autocomplete="address-line2"></p>
+          <p><label for="bairro">Bairro</label><br><input id="bairro" name="bairro" type="text" required></p>
+          <p><label for="cidade">Cidade</label><br><input id="cidade" name="cidade" type="text" autocomplete="address-level2" required></p>
+          <p><label for="estado">Estado (UF)</label><br><select id="estado" name="estado" autocomplete="address-level1" required>
+            <option value="">Selecione</option>
+            <option>AC</option><option>AL</option><option>AP</option><option>AM</option><option>BA</option><option>CE</option><option>DF</option><option>ES</option><option>GO</option><option>MA</option><option>MT</option><option>MS</option><option>MG</option><option>PA</option><option>PB</option><option>PR</option><option>PE</option><option>PI</option><option>RJ</option><option>RN</option><option>RS</option><option>RO</option><option>RR</option><option>SC</option><option>SP</option><option>SE</option><option>TO</option>
+          </select></p>
+        </fieldset>
+        <fieldset>
+          <legend>Interesse em participar</legend>
+          <p><label for="interesse">Forma de participação</label><br><select id="interesse" name="interesse" required>
+            <option value="">Selecione</option><option value="voluntariado">Trabalho voluntário</option><option value="doacao">Campanhas de doação</option><option value="ambos">Ambas</option>
+          </select></p>
+          <p><label><input type="checkbox" name="demonstracao" required> Entendi que este cadastro é uma demonstração e usarei dados fictícios.</label></p>
+        </fieldset>
+        <button type="submit">Validar cadastro de exemplo</button>
+      </fieldset>
+    </form>
+    <p id="resultado" role="status"></p>
+  </main>
+  <footer><p>Laços da Comunidade — projeto acadêmico. Organização e ações fictícias.</p></footer>
+</body>
+</html>
+
+
+<!-- Arquivo: html/index.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Conheça a ONG fictícia Laços da Comunidade e suas iniciativas sociais.">
+  <title>Início | Laços da Comunidade</title>
+</head>
+<body>
+  <a href="#conteudo">Pular para o conteúdo</a>
+  <!-- header reúne a identificação e a navegação principal do site. -->
+  <header>
+    <p>Laços da Comunidade</p>
+    <nav aria-label="Navegação principal">
+      <ul>
+        <li><a href="index.html" aria-current="page">Início</a></li>
+        <li><a href="projetos.html">Projetos sociais</a></li>
+        <li><a href="cadastro.html">Cadastro</a></li>
+        <li><a href="participe.html">Participe</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- main identifica o conteúdo principal e exclusivo desta página. -->
+  <main id="conteudo">
+    <h1>Juntos por uma comunidade mais acolhedora</h1>
+    <p>A Laços da Comunidade é uma ONG fictícia dedicada à educação, à convivência e ao apoio a famílias.</p>
+
+    <picture>
+      <source srcset="../imagens/leitura-comunitaria.svg" type="image/svg+xml">
+      <source srcset="../imagens/leitura-comunitaria.webp" type="image/webp">
+    <img src="../imagens/leitura-comunitaria.png"
+         alt="Livro aberto, símbolo das iniciativas de educação e leitura da ONG."
+         width="800" height="400" style="max-width: 100%; height: auto;">
+    </picture>
+
+    <!-- Cada section reúne um assunto e recebe um título descritivo. -->
+    <section aria-labelledby="sobre">
+      <h2 id="sobre">Quem somos</h2>
+      <p>Reunimos pessoas que desejam compartilhar conhecimentos e construir oportunidades na comunidade.</p>
+      <h3>Nossa missão</h3>
+      <p>Promover o acesso à educação e fortalecer os vínculos entre os moradores.</p>
+      <h3>Nossos valores</h3>
+      <ul>
+        <li>Respeito à diversidade.</li>
+        <li>Solidariedade nas ações cotidianas.</li>
+        <li>Transparência e responsabilidade.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="iniciativas">
+      <h2 id="iniciativas">Nossas iniciativas</h2>
+      <p>Os projetos oferecem apoio aos estudos e oportunidades de leitura para crianças, jovens e adultos.</p>
+      <a href="projetos.html">Conheça os projetos sociais</a>
+    </section>
+    <section aria-labelledby="contato">
+      <h2 id="contato">Entre em contato</h2>
+      <p>Dados fictícios para fins acadêmicos; não são canais reais de atendimento.</p>
+      <!-- address identifica as informações de contato da organização. -->
+      <address>
+        <p>Laços da Comunidade</p>
+        <p>E-mail: <a href="mailto:contato@lacos.example">contato@lacos.example</a></p>
+        <p>Endereço: Rua Exemplo, 100 — Bairro Comunidade, Cidade Exemplo.</p>
+      </address>
+    </section>
+  </main>
+
+  <!-- footer apresenta informações de encerramento do site. -->
+  <footer>
+    <p>Laços da Comunidade — projeto acadêmico. Organização e ações fictícias.</p>
+  </footer>
+</body>
+</html>
+
+
+<!-- Arquivo: html/participe.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Saiba como colaborar com as iniciativas da ONG fictícia Laços da Comunidade.">
+  <title>Participe | Laços da Comunidade</title>
+</head>
+<body>
+  <a href="#conteudo">Pular para o conteúdo</a>
+  <header>
+    <p>Laços da Comunidade</p>
+    <nav aria-label="Navegação principal">
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="projetos.html">Projetos sociais</a></li>
+        <li><a href="cadastro.html">Cadastro</a></li>
+        <li><a href="participe.html" aria-current="page">Participe</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+    <h1>Participe da nossa comunidade</h1>
+    <p>Há diferentes maneiras de contribuir com as iniciativas apresentadas neste projeto.</p>
+
+    <section aria-labelledby="voluntariado">
+      <h2 id="voluntariado">Voluntariado</h2>
+      <p>Pessoas com diferentes experiências podem colaborar com as atividades educativas.</p>
+      <ul>
+        <li>Ajudar estudantes com suas tarefas.</li>
+        <li>Participar das rodas de leitura.</li>
+        <li>Organizar livros e materiais educativos.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="passos">
+      <h2 id="passos">Antes de participar</h2>
+      <ol>
+        <li>Conheça os <a href="projetos.html">projetos sociais</a>.</li>
+        <li>Escolha uma atividade de acordo com seus interesses.</li>
+        <li>Reflita sobre o tempo que você poderia dedicar à atividade.</li>
+      </ol>
+    </section>
+
+    <p><a href="cadastro.html">Experimente o formulário de cadastro</a>.</p>
+
+    <!-- aside contém uma observação complementar ao conteúdo principal. -->
+    <aside aria-labelledby="aviso">
+      <h2 id="aviso">Sobre esta demonstração</h2>
+      <p>Este site é um exercício de HTML5 semântico. Não há inscrições ou coleta de dados reais.</p>
+    </aside>
+  </main>
+
+  <footer>
+    <p>Laços da Comunidade — projeto acadêmico. Organização e ações fictícias.</p>
+  </footer>
+</body>
+</html>
+
+
+<!-- Arquivo: html/projetos.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Conheça os projetos sociais da ONG fictícia Laços da Comunidade.">
+  <title>Projetos sociais | Laços da Comunidade</title>
+</head>
+<body>
+  <a href="#conteudo">Pular para o conteúdo</a>
+  <header>
+    <p>Laços da Comunidade</p>
+    <nav aria-label="Navegação principal">
+      <ul>
+        <li><a href="index.html">Início</a></li>
+        <li><a href="projetos.html" aria-current="page">Projetos sociais</a></li>
+        <li><a href="cadastro.html">Cadastro</a></li>
+        <li><a href="participe.html">Participe</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="conteudo">
+    <h1>Projetos sociais</h1>
+    <p>Conheça as iniciativas que aproximam moradores e ampliam o acesso ao conhecimento.</p>
+    <nav aria-label="Nesta página">
+      <ul>
+        <li><a href="#aprender">Aprender juntos</a></li>
+        <li><a href="#leitura">Leitura para todos</a></li>
+        <li><a href="#voluntariado">Trabalho voluntário</a></li>
+        <li><a href="#doacoes">Campanhas de doação</a></li>
+      </ul>
+    </nav>
+
+    <!-- article faz sentido aqui porque cada projeto tem uma descrição independente. -->
+    <article aria-labelledby="aprender">
+      <h2 id="aprender">Aprender juntos</h2>
+      <p>Apoio aos estudos para crianças e adolescentes, com atividades de leitura e matemática.</p>
+      <h3>Objetivo</h3>
+      <p>Incentivar a autonomia e a confiança dos estudantes durante a aprendizagem.</p>
+      <h3>Atividades</h3>
+      <ul>
+        <li>Acompanhamento de tarefas escolares.</li>
+        <li>Jogos educativos em grupo.</li>
+      </ul>
+    </article>
+
+    <article aria-labelledby="leitura">
+      <h2 id="leitura">Leitura para todos</h2>
+      <p>Encontros de leitura e troca de livros para pessoas de todas as idades.</p>
+      <h3>Objetivo</h3>
+      <p>Ampliar o acesso aos livros e criar espaços para compartilhar histórias.</p>
+      <h3>Atividades</h3>
+      <ul>
+        <li>Rodas de leitura.</li>
+        <li>Organização de um acervo comunitário.</li>
+      </ul>
+    </article>
+
+    <section aria-labelledby="voluntariado">
+      <h2 id="voluntariado">Trabalho voluntário</h2>
+      <p>Você pode compartilhar tempo e conhecimentos nas atividades dos projetos.</p>
+      <h3>Formas de atuação</h3>
+      <ul>
+        <li>Apoiar tarefas escolares no projeto Aprender juntos.</li>
+        <li>Conduzir rodas de leitura no projeto Leitura para todos.</li>
+        <li>Organizar livros e materiais educativos.</li>
+      </ul>
+      <h3>Como se envolver</h3>
+      <ol>
+        <li>Conheça os projetos e escolha uma atividade de seu interesse.</li>
+        <li>Defina os dias e horários em que poderia colaborar.</li>
+        <li>Em uma ONG real, converse com a equipe para combinar a participação e receber orientações.</li>
+      </ol>
+      <p><a href="participe.html">Conheça as orientações de participação</a>.</p>
+    </section>
+
+    <section aria-labelledby="doacoes">
+      <h2 id="doacoes">Campanhas de doação</h2>
+      <p>Neste exemplo acadêmico, as campanhas apoiam os dois projetos educativos. Não há arrecadação real de dinheiro ou materiais.</p>
+      <h3>Doação de materiais</h3>
+      <p>A campanha proposta reúne livros em bom estado, cadernos e lápis. Os materiais seriam separados e destinados às atividades de estudo e ao acervo comunitário.</p>
+      <h3>Contribuição financeira</h3>
+      <p>O apoio financeiro seria destinado à compra de materiais educativos e à manutenção das atividades de leitura e acompanhamento escolar.</p>
+      <ol>
+        <li>Conheça a finalidade da campanha e o projeto que deseja apoiar.</li>
+        <li>Em uma ONG real, consulte a equipe para confirmar os canais oficiais de doação.</li>
+        <li>Após contribuir, acompanhe a prestação de contas da campanha.</li>
+      </ol>
+      <h3>Organização e transparência</h3>
+      <p>No modelo proposto, a equipe identifica as necessidades, divulga a campanha, registra as contribuições e distribui os recursos. A prestação de contas informaria os valores arrecadados, os materiais recebidos e sua aplicação nos projetos.</p>
+      <p><a href="index.html#contato">Consulte a seção de contato demonstrativa da ONG</a>. Os dados são fictícios; este site não processa doações nem inscrições.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>Laços da Comunidade — projeto acadêmico. Organização e ações fictícias.</p>
+  </footer>
+</body>
+</html>
