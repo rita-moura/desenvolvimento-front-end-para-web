@@ -7,6 +7,7 @@ for (const pagina of ['index', 'projetos', 'participe', 'cadastro']) {
     page.on('response', resposta => { if (resposta.status() >= 400) erros.push(resposta.url()); });
     await page.goto(`/html/${pagina}.html`);
     await expect(page.locator('h1')).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Navegação principal' }).getByRole('link')).toHaveText(['Início', 'Projetos sociais', 'Participe', 'Cadastro']);
     await expect(page.locator('[aria-current="page"]')).toHaveAttribute('href', `${pagina}.html`);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     expect(await page.locator('header').evaluate(el => getComputedStyle(el).display)).toBe('flex');
