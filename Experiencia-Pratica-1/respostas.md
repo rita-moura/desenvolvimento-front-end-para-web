@@ -192,10 +192,28 @@ Adicione uma pasta por vez. Copie a primeira coluna para “Nome da pasta ou dir
 | validacao | index-w3c.json, projetos-w3c.json, participe-w3c.json e cadastro-w3c.json. |
 | entrega | imagens-otimizadas.zip, projeto-completo.zip e codigo-fonte-completo.txt. |
 
-## 15. Código-fonte completo para entrega
+## 15. Código-fonte completo — link do GitHub
 
-O código integral está em entrega/codigo-fonte-completo.txt e os arquivos executáveis estão em entrega/projeto-completo.zip. As quatro páginas juntas ultrapassam os 10.000 caracteres do campo. Não cole uma versão cortada. Se a plataforma permitir anexar o projeto completo, anexe o ZIP e use o texto abaixo somente após anexá-lo. Se aceitar apenas imagens no upload, será necessário hospedar o código em um repositório acessível e colar seu link nesse campo; ainda não foi publicado um link.
+Atenção: na conferência, o projeto estava no commit local e022fb9, ainda não publicado na branch main do GitHub. Publique esse commit antes de entregar o link abaixo. Depois, confira se a pasta abre para o avaliador; se o repositório for privado, ele precisará de acesso.
+
+Copie o texto abaixo para o campo de código-fonte somente após publicar e conferir o acesso:
 
 ```text
-O código-fonte completo está no arquivo projeto-completo.zip anexado à entrega, com as páginas index.html, projetos.html, participe.html e cadastro.html na pasta html. O pacote também contém o JavaScript, as imagens e os relatórios de validação do W3C. As quatro páginas foram verificadas no Nu HTML Checker, sem erros ou avisos no resultado final. Para executar, extraia o ZIP e abra html/index.html no navegador.
+O código-fonte completo está disponível no GitHub: https://github.com/rita-moura/desenvolvimento-front-end-para-web/tree/main/Experiencia-Pratica-1
+
+A pasta html contém index.html, projetos.html, participe.html e cadastro.html. A pasta js contém as máscaras e validações do formulário; imagens reúne os recursos visuais; validacao contém os relatórios do W3C. Para executar o projeto, baixe o repositório e abra Experiencia-Pratica-1/html/index.html no navegador. Não é necessário instalar dependências.
+```
+
+## 16. Resultado da validação W3C e correções efetuadas
+
+```text
+Submeti os arquivos index.html, projetos.html, participe.html e cadastro.html ao Nu HTML Checker do W3C. Na primeira validação do cadastro, a ferramenta apontou um erro no valor tel-national do atributo autocomplete do campo de telefone. Substituí esse valor por tel e submeti novamente o arquivo. Após a correção e a inclusão das versões de imagem no elemento picture, repeti a validação das quatro páginas. Os resultados finais não apresentaram erros nem avisos, retornando a lista messages vazia. Os relatórios foram salvos na pasta validacao, em arquivos JSON individuais para cada página. Além da conferência da marcação HTML, testei separadamente no navegador o preenchimento obrigatório, as mensagens de erro, as máscaras de CPF, telefone e CEP e a conclusão com dados de exemplo. A validação do W3C verifica a conformidade do HTML; ela não substitui os testes de funcionamento do JavaScript nem uma avaliação completa de acessibilidade.
+```
+
+## 17. Reflexão sobre a aprendizagem
+
+Sugestão baseada nas atividades realizadas. Revise para que o texto represente sua percepção pessoal sobre a aprendizagem.
+
+```text
+Nesta experiência prática, avancei na compreensão de que desenvolver uma página web envolve mais do que apresentar textos e imagens. A escolha das tags semânticas, a hierarquia dos títulos e a organização dos arquivos ajudam a tornar o conteúdo compreensível, acessível e mais fácil de manter. Entre meus pontos fortes, destaco a atenção aos requisitos e a disposição para revisar o resultado. Ao experimentar o formulário, percebi que as validações precisavam ficar mais claras para quem preenche os campos, o que levou à revisão das máscaras e à inclusão de mensagens de erro. Também compreendi melhor a diferença entre formatar um dado e verificar sua validade: a máscara organiza a digitação, mas não garante que a informação esteja correta ou exista. Como oportunidades de melhoria, reconheço a necessidade de praticar mais JavaScript e expressões regulares para compreender e implementar essas regras com maior autonomia. Preciso também ampliar os testes de acessibilidade e de navegação por teclado, além de planejar a entrega com antecedência, considerando os formatos aceitos pela plataforma e a publicação do código no GitHub. A validação pelo W3C mostrou a importância de conferir a marcação e corrigir os problemas encontrados, sem substituir os testes de funcionamento. Esses aprendizados contribuem para meu desenvolvimento profissional ao incentivar uma postura de organização, revisão e atenção à experiência do usuário. Ainda estou consolidando esses conhecimentos, mas a atividade me ajudou a relacionar a teoria do HTML5 com decisões práticas de desenvolvimento.
 ```
