@@ -1,5 +1,7 @@
 # Desenvolvimento Front-end para Web
 
+🌐 **[Acesse o site Laços da Comunidade](https://rita-moura.github.io/desenvolvimento-front-end-para-web/Experiencia-Pratica-1/html/index.html)** — Experiência Prática 1 publicada no GitHub Pages.
+
 Repositório de estudos e atividades práticas da disciplina Desenvolvimento Front-end para Web. Reúne exemplos de HTML5, recursos multimídia e gráficos, além de um projeto de site para uma ONG fictícia.
 
 ## Conteúdos de estudo
