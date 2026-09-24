@@ -32,8 +32,12 @@ test('cadastro vazio exibe erros acessíveis e foca o primeiro campo', async ({ 
   await expect(page.locator('#nome')).toBeFocused();
   await expect(page.locator('#nome')).toHaveAttribute('aria-invalid', 'true');
   await expect(page.locator('#nome')).toHaveAttribute('aria-describedby', /erro-nome/);
-  await expect(page.locator('#erro-nome')).toHaveText('Preencha este campo.');
-  await expect(page.getByRole('status')).toContainText('Revise');
+  const estado = await page.locator('#nome').evaluate(el => ({ missing: el.validity.valueMissing, custom: el.validity.customError, mensagem: el.validationMessage, nativa: !el.form.noValidate }));
+  expect(estado.missing).toBe(true);
+  expect(estado.custom).toBe(false);
+  expect(estado.nativa).toBe(true);
+  await expect(page.locator('#erro-nome')).toHaveText(estado.mensagem);
+  await expect(page.getByRole('status')).toBeEmpty();
 });
 
 test('rejeita dados inválidos e permite corrigir o cadastro sem envio', async ({ page }) => {
@@ -68,4 +72,24 @@ test('sem JavaScript mantém a demonstração desabilitada', async ({ browser })
   await expect(page.getByRole('button')).toBeDisabled();
   await expect(page.locator('noscript')).toBeVisible();
   await contexto.close();
+});
+
+test('restrições HTML bloqueiam o submit com mensagens nativas', async ({ page }) => {
+  await page.goto('/html/cadastro.html');
+  for (const [id, valor, flag] of [['email', 'invalido', 'typeMismatch'], ['cpf', '123', 'patternMismatch'], ['telefone', '11', 'patternMismatch'], ['cep', '12', 'patternMismatch'], ['nascimento', '2999-01-01', 'rangeOverflow']]) {
+    const estado = await page.locator(`#${id}`).evaluate((el, {valor, flag}) => {
+      el.setCustomValidity('');
+      el.value = valor;
+      let enviado = false;
+      const observar = () => { enviado = true; };
+      el.form.addEventListener('submit', observar);
+      el.form.requestSubmit();
+      el.form.removeEventListener('submit', observar);
+      return { falha: el.validity[flag], custom: el.validity.customError, mensagem: el.validationMessage, enviado };
+    }, {valor, flag});
+    expect(estado.falha).toBe(true);
+    expect(estado.custom).toBe(false);
+    expect(estado.mensagem).not.toBe('');
+    expect(estado.enviado).toBe(false);
+  }
 });

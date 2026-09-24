@@ -50,9 +50,11 @@ function validar(campo) {
   campo.setCustomValidity('');
   const valor = campo.value.trim();
   let mensagem = '';
-  if (campo.required && (campo.type === 'checkbox' ? !campo.checked : !valor)) {
-    mensagem = campo.type === 'checkbox' ? 'Confirme que usará dados fictícios.' : 'Preencha este campo.';
-  } else if (valor) {
+  if (!campo.validity.valid) {
+    mostrarErro(campo);
+    return false;
+  }
+  if (valor) {
     if (campo.id === 'nome' && (valor.length < 3 || !/^[\p{L}]+(?:[ ’'-][\p{L}]+)+$/u.test(valor))) mensagem = 'Informe nome e sobrenome, usando letras.';
     if (campo.id === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor)) mensagem = 'Informe um e-mail como nome@exemplo.com.';
     if (campo.id === 'cpf' && !cpfValido(valor)) mensagem = 'Informe um CPF com 11 dígitos e dígitos verificadores válidos.';
@@ -61,11 +63,13 @@ function validar(campo) {
     if (campo.id === 'nascimento' && (valor > campo.max || Number(valor.slice(0, 4)) < 1)) mensagem = 'Informe uma data de nascimento válida, sem datas futuras.';
     if (campo.id === 'numero' && !/^(?:[0-9]+[a-zA-Z]?|s\/n)$/i.test(valor)) mensagem = 'Informe um número, como 100 ou 100A, ou s/n.';
   }
-  if (!mensagem && !campo.validity.valid) mensagem = campo.validationMessage;
   campo.setCustomValidity(mensagem);
-  campo.setAttribute('aria-invalid', String(Boolean(mensagem)));
-  document.getElementById(`erro-${campo.id}`).textContent = mensagem;
-  return !mensagem;
+  mostrarErro(campo);
+  return campo.validity.valid;
+}
+function mostrarErro(campo) {
+  campo.setAttribute('aria-invalid', String(!campo.validity.valid));
+  document.getElementById(`erro-${campo.id}`).textContent = campo.validationMessage;
 }
 for (const campo of campos) {
   if (!campo.id) campo.id = campo.name;
@@ -75,21 +79,22 @@ for (const campo of campos) {
   erro.setAttribute('aria-live', 'polite');
   campo.closest('p').append(erro);
   campo.setAttribute('aria-describedby', [campo.getAttribute('aria-describedby'), erro.id].filter(Boolean).join(' '));
+  // Não cancela invalid: o navegador mantém sua mensagem e seu foco padrão.
+  campo.addEventListener('invalid', () => mostrarErro(campo));
   campo.addEventListener('blur', () => validar(campo));
   campo.addEventListener('input', () => {
     resultado.textContent = '';
-    if (campo.hasAttribute('aria-invalid')) validar(campo);
+    validar(campo);
   });
   campo.addEventListener('change', () => validar(campo));
 }
-// O script mostra todos os erros; os atributos HTML continuam sendo consultados.
-form.noValidate = true;
+// A validação interativa nativa ocorre antes do evento submit.
 form.addEventListener('submit', event => {
   event.preventDefault();
   const invalidos = campos.filter(campo => !validar(campo));
   if (invalidos.length) {
     resultado.textContent = 'Revise os campos indicados antes de continuar.';
-    invalidos[0].focus();
+    form.reportValidity();
     return;
   }
   resultado.textContent = 'Cadastro de exemplo validado! Nenhum dado foi enviado ou armazenado.';

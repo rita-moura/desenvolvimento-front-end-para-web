@@ -58,7 +58,7 @@ O arquivo `js/cadastro.js` aplica máscaras de CPF, telefone e CEP, confere os d
 
 O HTML de cadastro foi enviado ao Nu HTML Checker do W3C em 23/09/2026, com zero mensagens após a correção do atributo autocomplete do telefone. Resultado em `validacao/cadastro-w3c.json`. Essa validação verifica a marcação; as máscaras e os dígitos verificadores também foram conferidos separadamente com Node.js.
 
-As validações mostram mensagens junto aos campos ao perderem foco e ao concluir; campos já verificados são reavaliados durante a edição. Os testes no navegador cobriram campos vazios, nome e e-mail inválidos, máscaras e conclusão com dados de exemplo. A validação consulta os atributos nativos pela API de validade e usa mensagens acessíveis próprias.
+As validações mostram mensagens junto aos campos ao perderem foco e ao concluir; campos já verificados são reavaliados durante a edição. Os testes no navegador cobriram campos vazios, nome e e-mail inválidos, máscaras e conclusão com dados de exemplo. A validação interativa nativa permanece habilitada: o navegador bloqueia a submissão inválida e apresenta suas mensagens. As mensagens acessíveis junto aos campos são complementares.
 
 ## Entrega final
 
