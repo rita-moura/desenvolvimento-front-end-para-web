@@ -230,10 +230,9 @@ Sugestão baseada nas atividades realizadas. Revise para que o texto represente 
 Nesta experiência prática, avancei na compreensão de que desenvolver uma página web envolve mais do que apresentar textos e imagens. A escolha das tags semânticas, a hierarquia dos títulos e a organização dos arquivos ajudam a tornar o conteúdo compreensível, acessível e mais fácil de manter. Entre meus pontos fortes, destaco a atenção aos requisitos e a disposição para revisar o resultado. Ao experimentar o formulário, percebi que as validações precisavam ficar mais claras para quem preenche os campos, o que levou à revisão das máscaras e à inclusão de mensagens de erro. Também compreendi melhor a diferença entre formatar um dado e verificar sua validade: a máscara organiza a digitação, mas não garante que a informação esteja correta ou exista. Como oportunidades de melhoria, reconheço a necessidade de praticar mais JavaScript e expressões regulares para compreender e implementar essas regras com maior autonomia. Preciso também ampliar os testes de acessibilidade e de navegação por teclado, além de planejar a entrega com antecedência, considerando os formatos aceitos pela plataforma e a publicação do código no GitHub. A validação pelo W3C mostrou a importância de conferir a marcação e corrigir os problemas encontrados, sem substituir os testes de funcionamento. Esses aprendizados contribuem para meu desenvolvimento profissional ao incentivar uma postura de organização, revisão e atenção à experiência do usuário. Ainda estou consolidando esses conhecimentos, mas a atividade me ajudou a relacionar a teoria do HTML5 com decisões práticas de desenvolvimento.
 ```
 
-#   
-  
-# Respostas — Experiência prática II
 
+
+# Respostas — Experiência prática II
 
 ---
 
@@ -272,11 +271,13 @@ Adotei cinco breakpoints mobile-first com @media (min-width: ...): 480px aumenta
 
 Adicione um módulo por vez. Copie a primeira coluna para “Nome do componente ou contentor” e a segunda para “Propriedades Flexbox aplicadas”. Os textos respeitam os limites de 150 e 500 caracteres.
 
-| Nome do componente ou contentor | Propriedades Flexbox aplicadas |
-|---|---|
-| Cabeçalho principal (header) | display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--espaco-4). Abaixo de 1024px, flex-direction: column e align-items: flex-start empilham a identificação da ONG e o menu. A partir de 1024px, flex-direction: row e align-items: center colocam os elementos lado a lado, centralizados no eixo vertical. O espaço livre separa a marca da navegação. |
-| Lista de links da navegação principal (nav ul) | display: flex; flex-wrap: wrap; gap: var(--espaco-2). Os links seguem a direção horizontal padrão, mantendo a ordem Início, Projetos sociais, Participe e Cadastro. Quando falta espaço, os itens passam para outra linha. O gap padroniza a distância entre eles sem exigir larguras fixas. |
-| Navegação interna da página de projetos (nav com aria-label="Nesta página" > ul) | A lista utiliza a regra compartilhada nav ul: display: flex; flex-wrap: wrap; gap: var(--espaco-2). Os atalhos para projetos, voluntariado e doações ficam lado a lado enquanto houver espaço e quebram em novas linhas em telas menores, preservando a ordem do HTML e a navegação por teclado. |
+
+| Nome do componente ou contentor                                                     | Propriedades Flexbox aplicadas                                                                                                                                                                                                                                                                                                                                                 |
+| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Cabeçalho principal (header)                                                        | display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--espaco-4). Abaixo de 1024px, flex-direction: column e align-items: flex-start empilham a identificação da ONG e o menu. A partir de 1024px, flex-direction: row e align-items: center colocam os elementos lado a lado, centralizados no eixo vertical. O espaço livre separa a marca da navegação. |
+| Lista de links da navegação principal (nav ul)                                      | display: flex; flex-wrap: wrap; gap: var(--espaco-2). Os links seguem a direção horizontal padrão, mantendo a ordem Início, Projetos sociais, Participe e Cadastro. Quando falta espaço, os itens passam para outra linha. O gap padroniza a distância entre eles sem exigir larguras fixas.                                                                                   |
+| Navegação interna da página de projetos (nav com aria-label="Nesta página" &gt; ul) | A lista utiliza a regra compartilhada nav ul: display: flex; flex-wrap: wrap; gap: var(--espaco-2). Os atalhos para projetos, voluntariado e doações ficam lado a lado enquanto houver espaço e quebram em novas linhas em telas menores, preservando a ordem do HTML e a navegação por teclado.                                                                               |
+
 
 Os dois menus são componentes distintos que reutilizam a mesma regra CSS. O layout principal de 12 colunas e o agrupamento dos campos do formulário utilizam Grid, por isso não foram listados como exemplos de Flexbox.
 
@@ -298,16 +299,17 @@ Implementei a navegação nas quatro páginas com #menu-principal, .menu-toggle,
 Apliquei estados visuais aos botões e campos sem depender apenas de cor. Os botões têm transições curtas de background-color, box-shadow e transform. Em :hover, o fundo passa da cor primária para --escuro e surge uma sombra; em :focus-visible, aparece um anel contrastante para navegação por teclado; em :active, há pequeno deslocamento vertical; em :disabled, a opacidade diminui, o cursor muda e a sombra é removida. Inputs e selects mudam a borda no hover e recebem sombra de foco. As pseudo-classes :valid e :invalid sinalizam campos preenchidos corretamente ou com erro, enquanto [aria-invalid="true"] reforça o erro após a validação do JavaScript. O elemento #resultado recebe feedback-erro quando a tentativa é bloqueada e feedback-sucesso quando todos os campos válidos são conferidos. O erro usa fundo rosado, borda vermelha, texto escuro e mensagem textual; o sucesso usa fundo verde-claro, borda verde e mensagem de confirmação. Assim, a informação não depende somente de vermelho ou verde. O formulário mantém required, type, pattern e os limites nativos, e o navegador continua apresentando suas mensagens. As transições duram 0.18s; a regra prefers-reduced-motion: reduce remove-as para pessoas que solicitam menos movimento. Os testes cobrem submissão vazia, classe visual de erro, correção dos dados e classe de sucesso.
 ```
 
-
 ### Componentes 3 — Capturas para anexar
 
 O formulário de upload aceita imagens individuais. Use estes títulos:
 
-| Título | Arquivo |
-|---|---|
-| Menu dropdown no desktop | `entrega/captura-menu-dropdown.png` |
-| Menu hambúrguer no mobile | `entrega/captura-menu-mobile.png` |
+
+| Título                          | Arquivo                               |
+| ------------------------------- | ------------------------------------- |
+| Menu dropdown no desktop        | `entrega/captura-menu-dropdown.png`   |
+| Menu hambúrguer no mobile       | `entrega/captura-menu-mobile.png`     |
 | Formulário com feedback de erro | `entrega/captura-formulario-erro.png` |
+
 
 As capturas mostram o dropdown aberto em tela ampla, o menu hambúrguer aberto em uma largura móvel e a indicação visual de erro ao tentar validar o formulário vazio. Todas estão abaixo de 50 MB.
 
@@ -316,3 +318,19 @@ As capturas mostram o dropdown aberto em tela ampla, o menu hambúrguer aberto e
 ```text
 Nesta etapa, aprimorei a interface da ONG para que ela respondesse melhor às ações do usuário. O menu passou a oferecer uma navegação completa em telas amplas e uma versão hambúrguer em telas menores, sem perder a ordem semântica dos links. Também criei um submenu de projetos usando details e summary, o que permitiu aproveitar um comportamento nativo do HTML e manter a funcionalidade mesmo sem JavaScript. O uso de aria-expanded, aria-controls, hidden, foco visível e Escape ajudou a tornar a navegação mais previsível para teclado e tecnologias assistivas. Um ponto forte foi perceber que a interface precisa informar o que aconteceu depois de cada ação. Por isso, diferenciei os estados de hover, focus, active e disabled dos botões e acrescentei feedback visual de erro e sucesso no formulário. Os campos também passaram a comunicar validade por borda, mensagem textual e aria-invalid, evitando depender apenas das cores. O uso de prefers-reduced-motion mostrou que transições devem respeitar preferências de movimento reduzido. Os testes automatizados em desktop e celular ajudaram a verificar os breakpoints, a abertura do dropdown, o foco devolvido ao componente e o comportamento dos estados do formulário. Como oportunidade de melhoria, ainda posso ampliar os testes com leitores de tela reais e revisar os contrastes em diferentes monitores. Também pretendo estudar padrões mais completos para menus e diálogos, pois cada componente pode exigir decisões específicas de acessibilidade. A geração de capturas tornou visível o resultado e facilitou a conferência da entrega. Profissionalmente, esta etapa reforçou que CSS e JavaScript não servem apenas para deixar uma página bonita: eles devem comunicar estado, orientar decisões e reduzir incertezas. Aprendi a relacionar uma regra visual com uma interação concreta e a validar essa relação em diferentes larguras. Esse processo de testar, observar e corrigir é uma prática que pretendo levar para projetos futuros.
 ```
+
+---
+
+# Experiência Prática III
+
+### Organização da estrutura de diretórios
+
+### Organização 1 — Estrutura de diretórios do projeto
+
+```text
+Organizei o projeto por responsabilidade: html contém index.html, projetos.html, participe.html e cadastro.html, que definem a estrutura semântica e o conteúdo das páginas; css contém estilos.css, com tokens do Design System, Grid, Flexbox, breakpoints, navegação e estados visuais; imagens contém leitura-comunitaria.svg, leitura-comunitaria.webp e leitura-comunitaria.png, usados pelo elemento picture e pela tag img com alt; js contém cadastro.js, responsável por máscaras, validação e feedback do formulário, e navegacao.js, responsável pelo menu móvel, dropdown, Escape e fechamento por clique externo. A pasta entrega reúne capturas, pacotes ZIP e o código consolidado; validacao guarda os relatórios JSON do W3C. Cada HTML referencia ../css/estilos.css e os scripts por caminhos relativos. Essa divisão separa marcação, apresentação, recursos e comportamento, facilita a localização dos arquivos e permite evoluir uma camada sem misturá-la às demais.
+```
+
+Esta seção reúne as respostas sobre separação de responsabilidades entre HTML, CSS, imagens e JavaScript.
+
+Esta seção reúne as respostas da etapa de JavaScript, com foco em SPA, DOM, templates, eventos, validação, localStorage e modularização.
