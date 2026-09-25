@@ -1,23 +1,25 @@
-# Respostas — Experiência prática 1
+# Respostas — Experiência prática I
 
 ## 1. Principais tags semânticas utilizadas
 
 Cada linha corresponde a uma entrada no formulário. Informe o nome da tag sem os sinais `<` e `>`.
 
-| Nome da tag | Propósito ou conteúdo abrigado |
-|---|---|
-| `header` | Apresenta o nome da ONG e reúne o menu de navegação no topo das páginas. |
-| `nav` | Organiza os links de navegação entre as páginas Início, Projetos sociais e Participe. |
-| `main` | Abriga o conteúdo principal de cada página, como a apresentação da ONG e os projetos sociais. |
-| `section` | Agrupa conteúdos do mesmo assunto, como Quem somos, Nossas iniciativas e Voluntariado. |
-| `article` | Apresenta cada projeto social de forma independente, com descrição, objetivo e atividades. |
-| `aside` | Apresenta uma observação complementar sobre o caráter acadêmico e fictício do site. |
-| `footer` | Exibe informações de encerramento, identificando a ONG e o caráter fictício do projeto acadêmico. |
-| `address` | Reúne o e-mail e o endereço de contato da ONG, identificados como fictícios. |
-| `img` | Apresenta uma ilustração de um livro aberto com texto alternativo no atributo alt. |
-| `h1` | Identifica o tema principal de cada página. |
-| `h2` | Identifica as seções principais e os títulos dos projetos sociais. |
-| `h3` | Identifica subdivisões, como missão, valores, objetivos e atividades. |
+
+| Nome da tag | Propósito ou conteúdo abrigado                                                                    |
+| ----------- | ------------------------------------------------------------------------------------------------- |
+| `header`    | Apresenta o nome da ONG e reúne o menu de navegação no topo das páginas.                          |
+| `nav`       | Organiza os links de navegação entre as páginas Início, Projetos sociais e Participe.             |
+| `main`      | Abriga o conteúdo principal de cada página, como a apresentação da ONG e os projetos sociais.     |
+| `section`   | Agrupa conteúdos do mesmo assunto, como Quem somos, Nossas iniciativas e Voluntariado.            |
+| `article`   | Apresenta cada projeto social de forma independente, com descrição, objetivo e atividades.        |
+| `aside`     | Apresenta uma observação complementar sobre o caráter acadêmico e fictício do site.               |
+| `footer`    | Exibe informações de encerramento, identificando a ONG e o caráter fictício do projeto acadêmico. |
+| `address`   | Reúne o e-mail e o endereço de contato da ONG, identificados como fictícios.                      |
+| `img`       | Apresenta uma ilustração de um livro aberto com texto alternativo no atributo alt.                |
+| `h1`        | Identifica o tema principal de cada página.                                                       |
+| `h2`        | Identifica as seções principais e os títulos dos projetos sociais.                                |
+| `h3`        | Identifica subdivisões, como missão, valores, objetivos e atividades.                             |
+
 
 ## 2. Justificativa da hierarquia de títulos e sua contribuição para a acessibilidade
 
@@ -93,14 +95,16 @@ Integrei a ilustração local de um livro aberto usando picture, com versões SV
 
 Adicione uma entrada por linha no formulário.
 
-| Bloco de informação | Estrutura HTML utilizada |
-|---|---|
-| Apresentação da página | main abriga o conteúdo principal, com h1 para o título e p para a introdução. |
-| Navegação pelos assuntos | nav com ul, li e links a para acessar os projetos, o voluntariado e as doações. |
-| Projeto Aprender juntos | article com h2 para o nome, h3 para objetivo e atividades, p para descrições e ul para a lista de atividades. |
-| Projeto Leitura para todos | article com h2 para o nome, h3 para objetivo e atividades, p para descrições e ul para a lista de atividades. |
-| Trabalho voluntário | section com h2, subtítulos h3, lista ul de atuações, lista ol de passos e link a para a página de participação. |
-| Campanhas de doação | section com h2, subtítulos h3 para materiais, contribuição financeira e transparência, parágrafos p, lista ol e link a de contato. |
+
+| Bloco de informação        | Estrutura HTML utilizada                                                                                                           |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Apresentação da página     | main abriga o conteúdo principal, com h1 para o título e p para a introdução.                                                      |
+| Navegação pelos assuntos   | nav com ul, li e links a para acessar os projetos, o voluntariado e as doações.                                                    |
+| Projeto Aprender juntos    | article com h2 para o nome, h3 para objetivo e atividades, p para descrições e ul para a lista de atividades.                      |
+| Projeto Leitura para todos | article com h2 para o nome, h3 para objetivo e atividades, p para descrições e ul para a lista de atividades.                      |
+| Trabalho voluntário        | section com h2, subtítulos h3, lista ul de atuações, lista ol de passos e link a para a página de participação.                    |
+| Campanhas de doação        | section com h2, subtítulos h3 para materiais, contribuição financeira e transparência, parágrafos p, lista ol e link a de contato. |
+
 
 ## 7. Como a organização orienta quem deseja contribuir ou atuar como voluntário
 
@@ -124,38 +128,42 @@ Organizei o formulário dentro de um fieldset principal com a legend “Cadastro
 
 Adicione uma entrada por linha. A primeira coluna corresponde a “Nome do campo” e a segunda a “Atributo type e justificativa”. Os textos respeitam os limites de 50 e 150 caracteres.
 
-| Nome do campo | Atributo type e justificativa |
-|---|---|
-| Nome completo | type="text": recebe nome e sobrenome, com espaços e letras; o JavaScript verifica o preenchimento. |
-| E-mail | type="email": permite verificar o formato de e-mail e oferece teclado adequado em dispositivos móveis. |
-| Data de nascimento | type="date": permite escolher uma data; o atributo max impede datas futuras. |
-| CPF | type="text": preserva zeros iniciais e aceita a máscara. inputmode="numeric" sugere teclado numérico; o JS verifica os dígitos. |
-| Telefone com DDD | type="tel": representa um telefone, aceita pontuação e favorece o teclado telefônico. pattern e JavaScript validam o formato. |
-| CEP | type="text": preserva zeros iniciais e o hífen da máscara. inputmode="numeric" facilita a digitação dos oito dígitos. |
-| Logradouro | type="text": aceita nomes de ruas e avenidas, incluindo letras, números e espaços. |
-| Número (ou s/n) | type="text": aceita número, sufixo de letra ou s/n, formatos que type="number" não comporta. |
-| Complemento | type="text": permite informações livres, como apartamento ou bloco. O preenchimento é opcional. |
-| Bairro | type="text": aceita o nome do bairro, com letras e espaços. |
-| Cidade | type="text": aceita o nome da cidade, incluindo espaços e acentos. |
-| Estado (UF) | Utilizei select, sem atributo type, com as 27 UFs como opções para padronizar a escolha e evitar erros de digitação. |
-| Forma de participação | Utilizei select, sem atributo type, para escolher trabalho voluntário, campanhas de doação ou ambas as opções. |
-| Confirmação de uso de dados fictícios | type="checkbox": registra uma confirmação explícita; required exige sua marcação antes de concluir a demonstração. |
+
+| Nome do campo                         | Atributo type e justificativa                                                                                                   |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Nome completo                         | type="text": recebe nome e sobrenome, com espaços e letras; o JavaScript verifica o preenchimento.                              |
+| E-mail                                | type="email": permite verificar o formato de e-mail e oferece teclado adequado em dispositivos móveis.                          |
+| Data de nascimento                    | type="date": permite escolher uma data; o atributo max impede datas futuras.                                                    |
+| CPF                                   | type="text": preserva zeros iniciais e aceita a máscara. inputmode="numeric" sugere teclado numérico; o JS verifica os dígitos. |
+| Telefone com DDD                      | type="tel": representa um telefone, aceita pontuação e favorece o teclado telefônico. pattern e JavaScript validam o formato.   |
+| CEP                                   | type="text": preserva zeros iniciais e o hífen da máscara. inputmode="numeric" facilita a digitação dos oito dígitos.           |
+| Logradouro                            | type="text": aceita nomes de ruas e avenidas, incluindo letras, números e espaços.                                              |
+| Número (ou s/n)                       | type="text": aceita número, sufixo de letra ou s/n, formatos que type="number" não comporta.                                    |
+| Complemento                           | type="text": permite informações livres, como apartamento ou bloco. O preenchimento é opcional.                                 |
+| Bairro                                | type="text": aceita o nome do bairro, com letras e espaços.                                                                     |
+| Cidade                                | type="text": aceita o nome da cidade, incluindo espaços e acentos.                                                              |
+| Estado (UF)                           | Utilizei select, sem atributo type, com as 27 UFs como opções para padronizar a escolha e evitar erros de digitação.            |
+| Forma de participação                 | Utilizei select, sem atributo type, para escolher trabalho voluntário, campanhas de doação ou ambas as opções.                  |
+| Confirmação de uso de dados fictícios | type="checkbox": registra uma confirmação explícita; required exige sua marcação antes de concluir a demonstração.              |
+
 
 ## 11. Dados validados e atributos nativos utilizados
 
 Adicione uma entrada por linha. As três primeiras correspondem aos campos destacados no enunciado.
 
-| Dado validado | Atributos HTML e padrão adotado |
-|---|---|
-| CPF | pattern="[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}" e required: exigem o formato 000.000.000-00 e o preenchimento. |
-| Telefone | pattern="\([0-9]{2}\) [0-9]{4,5}-[0-9]{4}" e required: exigem DDD e telefone no formato (00) 0000-0000 ou (00) 00000-0000. |
-| CEP | pattern="[0-9]{5}-[0-9]{3}" e required: exigem oito dígitos no formato 00000-000 e o preenchimento. |
-| Nome completo | required, minlength="3" e maxlength="100": exigem preenchimento e limitam o tamanho do nome. |
-| E-mail | type="email", required e maxlength="150": verificam o formato de e-mail, exigem preenchimento e limitam o tamanho. |
-| Data de nascimento | type="date", required e max atualizado pelo JavaScript para a data atual: exigem uma data e impedem datas futuras. |
-| Logradouro, número, bairro e cidade | required: exige o preenchimento de cada campo. O complemento é opcional. |
-| Estado e forma de participação | required nos elementos select: exige escolher uma opção com valor, em vez de manter “Selecione”. |
-| Confirmação de uso de dados fictícios | type="checkbox" e required: exigem marcar a confirmação antes de concluir. |
+
+| Dado validado                         | Atributos HTML e padrão adotado                                                                                                |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| CPF                                   | pattern="\[0-9\]{3}.\[0-9\]{3}.\[0-9\]{3}-\[0-9\]{2}" e required: exigem o formato 000.000.000-00 e o preenchimento.           |
+| Telefone                              | pattern="(\[0-9\]{2}) \[0-9\]{4,5}-\[0-9\]{4}" e required: exigem DDD e telefone no formato (00) 0000-0000 ou (00) 00000-0000. |
+| CEP                                   | pattern="\[0-9\]{5}-\[0-9\]{3}" e required: exigem oito dígitos no formato 00000-000 e o preenchimento.                        |
+| Nome completo                         | required, minlength="3" e maxlength="100": exigem preenchimento e limitam o tamanho do nome.                                   |
+| E-mail                                | type="email", required e maxlength="150": verificam o formato de e-mail, exigem preenchimento e limitam o tamanho.             |
+| Data de nascimento                    | type="date", required e max atualizado pelo JavaScript para a data atual: exigem uma data e impedem datas futuras.             |
+| Logradouro, número, bairro e cidade   | required: exige o preenchimento de cada campo. O complemento é opcional.                                                       |
+| Estado e forma de participação        | required nos elementos select: exige escolher uma opção com valor, em vez de manter “Selecione”.                               |
+| Confirmação de uso de dados fictícios | type="checkbox" e required: exigem marcar a confirmação antes de concluir.                                                     |
+
 
 Os padrões estão transcritos do HTML. inputmode sugere o teclado, mas não valida o conteúdo. A formatação durante a digitação e a verificação dos dígitos do CPF são feitas pelo JavaScript.
 
@@ -169,11 +177,13 @@ O atributo pattern verifica se o valor completo corresponde ao formato esperado 
 
 O formulário “Adicionar imagem” pede um título e um arquivo de imagem por envio. Não selecione os arquivos ZIP nesse campo.
 
-| Título | Arquivo a selecionar na pasta imagens |
-|---|---|
-| Livro aberto — PNG | leitura-comunitaria.png |
-| Livro aberto — WebP | leitura-comunitaria.webp |
-| Livro aberto — SVG | leitura-comunitaria.svg |
+
+| Título              | Arquivo a selecionar na pasta imagens |
+| ------------------- | ------------------------------------- |
+| Livro aberto — PNG  | leitura-comunitaria.png               |
+| Livro aberto — WebP | leitura-comunitaria.webp              |
+| Livro aberto — SVG  | leitura-comunitaria.svg               |
+
 
 Clique em “Selecionar arquivo”, escolha o arquivo e clique no ícone de salvar. Repita para cada formato aceito pela plataforma. Comece pelo PNG; se o seletor recusar WebP ou SVG, não altere apenas a extensão dos arquivos. As três versões representam a mesma ilustração e são utilizadas pelo elemento picture na página inicial. Todos os arquivos estão abaixo do limite de 50 MB.
 
@@ -183,14 +193,16 @@ Os pacotes da pasta entrega permanecem disponíveis para entrega do projeto por 
 
 Adicione uma pasta por vez. Copie a primeira coluna para “Nome da pasta ou diretório raiz” e a segunda para “Arquivos contidos”. Todas as entradas respeitam os limites de 60 e 500 caracteres.
 
-| Nome da pasta ou diretório raiz | Arquivos contidos |
-|---|---|
-| Experiencia-Pratica-1 | README.md e respostas.md. Contém as subpastas html, imagens, js, validacao e entrega. |
-| html | index.html, projetos.html, participe.html e cadastro.html. |
-| imagens | leitura-comunitaria.svg, leitura-comunitaria.webp, leitura-comunitaria.png e .gitkeep (arquivo auxiliar do versionamento). |
-| js | cadastro.js. |
-| validacao | index-w3c.json, projetos-w3c.json, participe-w3c.json e cadastro-w3c.json. |
-| entrega | imagens-otimizadas.zip, projeto-completo.zip e codigo-fonte-completo.txt. |
+
+| Nome da pasta ou diretório raiz | Arquivos contidos                                                                                                          |
+| ------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Experiencia-Pratica-1           | README.md e respostas.md. Contém as subpastas html, imagens, js, validacao e entrega.                                      |
+| html                            | index.html, projetos.html, participe.html e cadastro.html.                                                                 |
+| imagens                         | leitura-comunitaria.svg, leitura-comunitaria.webp, leitura-comunitaria.png e .gitkeep (arquivo auxiliar do versionamento). |
+| js                              | cadastro.js.                                                                                                               |
+| validacao                       | index-w3c.json, projetos-w3c.json, participe-w3c.json e cadastro-w3c.json.                                                 |
+| entrega                         | imagens-otimizadas.zip, projeto-completo.zip e codigo-fonte-completo.txt.                                                  |
+
 
 ## 15. Código-fonte completo — link do GitHub
 
@@ -216,4 +228,30 @@ Sugestão baseada nas atividades realizadas. Revise para que o texto represente 
 
 ```text
 Nesta experiência prática, avancei na compreensão de que desenvolver uma página web envolve mais do que apresentar textos e imagens. A escolha das tags semânticas, a hierarquia dos títulos e a organização dos arquivos ajudam a tornar o conteúdo compreensível, acessível e mais fácil de manter. Entre meus pontos fortes, destaco a atenção aos requisitos e a disposição para revisar o resultado. Ao experimentar o formulário, percebi que as validações precisavam ficar mais claras para quem preenche os campos, o que levou à revisão das máscaras e à inclusão de mensagens de erro. Também compreendi melhor a diferença entre formatar um dado e verificar sua validade: a máscara organiza a digitação, mas não garante que a informação esteja correta ou exista. Como oportunidades de melhoria, reconheço a necessidade de praticar mais JavaScript e expressões regulares para compreender e implementar essas regras com maior autonomia. Preciso também ampliar os testes de acessibilidade e de navegação por teclado, além de planejar a entrega com antecedência, considerando os formatos aceitos pela plataforma e a publicação do código no GitHub. A validação pelo W3C mostrou a importância de conferir a marcação e corrigir os problemas encontrados, sem substituir os testes de funcionamento. Esses aprendizados contribuem para meu desenvolvimento profissional ao incentivar uma postura de organização, revisão e atenção à experiência do usuário. Ainda estou consolidando esses conhecimentos, mas a atividade me ajudou a relacionar a teoria do HTML5 com decisões práticas de desenvolvimento.
+```
+
+#   
+  
+# Respostas — Experiência prática II
+
+
+---
+
+## Etapa 2 — Design system e estruturação responsiva
+
+Esta seção reúne as respostas da nova etapa, dedicada à evolução visual do mesmo projeto da ONG. As respostas anteriores correspondem à etapa de HTML5.
+
+### Objetivos apresentados no enunciado
+
+- Criar um sistema de design com variáveis customizadas em CSS.
+- Definir regras globais de cores, tipografia escalável e espaçamentos modulares.
+- Implementar o layout principal com CSS Grid de 12 colunas e breakpoints definidos.
+- Usar Flexbox para alinhamentos e componentes internos da interface.
+
+As próximas respostas serão identificadas pelo prefixo **CSS**, seguido do número e do assunto da pergunta. Elas serão registradas conforme os requisitos forem implementados e verificados.
+
+### CSS 1 — Variáveis do Design System: cores, tipografia e espaçamentos
+
+```text
+Organizei o Design System no seletor :root de estilos.css, compartilhado pelas quatro páginas. As propriedades customizadas são utilizadas com var(), centralizando as decisões visuais e facilitando a manutenção. CORES: --verde: #205c4a é a cor primária de links, botões e navegação ativa; --escuro: #193b32 atende aos textos e ao hover; --secundaria: #e8f0e9 compõe superfícies de apoio; --ilustracao: #e8f2ef identifica o fundo da imagem. Os neutros são --fundo: #f4f6f0, --superficie: #ffffff, --borda: #d4dfd6, --borda-campo: #718779 e --texto-suave: #486358. Completam a paleta --erro: #a31515 e --foco: #956100. São 11 cores distintas, com funções definidas. TIPOGRAFIA: --fonte-familia usa system-ui, sans-serif. Os cinco níveis são --fonte-1: 0.875rem para textos auxiliares e erros; --fonte-2: 1rem para o corpo e os campos; --fonte-3: 1.25rem para subtítulos, legendas e apresentação; --fonte-4: 1.75rem para h2; --fonte-5: clamp(2rem, 5vw, 3.5rem) para h1, ajustando o título à tela dentro desses limites. As entrelinhas são --linha-texto: 1.65 e --linha-titulo: 1.2. ESPAÇAMENTOS: adotei uma escala modular baseada em 0.25rem, equivalente a 4px quando a fonte raiz é 16px. As variáveis --espaco-1 a --espaco-8 correspondem a 0.25rem, 0.5rem, 0.75rem, 1rem, 1.5rem, 2rem, 3rem e 4rem. Todos os valores são múltiplos da unidade base e são aplicados a margens, preenchimentos e gaps, mantendo consistência entre navegação, blocos e formulário. JUSTIFICATIVA: o verde e as superfícies claras estabelecem uma identidade acolhedora para a ONG. A fonte do sistema, os tamanhos relativos em rem e as entrelinhas favorecem a leitura. Os textos escuros contrastam com os fundos claros; o contorno dos campos é mais escuro que as bordas decorativas. O foco de teclado é visível, e os erros têm mensagens textuais além da cor. Essas escolhas apoiam públicos com diferentes necessidades de leitura e navegação, sem depender apenas de sinais visuais coloridos.
 ```
