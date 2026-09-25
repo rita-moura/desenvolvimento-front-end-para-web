@@ -255,3 +255,64 @@ As próximas respostas serão identificadas pelo prefixo **CSS**, seguido do nú
 ```text
 Organizei o Design System no seletor :root de estilos.css, compartilhado pelas quatro páginas. As propriedades customizadas são utilizadas com var(), centralizando as decisões visuais e facilitando a manutenção. CORES: --verde: #205c4a é a cor primária de links, botões e navegação ativa; --escuro: #193b32 atende aos textos e ao hover; --secundaria: #e8f0e9 compõe superfícies de apoio; --ilustracao: #e8f2ef identifica o fundo da imagem. Os neutros são --fundo: #f4f6f0, --superficie: #ffffff, --borda: #d4dfd6, --borda-campo: #718779 e --texto-suave: #486358. Completam a paleta --erro: #a31515 e --foco: #956100. São 11 cores distintas, com funções definidas. TIPOGRAFIA: --fonte-familia usa system-ui, sans-serif. Os cinco níveis são --fonte-1: 0.875rem para textos auxiliares e erros; --fonte-2: 1rem para o corpo e os campos; --fonte-3: 1.25rem para subtítulos, legendas e apresentação; --fonte-4: 1.75rem para h2; --fonte-5: clamp(2rem, 5vw, 3.5rem) para h1, ajustando o título à tela dentro desses limites. As entrelinhas são --linha-texto: 1.65 e --linha-titulo: 1.2. ESPAÇAMENTOS: adotei uma escala modular baseada em 0.25rem, equivalente a 4px quando a fonte raiz é 16px. As variáveis --espaco-1 a --espaco-8 correspondem a 0.25rem, 0.5rem, 0.75rem, 1rem, 1.5rem, 2rem, 3rem e 4rem. Todos os valores são múltiplos da unidade base e são aplicados a margens, preenchimentos e gaps, mantendo consistência entre navegação, blocos e formulário. JUSTIFICATIVA: o verde e as superfícies claras estabelecem uma identidade acolhedora para a ONG. A fonte do sistema, os tamanhos relativos em rem e as entrelinhas favorecem a leitura. Os textos escuros contrastam com os fundos claros; o contorno dos campos é mais escuro que as bordas decorativas. O foco de teclado é visível, e os erros têm mensagens textuais além da cor. Essas escolhas apoiam públicos com diferentes necessidades de leitura e navegação, sem depender apenas de sinais visuais coloridos.
 ```
+
+### CSS 2 — Estrutura do Grid de 12 colunas
+
+```text
+Implementei o layout principal no elemento main com display: grid e grid-template-columns: repeat(12, minmax(0, 1fr)). As 12 trilhas têm larguras iguais e podem encolher sem impor a largura mínima do conteúdo. A regra main > * usa grid-column: 1 / -1 e min-width: 0, de modo que os blocos ocupam inicialmente todas as colunas. O contêiner tem width: 100%, margens laterais automáticas e largura máxima limitada. O gap utiliza variáveis da escala de espaçamentos. A estratégia mobile-first começa com blocos empilhados e campos em uma coluna. Cinco media queries com min-width, em 480, 768, 1024, 1280 e 1536 pixels, acrescentam adaptações progressivas. A partir de 1024px, os artigos dos projetos usam grid-column: span 6 e ficam lado a lado. A partir de 1280px, o formulário e sua mensagem de resultado ocupam as linhas 2 / 12, equivalentes a dez colunas; em 1536px, passam para 3 / 11, equivalentes a oito colunas centrais. Os demais blocos continuam com a largura das 12 colunas. Dentro do formulário, um Grid independente organiza os campos em duas colunas a partir de 768px. O cabeçalho e as listas de navegação continuam usando Flexbox. Assim, o Grid controla a distribuição principal e o Flexbox os alinhamentos internos, preservando a ordem semântica do HTML e sem alterar as pastas do projeto.
+```
+
+### CSS 3 — Cinco breakpoints e estratégia responsiva
+
+```text
+Adotei cinco breakpoints mobile-first com @media (min-width: ...): 480px aumenta o espaçamento entre blocos e o preenchimento lateral; 768px organiza os campos em duas colunas, amplia o espaço vertical e libera a largura do botão; 1024px distribui cada artigo de projeto em seis colunas e coloca o cabeçalho em linha; 1280px amplia o contêiner para 1200px e centraliza o formulário em dez colunas (2 / 12); 1536px limita o contêiner a 1440px e centraliza o formulário em oito colunas (3 / 11), evitando campos excessivamente largos. Abaixo de 480px, os blocos ficam empilhados e o botão ocupa a largura disponível. O Grid principal mantém 12 colunas em todos os cenários; muda a quantidade ocupada pelos componentes. As regras são cumulativas e preservam a ordem de leitura.
+```
+
+### CSS 4 — Módulos estruturais com Flexbox
+
+Adicione um módulo por vez. Copie a primeira coluna para “Nome do componente ou contentor” e a segunda para “Propriedades Flexbox aplicadas”. Os textos respeitam os limites de 150 e 500 caracteres.
+
+| Nome do componente ou contentor | Propriedades Flexbox aplicadas |
+|---|---|
+| Cabeçalho principal (header) | display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--espaco-4). Abaixo de 1024px, flex-direction: column e align-items: flex-start empilham a identificação da ONG e o menu. A partir de 1024px, flex-direction: row e align-items: center colocam os elementos lado a lado, centralizados no eixo vertical. O espaço livre separa a marca da navegação. |
+| Lista de links da navegação principal (nav ul) | display: flex; flex-wrap: wrap; gap: var(--espaco-2). Os links seguem a direção horizontal padrão, mantendo a ordem Início, Projetos sociais, Participe e Cadastro. Quando falta espaço, os itens passam para outra linha. O gap padroniza a distância entre eles sem exigir larguras fixas. |
+| Navegação interna da página de projetos (nav com aria-label="Nesta página" > ul) | A lista utiliza a regra compartilhada nav ul: display: flex; flex-wrap: wrap; gap: var(--espaco-2). Os atalhos para projetos, voluntariado e doações ficam lado a lado enquanto houver espaço e quebram em novas linhas em telas menores, preservando a ordem do HTML e a navegação por teclado. |
+
+Os dois menus são componentes distintos que reutilizam a mesma regra CSS. O layout principal de 12 colunas e o agrupamento dos campos do formulário utilizam Grid, por isso não foram listados como exemplos de Flexbox.
+
+---
+
+## Etapa 3 — Componentes visuais e navegação
+
+Esta seção reúne as próximas respostas sobre navegação interativa, cartões, formulários, botões e componentes de feedback.
+
+### Componentes 1 — Menu dropdown e navegação móvel
+
+```text
+Implementei a navegação nas quatro páginas com #menu-principal, .menu-toggle, .submenu e .submenu-lista. A lista principal utiliza Flexbox. A abordagem é mobile-first: abaixo de 1024px, #menu-principal > ul usa flex-direction: column. Com JavaScript ativo, o botão “☰ Menu” fica visível e alterna o atributo hidden da navegação; aria-controls identifica o menu controlado e aria-expanded informa seu estado. A regra [hidden] aplica display: none, retirando os links fechados da navegação por teclado. A media query @media (min-width: 1024px) muda a lista para flex-direction: row. O JavaScript acompanha o mesmo breakpoint com matchMedia, oculta o botão e mantém a navegação aberta em telas maiores. Para o dropdown, utilizei details e summary nativos, preservando o link direto “Projetos sociais”. .submenu-lista fica com display: none enquanto o details está fechado; .submenu[open] > .submenu-lista aplica display: flex e flex-direction: column. No desktop, o item pai usa position: relative e a lista suspensa recebe position: absolute, top: 100%, left: 0 e z-index: 10. No celular, ela permanece no fluxo normal, evitando sobreposição. O usuário abre o submenu por clique, Enter ou Espaço; a interação não depende apenas de hover. As pseudo-classes :hover e :focus-visible fornecem destaque e foco de teclado. Escape fecha o submenu e devolve o foco ao summary; outro Escape fecha o menu móvel e devolve o foco ao botão. Clicar fora do cabeçalho ou escolher um link também fecha os componentes. As transições de background-color e color duram 0.18s; @media (prefers-reduced-motion: reduce) remove esses efeitos. Sem JavaScript, os links permanecem disponíveis e o dropdown continua funcionando por meio de details/summary. A ordem Início, Projetos sociais, Participe e Cadastro é preservada.
+```
+
+### Componentes 2 — Estados interativos, feedback e validação visual
+
+```text
+Apliquei estados visuais aos botões e campos sem depender apenas de cor. Os botões têm transições curtas de background-color, box-shadow e transform. Em :hover, o fundo passa da cor primária para --escuro e surge uma sombra; em :focus-visible, aparece um anel contrastante para navegação por teclado; em :active, há pequeno deslocamento vertical; em :disabled, a opacidade diminui, o cursor muda e a sombra é removida. Inputs e selects mudam a borda no hover e recebem sombra de foco. As pseudo-classes :valid e :invalid sinalizam campos preenchidos corretamente ou com erro, enquanto [aria-invalid="true"] reforça o erro após a validação do JavaScript. O elemento #resultado recebe feedback-erro quando a tentativa é bloqueada e feedback-sucesso quando todos os campos válidos são conferidos. O erro usa fundo rosado, borda vermelha, texto escuro e mensagem textual; o sucesso usa fundo verde-claro, borda verde e mensagem de confirmação. Assim, a informação não depende somente de vermelho ou verde. O formulário mantém required, type, pattern e os limites nativos, e o navegador continua apresentando suas mensagens. As transições duram 0.18s; a regra prefers-reduced-motion: reduce remove-as para pessoas que solicitam menos movimento. Os testes cobrem submissão vazia, classe visual de erro, correção dos dados e classe de sucesso.
+```
+
+
+### Componentes 3 — Capturas para anexar
+
+O formulário de upload aceita imagens individuais. Use estes títulos:
+
+| Título | Arquivo |
+|---|---|
+| Menu dropdown no desktop | `entrega/captura-menu-dropdown.png` |
+| Menu hambúrguer no mobile | `entrega/captura-menu-mobile.png` |
+| Formulário com feedback de erro | `entrega/captura-formulario-erro.png` |
+
+As capturas mostram o dropdown aberto em tela ampla, o menu hambúrguer aberto em uma largura móvel e a indicação visual de erro ao tentar validar o formulário vazio. Todas estão abaixo de 50 MB.
+
+### Reflexão da Etapa 3 — Componentes visuais e navegação
+
+```text
+Nesta etapa, aprimorei a interface da ONG para que ela respondesse melhor às ações do usuário. O menu passou a oferecer uma navegação completa em telas amplas e uma versão hambúrguer em telas menores, sem perder a ordem semântica dos links. Também criei um submenu de projetos usando details e summary, o que permitiu aproveitar um comportamento nativo do HTML e manter a funcionalidade mesmo sem JavaScript. O uso de aria-expanded, aria-controls, hidden, foco visível e Escape ajudou a tornar a navegação mais previsível para teclado e tecnologias assistivas. Um ponto forte foi perceber que a interface precisa informar o que aconteceu depois de cada ação. Por isso, diferenciei os estados de hover, focus, active e disabled dos botões e acrescentei feedback visual de erro e sucesso no formulário. Os campos também passaram a comunicar validade por borda, mensagem textual e aria-invalid, evitando depender apenas das cores. O uso de prefers-reduced-motion mostrou que transições devem respeitar preferências de movimento reduzido. Os testes automatizados em desktop e celular ajudaram a verificar os breakpoints, a abertura do dropdown, o foco devolvido ao componente e o comportamento dos estados do formulário. Como oportunidade de melhoria, ainda posso ampliar os testes com leitores de tela reais e revisar os contrastes em diferentes monitores. Também pretendo estudar padrões mais completos para menus e diálogos, pois cada componente pode exigir decisões específicas de acessibilidade. A geração de capturas tornou visível o resultado e facilitou a conferência da entrega. Profissionalmente, esta etapa reforçou que CSS e JavaScript não servem apenas para deixar uma página bonita: eles devem comunicar estado, orientar decisões e reduzir incertezas. Aprendi a relacionar uma regra visual com uma interação concreta e a validar essa relação em diferentes larguras. Esse processo de testar, observar e corrigir é uma prática que pretendo levar para projetos futuros.
+```

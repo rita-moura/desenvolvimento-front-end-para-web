@@ -89,14 +89,22 @@ for (const campo of campos) {
   campo.addEventListener('change', () => validar(campo));
 }
 // A validação interativa nativa ocorre antes do evento submit.
+form.querySelector('button[type="submit"]').addEventListener('click', () => {
+  if (!form.checkValidity()) {
+    resultado.className = 'feedback feedback-erro';
+    resultado.textContent = 'Revise os campos indicados antes de continuar.';
+  }
+});
 form.addEventListener('submit', event => {
   event.preventDefault();
   const invalidos = campos.filter(campo => !validar(campo));
   if (invalidos.length) {
+    resultado.className = 'feedback feedback-erro';
     resultado.textContent = 'Revise os campos indicados antes de continuar.';
     form.reportValidity();
     return;
   }
+  resultado.className = 'feedback feedback-sucesso';
   resultado.textContent = 'Cadastro de exemplo validado! Nenhum dado foi enviado ou armazenado.';
 });
 document.querySelector('#campos').disabled = false;

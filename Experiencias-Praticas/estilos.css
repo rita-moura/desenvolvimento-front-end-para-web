@@ -72,9 +72,86 @@ input:not([type="checkbox"]), select { display: block; width: 100%; min-height: 
 input[type="checkbox"] { width: 1.2rem; height: 1.2rem; accent-color: var(--verde); vertical-align: middle; }
 small { font-size: var(--fonte-1); display: block; color: var(--texto-suave); margin-top: var(--espaco-2); }
 button { border: 0; border-radius: .5rem; background: var(--verde); color: var(--superficie); padding: var(--espaco-4) var(--espaco-5); font: inherit; font-weight: 700; cursor: pointer; }
-button:hover { background: var(--escuro); }
-button:disabled { opacity: .6; cursor: not-allowed; }
+button { transition: background-color .18s ease, box-shadow .18s ease, transform .08s ease; }
+button:hover { background: var(--escuro); box-shadow: 0 4px 10px rgb(25 59 50 / 25%); }
+button:focus-visible { box-shadow: 0 0 0 4px rgb(149 96 0 / 30%); }
+button:active { transform: translateY(1px); box-shadow: none; }
+button:disabled { opacity: .6; cursor: not-allowed; box-shadow: none; }
+input:not([type="checkbox"]):hover, select:hover { border-color: var(--verde); }
+input:not([type="checkbox"]):focus, select:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgb(32 92 74 / 18%); }
+input:required:valid:not(:placeholder-shown), select:required:valid { border-color: var(--verde); }
+input:required:invalid:not(:placeholder-shown), select:required:invalid { border-color: var(--erro); }
 .erro { display: block; color: var(--erro); margin-top: var(--espaco-1); font-size: var(--fonte-1); }
 [aria-invalid="true"] { border-color: var(--erro) !important; outline: 1px solid var(--erro); }
+.feedback { padding: var(--espaco-4); border-left: 4px solid; border-radius: .25rem; }
+.feedback-sucesso { color: #155c3c; background: #e4f4ea; border-color: #238653; }
+.feedback-erro { color: #7d1515; background: #fbe8e8; border-color: var(--erro); }
 #resultado:not(:empty) { padding: var(--espaco-4); background: var(--superficie); border-left: 4px solid var(--verde); }
-@media (max-width: 640px) { main { padding-top: var(--espaco-6); } header { align-items: flex-start; } nav a { padding: var(--espaco-3); } #campos > fieldset { grid-template-columns: 1fr; padding: var(--espaco-4); } button { width: 100%; } }
+/* Layout macro mobile-first: 12 trilhas permanecem em todas as larguras. */
+main {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--espaco-4);
+  width: 100%;
+  max-width: 1080px;
+  padding: var(--espaco-6) var(--espaco-4);
+}
+main > * { grid-column: 1 / -1; min-width: 0; }
+main > section, main > article, main > aside, main > picture, main > nav,
+main > form, main > p, main > h1 { margin-top: 0; margin-bottom: 0; }
+main > section, main > article, main > aside { padding: var(--espaco-4); }
+header { flex-direction: column; align-items: flex-start; padding: var(--espaco-4); }
+#campos > fieldset { grid-template-columns: minmax(0, 1fr); padding: var(--espaco-4); }
+button { width: 100%; }
+/* Celulares maiores: mais espaço para os componentes. */
+@media (min-width: 480px) {
+  main { padding-inline: var(--espaco-5); gap: var(--espaco-5); }
+  header { padding-inline: var(--espaco-5); }
+  main > section, main > article, main > aside { padding: var(--espaco-5); }
+}
+/* Tablets: campos em pares e botão com largura do conteúdo. */
+@media (min-width: 768px) {
+  #campos > fieldset { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--espaco-5); }
+  button { width: auto; }
+  main { padding-block: var(--espaco-7); }
+}
+/* Desktop: projetos com seis colunas; navegação horizontal no cabeçalho. */
+@media (min-width: 1024px) {
+  main > article { grid-column: span 6; }
+  header { flex-direction: row; align-items: center; padding-inline: max(var(--espaco-5), calc((100% - 1080px) / 2)); }
+  main > section, main > article, main > aside { padding: var(--espaco-6); }
+}
+/* Desktop amplo: formulário centralizado em dez das doze colunas. */
+@media (min-width: 1280px) {
+  main { max-width: 1200px; gap: var(--espaco-6); }
+  main > form, main > #resultado { grid-column: 2 / 12; }
+  header { padding-inline: max(var(--espaco-5), calc((100% - 1200px) / 2)); }
+}
+/* Panorâmico: contêiner limitado e formulário de oito colunas. */
+@media (min-width: 1536px) {
+  main { max-width: 1440px; padding-block: var(--espaco-8); }
+  main > form, main > #resultado { grid-column: 3 / 11; }
+  header { padding-inline: max(var(--espaco-5), calc((100% - 1440px) / 2)); }
+}
+
+/* Navegação progressiva: details funciona também sem JavaScript. */
+[hidden] { display: none !important; }
+.menu-toggle { width: auto; min-height: 44px; }
+#menu-principal { width: 100%; }
+#menu-principal > ul { flex-direction: column; }
+#menu-principal > ul > li { position: relative; }
+.submenu summary { cursor: pointer; padding: var(--espaco-2) var(--espaco-3); font-size: var(--fonte-1); border-radius: .5rem; }
+.submenu summary:hover { background: var(--secundaria); }
+.submenu summary:focus-visible { outline: 3px solid var(--foco); outline-offset: 2px; }
+.submenu-lista { display: none; }
+.submenu[open] > .submenu-lista { display: flex; flex-direction: column; gap: var(--espaco-1); padding: var(--espaco-2); background: var(--superficie); border: 1px solid var(--borda); border-radius: .5rem; }
+.submenu-lista a { display: block; }
+#menu-principal a, .submenu summary { transition: background-color .18s ease, color .18s ease; }
+@media (min-width: 1024px) {
+  #menu-principal { width: auto; }
+  #menu-principal > ul { flex-direction: row; align-items: flex-start; }
+  .submenu[open] > .submenu-lista { position: absolute; top: 100%; left: 0; min-width: 230px; z-index: 10; box-shadow: 0 8px 20px rgb(0 0 0 / 12%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #menu-principal a, .submenu summary, button { transition: none; }
+}

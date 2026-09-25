@@ -6,15 +6,25 @@
   <title>Cadastro | Laços da Comunidade</title>
   <script src="../js/cadastro.js" defer></script>
   <link rel="stylesheet" href="../estilos.css">
+  <script src="../js/navegacao.js" defer></script>
 </head>
 <body>
   <a href="#conteudo">Pular para o conteúdo</a>
   <header>
     <p>Laços da Comunidade</p>
-    <nav aria-label="Navegação principal">
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-principal" hidden><span aria-hidden="true">☰</span> Menu</button>
+    <nav id="menu-principal" aria-label="Navegação principal">
       <ul>
         <li><a href="index.html">Início</a></li>
-        <li><a href="projetos.html">Projetos sociais</a></li>
+        <li><a href="projetos.html">Projetos sociais</a><details class="submenu">
+          <summary>Explorar projetos</summary>
+          <ul class="submenu-lista">
+            <li><a href="projetos.html#aprender">Aprender juntos</a></li>
+            <li><a href="projetos.html#leitura">Leitura para todos</a></li>
+            <li><a href="projetos.html#voluntariado">Voluntariado</a></li>
+            <li><a href="projetos.html#doacoes">Doações</a></li>
+          </ul>
+        </details></li>
         <li><a href="participe.html">Participe</a></li>
         <li><a href="cadastro.html" aria-current="page">Cadastro</a></li>
       </ul>
