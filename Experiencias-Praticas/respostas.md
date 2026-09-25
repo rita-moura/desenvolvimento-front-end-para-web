@@ -334,3 +334,8 @@ Organizei o projeto por responsabilidade: html contém index.html, projetos.html
 Esta seção reúne as respostas sobre separação de responsabilidades entre HTML, CSS, imagens e JavaScript.
 
 Esta seção reúne as respostas da etapa de JavaScript, com foco em SPA, DOM, templates, eventos, validação, localStorage e modularização.
+### JavaScript 1 — Situação atual da arquitetura SPA
+
+```text
+A análise do código atual mostra que a aplicação ainda usa uma arquitetura multipágina. Os links do menu apontam para index.html, projetos.html, participe.html e cadastro.html, e cada documento possui seu próprio main, título e conteúdo. Os scripts atuais navegação.js e cadastro.js tratam o menu responsivo, o dropdown, máscaras e validações, mas não registram rotas com history.pushState nem usam hash para trocar conteúdo dentro de um contêiner único. Portanto, ainda não há uma implementação de SPA concluída para descrever. Em uma próxima evolução, eu criaria um contêiner principal de conteúdo, um mapa de rotas para os caminhos e funções de renderização, interceptaria os links internos com preventDefault, atualizaria a URL por history.pushState e trataria popstate para os botões Voltar e Avançar. Cada mudança limparia o contêiner e injetaria o fragmento correspondente, atualizando também o título e o estado aria-current do menu. O código atual deve ser descrito como a base multipágina que será migrada; afirmar que a API History já é utilizada seria incorreto.
+```
