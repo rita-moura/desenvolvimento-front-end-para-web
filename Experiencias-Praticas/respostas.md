@@ -334,6 +334,7 @@ Organizei o projeto por responsabilidade: html contém index.html, projetos.html
 Esta seção reúne as respostas sobre separação de responsabilidades entre HTML, CSS, imagens e JavaScript.
 
 Esta seção reúne as respostas da etapa de JavaScript, com foco em SPA, DOM, templates, eventos, validação, localStorage e modularização.
+
 ### JavaScript 1 — Situação atual da arquitetura SPA
 
 ```text
@@ -380,12 +381,13 @@ Separei o código por responsabilidade única e por dependências do DOM. navega
 
 Adicione uma entrada por problema.
 
-| Problema | Técnica de diagnóstico | Solução aplicada |
-|---|---|---|
-| Feedback não aparecia quando campos obrigatórios estavam vazios | Inspeção da Constraint Validation API e teste de submissão com Playwright; o navegador bloqueava a submissão antes de disparar submit. | Adicionei tratamento no click do botão, mantive a validação nativa e usei checkValidity para exibir feedback-erro antes da mensagem automática. |
-| Rascunho inválido podia interromper a restauração | Teste com valor malformado na chave do localStorage e observação do erro de JSON.parse no console. | Envolvi JSON.parse em try/catch e removo a chave corrompida com removeItem, permitindo que a página continue funcionando. |
-| Estilos não carregavam após a separação das pastas | Inspeção da aba Network e das respostas HTTP revelou referências ../estilos.css enquanto o arquivo usado passou para css/estilos.css. | Atualizei os quatro HTML para ../css/estilos.css e confirmei respostas HTTP 200 e ausência de erros nos testes. |
-| Cards repetitivos exigiam manutenção manual | Comparação do HTML repetido e teste de carregamento dos projetos mostraram que cada alteração precisava ser copiada em mais de um article. | Criei projeto-template e projetos.js; o script clona o molde, preenche os campos com textContent e insere um DocumentFragment. |
+
+| Problema                                                        | Técnica de diagnóstico                                                                                                                     | Solução aplicada                                                                                                                                |
+| --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- |
+| Feedback não aparecia quando campos obrigatórios estavam vazios | Inspeção da Constraint Validation API e teste de submissão com Playwright; o navegador bloqueava a submissão antes de disparar submit.     | Adicionei tratamento no click do botão, mantive a validação nativa e usei checkValidity para exibir feedback-erro antes da mensagem automática. |
+| Rascunho inválido podia interromper a restauração               | Teste com valor malformado na chave do localStorage e observação do erro de JSON.parse no console.                                         | Envolvi JSON.parse em try/catch e removo a chave corrompida com removeItem, permitindo que a página continue funcionando.                       |
+| Estilos não carregavam após a separação das pastas              | Inspeção da aba Network e das respostas HTTP revelou referências ../estilos.css enquanto o arquivo usado passou para css/estilos.css.      | Atualizei os quatro HTML para ../css/estilos.css e confirmei respostas HTTP 200 e ausência de erros nos testes.                                 |
+| Cards repetitivos exigiam manutenção manual                     | Comparação do HTML repetido e teste de carregamento dos projetos mostraram que cada alteração precisava ser copiada em mais de um article. | Criei projeto-template e projetos.js; o script clona o molde, preenche os campos com textContent e insere um DocumentFragment.                  |
 
 
 ### Reflexão final — Experiência Prática III
@@ -393,3 +395,54 @@ Adicione uma entrada por problema.
 ```text
 Nesta experiência prática, evoluí uma interface HTML e CSS para uma aplicação com comportamentos interativos em JavaScript. O uso de templates foi um dos aprendizados mais importantes: em vez de repetir manualmente a marcação dos projetos, organizei os dados em objetos, clonei um elemento template e preenchi seus campos com textContent. Essa abordagem tornou a inclusão de novos projetos mais previsível e reduziu o risco de inconsistências entre cards. Também aprendi a separar responsabilidades em arquivos menores. navegacao.js controla menu, dropdown, foco e breakpoints; cadastro.js concentra máscaras, validação, feedback e persistência; projetos.js renderiza os componentes repetitivos. Essa divisão facilita encontrar a origem de um problema e testar uma parte sem alterar as demais. O trabalho com eventos mostrou que a ordem dos acontecimentos é relevante. A validação nativa pode impedir o evento submit, por isso precisei observar o click do botão e a Constraint Validation API para comunicar o erro sem substituir a proteção do navegador. Eventos input, blur, change, invalid e keydown foram usados com funções específicas, e o uso de preventDefault ficou restrito ao envio demonstrativo do formulário. A persistência com localStorage me ajudou a compreender a conversão entre objeto JavaScript e string JSON. O rascunho é restaurado após o recarregamento, e o try/catch protege a aplicação contra conteúdo corrompido. Os testes automatizados foram importantes para verificar máscaras, feedback, navegação responsiva, template, persistência e ausência de erros em diferentes larguras. Como pontos fortes, destaco a organização progressiva do código, a atenção à acessibilidade e a disposição para investigar falhas observando o comportamento real no navegador. Como oportunidades de melhoria, preciso aprofundar módulos ES, import/export, roteamento com History API e a transformação completa da arquitetura multipágina em SPA, que ainda não foi concluída. Também quero ampliar os testes para leitores de tela, conexão lenta e diferentes navegadores. A experiência mostrou que JavaScript não deve apenas adicionar efeitos: deve preservar a clareza do conteúdo, comunicar estados e tornar as tarefas do usuário mais seguras. Pretendo aplicar esse raciocínio em projetos futuros, começando por uma arquitetura simples, separando responsabilidades e validando cada comportamento antes de ampliar a interface.
 ```
+
+---
+
+# Experiência Prática IV — Versionamento e acessibilidade
+
+### Versionamento 1 — Estratégia de branches GitFlow
+
+```text
+Nesta etapa, passei a usar GitFlow no mesmo repositório. Criei develop a partir de main e as branches feature/acessibilidade-menu e feature/submenu-projetos para corrigir o foco e reorganizar a navegação. As mudanças foram testadas e integradas em develop pelos PRs #3 e #6. A branch release/1.0.1 reuniu a entrega, a documentação e a atualização de versão, seguindo para main pelo PR #4. A entrega foi marcada com a tag v1.0.1 e retornou para develop. Main representa a versão publicada; develop concentra a integração. Não houve hotfix: as correções passaram pelas branches de trabalho e pela release. O histórico anterior foi preservado, pois esse fluxo começou apenas nesta etapa. A revisão foi individual, por inspeção do código e testes, sem aprovação de outro colaborador.
+```
+
+### Versionamento 2 — Commits fundamentais e releases
+
+Adicione cada linha como um registro separado. Mensagens até 100 caracteres; descrições até 300. Os commits antigos continuam no histórico; os exemplos abaixo são da entrega realizada nesta etapa.
+
+| Mensagem de commit ou tag da release | Descrição e justificativa da alteração |
+|---|---|
+| fix(a11y): preservar foco ao alternar o menu responsivo | Commit 7e893a3: corrigiu a perda de foco ao cruzar o breakpoint do menu e adicionou dois testes de regressão. A correção mantém o controle ativo visível para quem usa teclado. |
+| fix(nav): alinhar acionador do submenu com Projetos sociais | Commit 7be0d37: substituiu o acionador em uma segunda linha por uma seta junto ao link, com nome acessível e área de toque de 44px. Melhorou a associação visual do submenu. |
+| fix(nav): usar nome da ONG como link para o inicio | Commit fa2e8cf: tornou o nome da ONG um link para index.html e removeu a opção Início do menu. Os testes passaram a verificar o retorno à página inicial. |
+| fix(nav): posicionar Projetos sociais no fim do menu | Commit 3d54a34: definiu a ordem Participe, Cadastro e Projetos sociais, com seta no final e dropdown alinhado à direita. Também corrigiu um link de início duplicado detectado durante os testes. |
+| chore(release): preparar versao 1.0.1 | Commit f2bfab5: atualizou package.json e package-lock.json para 1.0.1, mantendo os arquivos de versão consistentes para a entrega. |
+| docs(epiv): documentar fluxo e evidencias da entrega | Documentou a execução local, os testes, as branches e os registros reais do GitHub. Atualizou as respostas da atividade para refletir o fluxo adotado nesta etapa. |
+| v1.0.1 | Release com correções compatíveis de navegação, testes e documentação. Incrementa PATCH sobre 1.0.0, já declarado no projeto. A política é MAJOR para incompatibilidades, MINOR para novas funcionalidades compatíveis e PATCH para correções. É a primeira tag publicada deste repositório. |
+
+### Versionamento 3 — Issues, milestones e pull requests
+
+Adicione cada linha como um registro separado. Tipos até 150 caracteres; descrições até 500.
+
+| Tipo de registo | Descrição do contexto e alterações realizadas |
+|---|---|
+| Issue #1 — Preservação de foco | Registrei a perda de foco ao mudar o breakpoint do menu. Dois testes reproduziram o defeito antes da correção; depois, a suíte passou. A solução foi desenvolvida em feature/acessibilidade-menu e integrada pelo PR #3. |
+| Issue #2 — Documentação da entrega | Organizei a atualização do README e das respostas com execução local, testes e evidências de GitFlow. O registro diferencia os commits antigos em main das práticas adotadas nesta etapa. |
+| Issue #5 — Organização do menu | Registrei a melhoria visual solicitada: aproximar a seta de Projetos sociais, usar o nome da ONG para voltar ao início e posicionar Projetos sociais depois de Cadastro. A implementação passou pelo PR #6. |
+| Milestone — Experiência Prática IV — v1.0.1 | Agrupei as issues de acessibilidade, documentação e navegação em uma entrega comum. O milestone também reuniu os PRs das melhorias e da release, permitindo acompanhar o trabalho até sua conclusão. |
+| Pull request #3 — Correção de foco | Integrei feature/acessibilidade-menu em develop após reproduzir a falha e validar a correção. O PR descreve o problema e os testes. A revisão foi individual; não houve aprovação de outro colaborador. |
+| Pull request #6 — Melhoria do menu | Integrei feature/submenu-projetos em develop. O PR documenta o acionador com seta, o nome da ONG como link inicial e a ordem final do menu. Foram verificados teclado, desktop, celular e funcionamento sem JavaScript. |
+| Pull request #4 — Release v1.0.1 | Reuni as duas melhorias e a documentação em release/1.0.1 e integrei a entrega em main. O PR vincula as issues, registra 32 testes aprovados e prepara a publicação da tag v1.0.1. Após a entrega, main retornou para develop. |
+
+**Links para comprovação**
+
+- [Issue #1](https://github.com/rita-moura/desenvolvimento-front-end-para-web/issues/1)
+- [Issue #2](https://github.com/rita-moura/desenvolvimento-front-end-para-web/issues/2)
+- [Issue #5](https://github.com/rita-moura/desenvolvimento-front-end-para-web/issues/5)
+- [Milestone v1.0.1](https://github.com/rita-moura/desenvolvimento-front-end-para-web/milestone/1)
+- [PR #3](https://github.com/rita-moura/desenvolvimento-front-end-para-web/pull/3)
+- [PR #6](https://github.com/rita-moura/desenvolvimento-front-end-para-web/pull/6)
+- [PR #4](https://github.com/rita-moura/desenvolvimento-front-end-para-web/pull/4)
+- [Release v1.0.1](https://github.com/rita-moura/desenvolvimento-front-end-para-web/releases/tag/v1.0.1)
+
+**Limite das evidências:** os testes desta entrega cobrem Chromium em desktop e celular. A correção de foco não comprova, por si só, conformidade integral com WCAG 2.1 AA. A aplicação continua multipágina; esta entrega não implementou SPA.
