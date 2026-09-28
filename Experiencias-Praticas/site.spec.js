@@ -181,3 +181,35 @@ test('rascunho do cadastro persiste com JSON no localStorage', async ({ page }) 
   await expect(page.locator('#nome')).toHaveValue('Pessoa Persistida');
   await expect(page.locator('#email')).toHaveValue('persistida@example.com');
 });
+
+
+test('mudança de breakpoint mantém o foco em um controle visível', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/html/index.html');
+  const toggle = page.locator('.menu-toggle');
+  const inicio = page.locator('#menu-principal > ul > li > a').first();
+  await inicio.focus();
+  await page.setViewportSize({ width: 375, height: 812 });
+  await expect(toggle).toBeFocused();
+  await expect(page.locator('#menu-principal')).toBeHidden();
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await expect(inicio).toBeFocused();
+  await expect(toggle).toBeHidden();
+});
+
+test('redimensionar fecha o submenu sem perder o foco nem mover foco externo', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/html/index.html');
+  await page.locator('.menu-toggle').click();
+  const summary = page.locator('.submenu summary');
+  await summary.click();
+  await page.getByRole('link', { name: 'Voluntariado', exact: true }).focus();
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await expect(summary).toBeFocused();
+  await expect(page.locator('.submenu')).not.toHaveAttribute('open');
+  const pular = page.getByRole('link', { name: 'Pular para o conteúdo' });
+  await pular.focus();
+  await page.setViewportSize({ width: 375, height: 812 });
+  await expect(page.locator('.menu-toggle')).toBeVisible();
+  await expect(pular).toBeFocused();
+});
