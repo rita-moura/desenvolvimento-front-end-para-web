@@ -7,7 +7,7 @@ for (const pagina of ['index', 'projetos', 'participe', 'cadastro']) {
     page.on('response', resposta => { if (resposta.status() >= 400) erros.push(resposta.url()); });
     await page.goto(`/html/${pagina}.html`);
     await expect(page.locator('h1')).toBeVisible();
-    await expect(page.locator('#menu-principal > ul > li > a')).toHaveText(['Início', 'Projetos sociais', 'Participe', 'Cadastro']);
+    await expect(page.locator('#menu-principal > ul > li > a')).toHaveText(['Participe', 'Cadastro', 'Projetos sociais']);
     await expect(page.locator('[aria-current="page"]')).toHaveAttribute('href', `${pagina}.html`);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     expect(await page.locator('header').evaluate(el => getComputedStyle(el).display)).toBe('flex');
@@ -15,6 +15,8 @@ for (const pagina of ['index', 'projetos', 'participe', 'cadastro']) {
     if (await page.locator('.menu-toggle').isVisible()) await page.locator('.menu-toggle').click();
     await page.getByRole('navigation', { name: 'Navegação principal' }).getByRole('link', { name: 'Cadastro', exact: true }).click();
     await expect(page).toHaveURL(/cadastro.html$/);
+    await page.getByRole('link', { name: 'Laços da Comunidade', exact: true }).click();
+    await expect(page).toHaveURL(/index.html$/);
     expect(erros).toEqual([]);
   });
 }
@@ -187,13 +189,13 @@ test('mudança de breakpoint mantém o foco em um controle visível', async ({ p
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/html/index.html');
   const toggle = page.locator('.menu-toggle');
-  const inicio = page.locator('#menu-principal > ul > li > a').first();
-  await inicio.focus();
+  const primeiroLink = page.locator('#menu-principal > ul > li > a').first();
+  await primeiroLink.focus();
   await page.setViewportSize({ width: 375, height: 812 });
   await expect(toggle).toBeFocused();
   await expect(page.locator('#menu-principal')).toBeHidden();
   await page.setViewportSize({ width: 1280, height: 900 });
-  await expect(inicio).toBeFocused();
+  await expect(primeiroLink).toBeFocused();
   await expect(toggle).toBeHidden();
 });
 
