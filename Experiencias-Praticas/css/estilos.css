@@ -157,7 +157,7 @@ button { width: 100%; }
 @media (min-width: 1024px) {
   #menu-principal { width: auto; }
   #menu-principal > ul { flex-direction: row; align-items: flex-start; }
-  .submenu[open] > .submenu-lista { position: absolute; top: 100%; left: 0; min-width: 230px; z-index: 10; box-shadow: 0 8px 20px rgb(0 0 0 / 12%); }
+  .submenu[open] > .submenu-lista { position: absolute; top: 100%; right: 0; min-width: 230px; z-index: 10; box-shadow: 0 8px 20px rgb(0 0 0 / 12%); }
 }
 @media (prefers-reduced-motion: reduce) {
   #menu-principal a, .submenu summary, button { transition: none; }

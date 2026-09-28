@@ -7,7 +7,7 @@ for (const pagina of ['index', 'projetos', 'participe', 'cadastro']) {
     page.on('response', resposta => { if (resposta.status() >= 400) erros.push(resposta.url()); });
     await page.goto(`/html/${pagina}.html`);
     await expect(page.locator('h1')).toBeVisible();
-    await expect(page.locator('#menu-principal > ul > li > a')).toHaveText(['Projetos sociais', 'Participe', 'Cadastro']);
+    await expect(page.locator('#menu-principal > ul > li > a')).toHaveText(['Participe', 'Cadastro', 'Projetos sociais']);
     await expect(page.locator('[aria-current="page"]')).toHaveAttribute('href', `${pagina}.html`);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     expect(await page.locator('header').evaluate(el => getComputedStyle(el).display)).toBe('flex');
@@ -189,13 +189,13 @@ test('mudança de breakpoint mantém o foco em um controle visível', async ({ p
   await page.setViewportSize({ width: 1280, height: 900 });
   await page.goto('/html/index.html');
   const toggle = page.locator('.menu-toggle');
-  const projetos = page.locator('#menu-principal > ul > li > a').first();
-  await projetos.focus();
+  const primeiroLink = page.locator('#menu-principal > ul > li > a').first();
+  await primeiroLink.focus();
   await page.setViewportSize({ width: 375, height: 812 });
   await expect(toggle).toBeFocused();
   await expect(page.locator('#menu-principal')).toBeHidden();
   await page.setViewportSize({ width: 1280, height: 900 });
-  await expect(projetos).toBeFocused();
+  await expect(primeiroLink).toBeFocused();
   await expect(toggle).toBeHidden();
 });
 
