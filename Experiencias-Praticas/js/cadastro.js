@@ -1,6 +1,7 @@
 // Máscaras formatam a entrada; pattern verifica o formato final.
 const form = document.querySelector('form');
 const resultado = document.querySelector('#resultado');
+const STORAGE_KEY = 'lacos-cadastro-rascunho';
 const mascaras = {
   cpf: valor => valor.replace(/\D/g, '').slice(0, 11)
     .replace(/^(\d{3})(\d)/, '$1.$2')
@@ -46,6 +47,27 @@ const hoje = new Date();
 document.querySelector('#nascimento').max = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`;
 // Mensagens persistentes associadas a cada campo, além da validação nativa.
 const campos = [...form.querySelectorAll('input, select')];
+function dadosDoFormulario() {
+  return Object.fromEntries(campos.map(campo => [campo.name, campo.type === 'checkbox' ? campo.checked : campo.value]));
+}
+function salvarRascunho() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(dadosDoFormulario()));
+}
+function restaurarRascunho() {
+  const salvo = localStorage.getItem(STORAGE_KEY);
+  if (!salvo) return;
+  try {
+    const dados = JSON.parse(salvo);
+    campos.forEach(campo => {
+      if (!(campo.name in dados)) return;
+      if (campo.type === 'checkbox') campo.checked = Boolean(dados[campo.name]);
+      else campo.value = dados[campo.name];
+    });
+  } catch {
+    localStorage.removeItem(STORAGE_KEY);
+  }
+}
+
 function validar(campo) {
   campo.setCustomValidity('');
   const valor = campo.value.trim();
@@ -83,10 +105,11 @@ for (const campo of campos) {
   campo.addEventListener('invalid', () => mostrarErro(campo));
   campo.addEventListener('blur', () => validar(campo));
   campo.addEventListener('input', () => {
+    salvarRascunho();
     resultado.textContent = '';
     validar(campo);
   });
-  campo.addEventListener('change', () => validar(campo));
+  campo.addEventListener('change', () => { validar(campo); salvarRascunho(); });
 }
 // A validação interativa nativa ocorre antes do evento submit.
 form.querySelector('button[type="submit"]').addEventListener('click', () => {
@@ -107,4 +130,5 @@ form.addEventListener('submit', event => {
   resultado.className = 'feedback feedback-sucesso';
   resultado.textContent = 'Cadastro de exemplo validado! Nenhum dado foi enviado ou armazenado.';
 });
+restaurarRascunho();
 document.querySelector('#campos').disabled = false;

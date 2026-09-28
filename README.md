@@ -1,5 +1,7 @@
 # Experiência prática 1 — HTML5 semântico
 
+🌐 **[Abrir o site da ONG no GitHub Pages](https://rita-moura.github.io/desenvolvimento-front-end-para-web/Experiencias-Praticas/html/index.html)**
+
 Site de uma ONG fictícia para praticar estrutura semântica, navegação e hierarquia de títulos.
 
 ## Organização
@@ -86,3 +88,70 @@ A implementação atual está organizada na pasta `Experiencias-Praticas` e mant
 O projeto já possui navegação responsiva, submenu, menu hambúrguer, máscaras e validação nativa do cadastro, feedback visual, Grid de 12 colunas, Flexbox, testes Playwright e relatórios W3C. Os arquivos de teste ficam em `site.spec.js` e podem ser executados com `npm ci` e `npm test` dentro de `Experiencias-Praticas`.
 
 A etapa de JavaScript III propõe evoluir essa base para uma SPA. No estado documentado acima, a navegação ainda recarrega documentos HTML; a migração para `history.pushState`, roteamento e renderização em um contêiner principal será uma próxima implementação. Essa distinção mantém a documentação fiel ao código atual.
+
+
+### Templates e componentes dinâmicos
+
+A página `Experiencias-Praticas/html/projetos.html` usa o elemento HTML `template` como molde para os cards de projetos. `js/projetos.js` percorre dados estruturados, clona o conteúdo com `cloneNode`, preenche os campos com `textContent` e insere um `DocumentFragment` no DOM. A abordagem evita repetir a marcação e não interpreta dados dinâmicos como HTML.
+
+
+### Eventos e interações
+
+`js/navegacao.js` trata cliques, Escape e mudanças de breakpoint para o menu e o dropdown. `js/cadastro.js` trata input, blur, change, invalid e submit para máscaras, validação nativa, foco e feedback. A navegação entre documentos continua multipágina; a etapa SPA ainda será implementada.
+
+
+### Consistência e feedback do formulário
+
+O cadastro combina `Validity API`, `required`, `pattern`, tipos HTML, RegExp e verificação dos dígitos do CPF. Mensagens, `aria-invalid`, `aria-describedby` e classes de sucesso/erro orientam o preenchimento sem enviar dados.
+
+
+### Persistência local
+
+O cadastro salva um rascunho demonstrativo em `localStorage` com `JSON.stringify` durante `input` e `change`. No carregamento, `JSON.parse` restaura os valores; dados corrompidos são removidos. Nenhum dado é enviado ao servidor.
+
+
+### Dependências externas
+
+A aplicação usa Vanilla JavaScript e não importa frameworks ou bibliotecas por CDN. `@playwright/test` é uma dependência de desenvolvimento usada somente nos testes automatizados; não é carregada pelo site.
+
+
+### Modularização JavaScript
+
+Os comportamentos são separados por responsabilidade: `navegacao.js` controla menu e dropdown, `cadastro.js` controla formulário, validação e persistência, e `projetos.js` renderiza os cards a partir do template. Cada página carrega somente os scripts necessários, com `defer`.
+
+
+### Diagnóstico e correções
+
+Durante os testes foram corrigidos o feedback bloqueado pela validação nativa, a restauração de rascunho com JSON inválido, referências para o CSS separado e a repetição manual dos cards. As correções usam Constraint Validation API, `try/catch`, caminhos relativos verificados e elemento `template`.
+
+
+## Acessar o site publicado
+
+O site está publicado como uma página estática no GitHub Pages:
+
+<https://rita-moura.github.io/desenvolvimento-front-end-para-web/Experiencias-Praticas/html/index.html>
+
+As páginas são independentes e podem ser acessadas pelo menu: `index.html`, `projetos.html`, `participe.html` e `cadastro.html`. O formulário usa dados fictícios, salva apenas um rascunho local no navegador e não envia informações para um servidor.
+
+## Rodar localmente
+
+Para servir a aplicação sem depender de um servidor remoto, use Python 3 na raiz do repositório:
+
+```bash
+python3 -m http.server 8001 --bind 127.0.0.1 --directory Experiencias-Praticas
+```
+
+Abra <http://127.0.0.1:8001/html/index.html>. Mantenha o terminal do servidor aberto enquanto navega. Para encerrar, pressione `Ctrl+C`.
+
+## Executar os testes
+
+Os testes Playwright ficam na pasta `Experiencias-Praticas` e cobrem navegação, menu móvel, dropdown, responsividade, template de projetos, formulário, validação nativa, persistência e feedback visual.
+
+```bash
+cd Experiencias-Praticas
+npm ci
+npx playwright install chromium
+npm test
+```
+
+Para abrir a interface interativa do Playwright, use `npm run test:ui`. Os testes iniciam automaticamente um servidor local na porta 8765. O site publicado não precisa de Node.js; Node.js e Playwright são necessários apenas para os testes.

@@ -62,7 +62,7 @@ test('rejeita dados inválidos e permite corrigir o cadastro sem envio', async (
   await page.getByRole('button', { name: 'Validar cadastro de exemplo' }).click();
   await expect(page.getByRole('status')).toContainText('Cadastro de exemplo validado!');
   expect(envios).toEqual([]);
-  expect(await page.evaluate(() => localStorage.length + sessionStorage.length)).toBe(0);
+  expect(await page.evaluate(() => JSON.parse(localStorage.getItem('lacos-cadastro-rascunho')).nome)).toBe('Pessoa Teste');
 });
 
 test('sem JavaScript mantém a demonstração desabilitada', async ({ browser }) => {
@@ -161,4 +161,23 @@ test('estados visuais de erro e sucesso do formulário', async ({ page }) => {
   await page.getByRole('button', { name: 'Validar cadastro de exemplo' }).click();
   await expect(page.locator('#resultado')).toHaveClass(/feedback-sucesso/);
   await expect(page.locator('#resultado')).toContainText('validado');
+});
+
+test('projetos são renderizados a partir de template e dados JavaScript', async ({ page }) => {
+  await page.goto('/html/projetos.html');
+  await expect(page.locator('#projeto-template')).toHaveCount(1);
+  await expect(page.locator('#lista-projetos article')).toHaveCount(2);
+  await expect(page.locator('#aprender h2')).toHaveText('Aprender juntos');
+  await expect(page.locator('#leitura li')).toHaveCount(2);
+});
+
+test('rascunho do cadastro persiste com JSON no localStorage', async ({ page }) => {
+  await page.goto('/html/cadastro.html');
+  await page.locator('#nome').fill('Pessoa Persistida');
+  await page.locator('#email').fill('persistida@example.com');
+  const salvo = await page.evaluate(() => JSON.parse(localStorage.getItem('lacos-cadastro-rascunho')));
+  expect(salvo.nome).toBe('Pessoa Persistida');
+  await page.reload();
+  await expect(page.locator('#nome')).toHaveValue('Pessoa Persistida');
+  await expect(page.locator('#email')).toHaveValue('persistida@example.com');
 });

@@ -7,6 +7,7 @@
   <title>Projetos sociais | Laços da Comunidade</title>
   <link rel="stylesheet" href="../css/estilos.css">
   <script src="../js/navegacao.js" defer></script>
+  <script src="../js/projetos.js" defer></script>
 </head>
 <body>
   <a href="#conteudo">Pular para o conteúdo</a>
@@ -43,30 +44,18 @@
       </ul>
     </nav>
 
-    <!-- article faz sentido aqui porque cada projeto tem uma descrição independente. -->
-    <article aria-labelledby="aprender">
-      <h2 id="aprender">Aprender juntos</h2>
-      <p>Apoio aos estudos para crianças e adolescentes, com atividades de leitura e matemática.</p>
-      <h3>Objetivo</h3>
-      <p>Incentivar a autonomia e a confiança dos estudantes durante a aprendizagem.</p>
-      <h3>Atividades</h3>
-      <ul>
-        <li>Acompanhamento de tarefas escolares.</li>
-        <li>Jogos educativos em grupo.</li>
-      </ul>
-    </article>
-
-    <article aria-labelledby="leitura">
-      <h2 id="leitura">Leitura para todos</h2>
-      <p>Encontros de leitura e troca de livros para pessoas de todas as idades.</p>
-      <h3>Objetivo</h3>
-      <p>Ampliar o acesso aos livros e criar espaços para compartilhar histórias.</p>
-      <h3>Atividades</h3>
-      <ul>
-        <li>Rodas de leitura.</li>
-        <li>Organização de um acervo comunitário.</li>
-      </ul>
-    </article>
+    <section id="lista-projetos" class="lista-projetos" aria-label="Projetos disponíveis">
+      <template id="projeto-template">
+        <article class="card-projeto">
+          <h2 data-campo="titulo"></h2>
+          <p data-campo="descricao"></p>
+          <h3>Objetivo</h3>
+          <p data-campo="objetivo"></p>
+          <h3>Atividades</h3>
+          <ul data-campo="atividades"></ul>
+        </article>
+      </template>
+    </section>
 
     <section aria-labelledby="voluntariado">
       <h2 id="voluntariado">Trabalho voluntário</h2>
