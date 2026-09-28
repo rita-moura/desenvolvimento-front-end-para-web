@@ -10,8 +10,16 @@ function fecharMenu(devolverFoco = false) {
   if (devolverFoco) toggle.focus();
 }
 function adaptarMenu() {
+  // Capture o foco antes de ocultar controles no novo tamanho de tela.
+  const ativo = document.activeElement;
+  const focoNoMenu = menu.contains(ativo);
+  const focoNoToggle = ativo === toggle;
+  const focoNoSubmenu = submenu.querySelector('.submenu-lista').contains(ativo);
   toggle.hidden = desktop.matches;
   fecharMenu();
+  if (!desktop.matches && focoNoMenu) toggle.focus();
+  else if (desktop.matches && focoNoToggle) menu.querySelector('a').focus();
+  else if (desktop.matches && focoNoSubmenu) submenu.querySelector('summary').focus();
 }
 toggle.addEventListener('click', () => {
   const aberto = toggle.getAttribute('aria-expanded') === 'true';

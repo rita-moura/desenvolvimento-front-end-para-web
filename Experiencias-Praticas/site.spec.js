@@ -7,7 +7,7 @@ for (const pagina of ['index', 'projetos', 'participe', 'cadastro']) {
     page.on('response', resposta => { if (resposta.status() >= 400) erros.push(resposta.url()); });
     await page.goto(`/html/${pagina}.html`);
     await expect(page.locator('h1')).toBeVisible();
-    await expect(page.locator('#menu-principal > ul > li > a')).toHaveText(['Início', 'Projetos sociais', 'Participe', 'Cadastro']);
+    await expect(page.locator('#menu-principal > ul > li > a')).toHaveText(['Participe', 'Cadastro', 'Projetos sociais']);
     await expect(page.locator('[aria-current="page"]')).toHaveAttribute('href', `${pagina}.html`);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     expect(await page.locator('header').evaluate(el => getComputedStyle(el).display)).toBe('flex');
@@ -15,6 +15,8 @@ for (const pagina of ['index', 'projetos', 'participe', 'cadastro']) {
     if (await page.locator('.menu-toggle').isVisible()) await page.locator('.menu-toggle').click();
     await page.getByRole('navigation', { name: 'Navegação principal' }).getByRole('link', { name: 'Cadastro', exact: true }).click();
     await expect(page).toHaveURL(/cadastro.html$/);
+    await page.getByRole('link', { name: 'Laços da Comunidade', exact: true }).click();
+    await expect(page).toHaveURL(/index.html$/);
     expect(erros).toEqual([]);
   });
 }
@@ -180,4 +182,36 @@ test('rascunho do cadastro persiste com JSON no localStorage', async ({ page }) 
   await page.reload();
   await expect(page.locator('#nome')).toHaveValue('Pessoa Persistida');
   await expect(page.locator('#email')).toHaveValue('persistida@example.com');
+});
+
+
+test('mudança de breakpoint mantém o foco em um controle visível', async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto('/html/index.html');
+  const toggle = page.locator('.menu-toggle');
+  const primeiroLink = page.locator('#menu-principal > ul > li > a').first();
+  await primeiroLink.focus();
+  await page.setViewportSize({ width: 375, height: 812 });
+  await expect(toggle).toBeFocused();
+  await expect(page.locator('#menu-principal')).toBeHidden();
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await expect(primeiroLink).toBeFocused();
+  await expect(toggle).toBeHidden();
+});
+
+test('redimensionar fecha o submenu sem perder o foco nem mover foco externo', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 });
+  await page.goto('/html/index.html');
+  await page.locator('.menu-toggle').click();
+  const summary = page.locator('.submenu summary');
+  await summary.click();
+  await page.getByRole('link', { name: 'Voluntariado', exact: true }).focus();
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await expect(summary).toBeFocused();
+  await expect(page.locator('.submenu')).not.toHaveAttribute('open');
+  const pular = page.getByRole('link', { name: 'Pular para o conteúdo' });
+  await pular.focus();
+  await page.setViewportSize({ width: 375, height: 812 });
+  await expect(page.locator('.menu-toggle')).toBeVisible();
+  await expect(pular).toBeFocused();
 });

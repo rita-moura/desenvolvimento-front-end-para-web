@@ -1,4 +1,4 @@
-# Experiência prática 1 — HTML5 semântico
+# Laços da Comunidade — Experiências Práticas de Front-end
 
 🌐 **[Abrir o site da ONG no GitHub Pages](https://rita-moura.github.io/desenvolvimento-front-end-para-web/Experiencias-Praticas/html/index.html)**
 
@@ -7,19 +7,19 @@ Site de uma ONG fictícia para praticar estrutura semântica, navegação e hier
 ## Organização
 
 ```text
-Experiencia-Pratica-1/
-├── html/
-│   ├── index.html
-│   ├── projetos.html
-│   ├── participe.html
-│   └── cadastro.html
-├── imagens/
-│   ├── .gitkeep
-│   └── leitura-comunitaria.svg
-└── README.md
+Experiencias-Praticas/
+├── html/                 # quatro páginas da aplicação
+├── css/estilos.css       # estilos compartilhados
+├── js/                  # navegação, cadastro e projetos
+├── imagens/             # ilustrações locais
+├── validacao/           # evidências de validação
+├── package.json
+├── playwright.config.js
+├── site.spec.js
+└── respostas.md
 ```
 
-Abra `html/index.html` no navegador e use o menu para visitar as três páginas. Não é necessário instalar dependências.
+Abra `html/index.html` no navegador e use o menu para visitar as quatro páginas. Não é necessário instalar dependências.
 
 A imagem do enunciado identifica a página inicial e a página de projetos sociais, mas não define a terceira. `participe.html` é uma escolha provisória, a ajustar quando os demais requisitos estiverem disponíveis. O nome da ONG e os conteúdos são exemplos fictícios.
 
@@ -50,13 +50,13 @@ O menu usa uma lista porque reúne opções relacionadas. `aria-current="page"` 
 4. Navegue usando Tab e Enter e experimente “Pular para o conteúdo”.
 5. Altere a missão da ONG preservando a hierarquia dos títulos.
 
-A estrutura HTML recebe os estilos compartilhados de estilos.css. A pasta `imagens` contém uma ilustração SVG de um livro aberto, criada para este exercício. A página inicial apresenta contato fictício em `address` e um link de e-mail com `mailto:`. O domínio `.example` indica um endereço de demonstração. Ao adicionar uma imagem, use um texto `alt` que comunique sua finalidade, ou `alt=""` se ela for apenas decorativa.
+A estrutura HTML recebe os estilos compartilhados de `css/estilos.css`. A pasta `imagens` contém uma ilustração SVG de um livro aberto, criada para este exercício. A página inicial apresenta contato fictício em `address` e um link de e-mail com `mailto:`. O domínio `.example` indica um endereço de demonstração. Ao adicionar uma imagem, use um texto `alt` que comunique sua finalidade, ou `alt=""` se ela for apenas decorativa.
 
 ## Etapa de cadastro
 
 A página `html/cadastro.html` usa `fieldset` e `legend` para agrupar dados pessoais, endereço e participação. Cada campo tem um rótulo; campos obrigatórios usam `required`. Os tipos `email`, `date` e `tel`, os limites de comprimento e os padrões `pattern` ajudam a prevenir erros.
 
-O arquivo `js/cadastro.js` aplica máscaras de CPF, telefone e CEP, confere os dígitos verificadores do CPF e impede datas futuras de nascimento. A máscara não confirma a existência de um CPF, telefone ou CEP. O formulário é demonstrativo: não transmite nem armazena dados e deve ser preenchido com exemplos fictícios. Sem JavaScript, os campos ficam desabilitados para impedir envio acidental.
+O arquivo `js/cadastro.js` aplica máscaras de CPF, telefone e CEP, confere os dígitos verificadores do CPF e impede datas futuras de nascimento. A máscara não confirma a existência de um CPF, telefone ou CEP. O formulário é demonstrativo: não transmite dados ao servidor, mas salva um rascunho em localStorage; use exemplos fictícios. Sem JavaScript, os campos ficam desabilitados para impedir envio acidental.
 
 O HTML de cadastro foi enviado ao Nu HTML Checker do W3C em 23/09/2026, com zero mensagens após a correção do atributo autocomplete do telefone. Resultado em `validacao/cadastro-w3c.json`. Essa validação verifica a marcação; as máscaras e os dígitos verificadores também foram conferidos separadamente com Node.js.
 
@@ -68,9 +68,9 @@ A pasta `entrega` reúne os pacotes ZIP e uma cópia consolidada do HTML. As qua
 
 ## Estilo e testes automatizados
 
-As quatro páginas compartilham `estilos.css`, na raiz desta pasta. O layout adapta menus e formulários a telas menores e mantém foco visível e mensagens de erro. A organização das páginas e as regras do formulário foram preservadas.
+As quatro páginas compartilham `css/estilos.css`. O layout adapta menus e formulários a telas menores e mantém foco visível e mensagens de erro. A organização das páginas e as regras do formulário foram preservadas.
 
-Para testar, instale Node.js e Python 3. Dentro de `Experiencia-Pratica-1`, execute:
+Para testar, instale Node.js e Python 3. Dentro de `Experiencias-Praticas`, execute:
 
 ```bash
 npm ci
@@ -83,7 +83,7 @@ npm test
 
 ## Estado atual do projeto
 
-A implementação atual está organizada na pasta `Experiencias-Praticas` e mantém uma arquitetura multipágina: `html/index.html`, `html/projetos.html`, `html/participe.html` e `html/cadastro.html` são documentos independentes. A apresentação está em `css/estilos.css`; os comportamentos estão em `js/cadastro.js` e `js/navegacao.js`; os recursos gráficos ficam em `imagens/`.
+A implementação atual está organizada na pasta `Experiencias-Praticas` e mantém uma arquitetura multipágina: `html/index.html`, `html/projetos.html`, `html/participe.html` e `html/cadastro.html` são documentos independentes. A apresentação está em `css/estilos.css`; os comportamentos estão em `js/cadastro.js`, `js/navegacao.js` e `js/projetos.js`; os recursos gráficos ficam em `imagens/`.
 
 O projeto já possui navegação responsiva, submenu, menu hambúrguer, máscaras e validação nativa do cadastro, feedback visual, Grid de 12 colunas, Flexbox, testes Playwright e relatórios W3C. Os arquivos de teste ficam em `site.spec.js` e podem ser executados com `npm ci` e `npm test` dentro de `Experiencias-Praticas`.
 
@@ -155,3 +155,37 @@ npm test
 ```
 
 Para abrir a interface interativa do Playwright, use `npm run test:ui`. Os testes iniciam automaticamente um servidor local na porta 8765. O site publicado não precisa de Node.js; Node.js e Playwright são necessários apenas para os testes.
+
+
+## Estratégia de branches
+
+O GitFlow foi iniciado na Experiência Prática IV, preservando os commits anteriores em `main`:
+
+- `main`: versão publicada pelo GitHub Pages.
+- `develop`: integração das alterações antes da entrega.
+- `feature/acessibilidade-menu`: preservação do foco ao mudar o breakpoint, integrada pelo PR #3.
+- `feature/submenu-projetos`: melhoria visual e ordem do menu, integrada pelo PR #6.
+- `release/1.0.1`: preparação de versão e documentação, integrada em `main` pelo PR #4 e depois devolvida a `develop`.
+
+Não foi necessário criar um `hotfix/*`. Futuras correções urgentes podem partir de `main` e retornar a `main` e `develop`. As branches desta entrega foram preservadas para consulta. A revisão foi individual por inspeção e testes; não houve aprovação de outro colaborador.
+
+## Commits e releases
+
+Os commits desta entrega usam `type(scope): descrição`, incluindo `fix(a11y)`, `fix(nav)`, `docs(epiv)` e `chore(release)`. As mensagens antigas foram preservadas.
+
+A tag anotada **v1.0.1** identifica a primeira release publicada. O projeto já declarava `1.0.0` no package.json; `1.0.1` incrementa PATCH por corrigir navegação sem alterar a estrutura da aplicação. A política é MAJOR para mudanças incompatíveis, MINOR para novas funcionalidades compatíveis e PATCH para correções.
+
+## Registros da Experiência Prática IV
+
+- [Correção de foco — issue #1](https://github.com/rita-moura/desenvolvimento-front-end-para-web/issues/1)
+- [Documentação — issue #2](https://github.com/rita-moura/desenvolvimento-front-end-para-web/issues/2)
+- [Organização do menu — issue #5](https://github.com/rita-moura/desenvolvimento-front-end-para-web/issues/5)
+- [Milestone da entrega](https://github.com/rita-moura/desenvolvimento-front-end-para-web/milestone/1)
+- [PR de foco #3](https://github.com/rita-moura/desenvolvimento-front-end-para-web/pull/3)
+- [PR de navegação #6](https://github.com/rita-moura/desenvolvimento-front-end-para-web/pull/6)
+- [PR de release #4](https://github.com/rita-moura/desenvolvimento-front-end-para-web/pull/4)
+- [Release v1.0.1](https://github.com/rita-moura/desenvolvimento-front-end-para-web/releases/tag/v1.0.1)
+
+O nome **Laços da Comunidade** leva à página inicial. A ordem do menu é **Participe → Cadastro → Projetos sociais ▾**. A seta abre o submenu; o link Projetos sociais abre a página completa. O acionador tem nome acessível, foco visível e área de toque de 44 × 44px. O elemento `details` mantém o submenu funcional sem JavaScript.
+
+Os **32 testes Playwright** passaram em Chromium, com perfis desktop e celular. As evidências estão em [validacao/epiv.md](Experiencias-Praticas/validacao/epiv.md). Isso não substitui uma auditoria completa WCAG 2.1 AA. A aplicação permanece multipágina e não exige etapa de build: o GitHub Pages serve HTML, CSS, JavaScript e imagens diretamente da branch `main`.
