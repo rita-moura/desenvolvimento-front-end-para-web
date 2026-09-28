@@ -39,7 +39,8 @@ a:hover { text-decoration-thickness: 2px; }
 body > a:first-child { position: absolute; left: 1rem; top: -6rem; padding: var(--espaco-3) var(--espaco-4); background: var(--superficie); z-index: 2; }
 body > a:first-child:focus { top: 1rem; }
 header { background: var(--superficie); border-bottom: 1px solid var(--borda); padding: var(--espaco-5) max(var(--espaco-5), calc((100% - 1080px) / 2)); display: flex; align-items: center; justify-content: space-between; gap: var(--espaco-4); flex-wrap: wrap; }
-header > p { margin: 0; font-size: var(--fonte-3); font-weight: 800; letter-spacing: -.04em; }
+header > .marca { display: inline-flex; align-items: center; min-height: 44px; color: var(--escuro); font-size: var(--fonte-3); font-weight: 800; letter-spacing: -.04em; text-decoration: none; }
+header > .marca:hover { text-decoration: underline; }
 nav ul { display: flex; flex-wrap: wrap; gap: var(--espaco-2); list-style: none; padding: 0; margin: 0; }
 nav a { display: inline-block; padding: var(--espaco-3) var(--espaco-3); border-radius: .5rem; text-decoration: none; font-weight: 600; }
 nav a:hover { background: var(--secundaria); }
