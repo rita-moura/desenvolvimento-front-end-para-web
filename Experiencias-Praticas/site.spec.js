@@ -215,3 +215,107 @@ test('redimensionar fecha o submenu sem perder o foco nem mover foco externo', a
   await expect(page.locator('.menu-toggle')).toBeVisible();
   await expect(pular).toBeFocused();
 });
+
+for (const tema of ['claro', 'escuro', 'contraste']) {
+  test(`tema ${tema} persiste ao recarregar e navegar nas quatro páginas`, async ({ page }) => {
+    await page.goto('/html/index.html');
+    await page.getByLabel('Tema', { exact: true }).selectOption(tema);
+    await page.reload();
+    for (const pagina of ['index', 'projetos', 'participe', 'cadastro']) {
+      await page.goto(`/html/${pagina}.html`);
+      await expect(page.locator('html')).toHaveAttribute('data-tema', tema);
+      await expect(page.getByLabel('Tema', { exact: true })).toHaveValue(tema);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    }
+    expect(await page.evaluate(() => localStorage.getItem('lacos-tema'))).toBe(tema);
+  });
+}
+
+test('tema do sistema acompanha mudanças e respeita escolha manual', async ({ page }) => {
+  await page.emulateMedia({ colorScheme: 'dark', contrast: 'no-preference' });
+  await page.goto('/html/index.html');
+  const raiz = page.locator('html');
+  const seletor = page.getByLabel('Tema', { exact: true });
+  await expect(raiz).toHaveAttribute('data-tema', 'escuro');
+  await expect(seletor).toHaveValue('sistema');
+  await page.emulateMedia({ colorScheme: 'light', contrast: 'more' });
+  await expect(raiz).toHaveAttribute('data-tema', 'contraste');
+  await seletor.selectOption('claro');
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await expect(raiz).toHaveAttribute('data-tema', 'claro');
+  await seletor.selectOption('sistema');
+  await expect(raiz).toHaveAttribute('data-tema', 'contraste');
+  expect(await page.evaluate(() => localStorage.getItem('lacos-tema'))).toBeNull();
+  await page.emulateMedia({ contrast: 'no-preference' });
+  await expect(raiz).toHaveAttribute('data-tema', 'escuro');
+  await page.emulateMedia({ colorScheme: 'light' });
+  await expect(raiz).toHaveAttribute('data-tema', 'claro');
+});
+
+test('seletor de tema funciona por teclado e preserva o foco', async ({ page }) => {
+  await page.goto('/html/index.html');
+  const seletor = page.getByLabel('Tema', { exact: true });
+  // Percorre a ordem natural, incluindo o link para pular a navegação.
+  for (let i = 0; i < 12; i++) {
+    await page.keyboard.press('Tab');
+    if (await seletor.evaluate(el => el === document.activeElement)) break;
+  }
+  await expect(seletor).toBeFocused();
+  await page.keyboard.press('End');
+  await page.keyboard.press('Enter');
+  await expect(seletor).toHaveValue('contraste');
+  await expect(page.locator('html')).toHaveAttribute('data-tema', 'contraste');
+  await expect(seletor).toBeFocused();
+  await expect(seletor).toHaveCSS('outline-style', 'solid');
+});
+
+test('tema funciona sem armazenamento e ignora preferência inválida', async ({ page }) => {
+  await page.addInitScript(() => {
+    Storage.prototype.getItem = () => { throw new Error('Armazenamento bloqueado'); };
+    Storage.prototype.setItem = () => { throw new Error('Armazenamento bloqueado'); };
+    Storage.prototype.removeItem = () => { throw new Error('Armazenamento bloqueado'); };
+  });
+  const erros = [];
+  page.on('pageerror', error => erros.push(error.message));
+  await page.goto('/html/index.html');
+  const seletor = page.getByLabel('Tema', { exact: true });
+  await seletor.selectOption('escuro');
+  await expect(page.locator('html')).toHaveAttribute('data-tema', 'escuro');
+  await seletor.selectOption('sistema');
+  await expect(seletor).toHaveValue('sistema');
+  expect(erros).toEqual([]);
+});
+
+test('valor de tema desconhecido usa a preferência do sistema', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('lacos-tema', 'invalido'));
+  await page.emulateMedia({ colorScheme: 'dark', contrast: 'no-preference' });
+  await page.goto('/html/index.html');
+  await expect(page.getByLabel('Tema', { exact: true })).toHaveValue('sistema');
+  await expect(page.locator('html')).toHaveAttribute('data-tema', 'escuro');
+});
+
+test('sem JavaScript as cores seguem o sistema e o seletor fica oculto', async ({ browser }) => {
+  const contexto = await browser.newContext({ javaScriptEnabled: false, colorScheme: 'dark' });
+  try {
+    const page = await contexto.newPage();
+    await page.goto('http://127.0.0.1:8765/html/index.html');
+    await expect(page.locator('#tema')).toBeHidden();
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(16, 28, 23)');
+    await page.emulateMedia({ contrast: 'more' });
+    await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(0, 0, 0)');
+    await expect(page.locator('body')).toHaveCSS('color', 'rgb(255, 255, 255)');
+  } finally { await contexto.close(); }
+});
+
+test('cores forçadas preservam controles e foco do sistema', async ({ page }) => {
+  await page.emulateMedia({ forcedColors: 'active' });
+  await page.goto('/html/cadastro.html');
+  await page.getByLabel('Tema', { exact: true }).selectOption('contraste');
+  const botao = page.locator('button[type="submit"]');
+  await botao.focus();
+  await expect(botao).toHaveCSS('border-top-style', 'solid');
+  await expect(botao).toHaveCSS('outline-style', 'solid');
+  await expect(botao).toHaveCSS('forced-color-adjust', 'auto');
+  await botao.press('Enter');
+  await expect(page.locator('#nome')).toBeFocused();
+});

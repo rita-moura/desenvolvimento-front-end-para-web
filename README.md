@@ -4,13 +4,28 @@
 
 Site de uma ONG fictícia para praticar estrutura semântica, navegação e hierarquia de títulos.
 
+## Tecnologias utilizadas
+
+- **HTML5:** estrutura semântica das quatro páginas e validação nativa do formulário.
+- **CSS3:** estilos compartilhados, Grid, Flexbox e adaptação para desktop e celular.
+- **JavaScript puro:** menu, máscaras, validação, templates de projetos e rascunho em `localStorage` com JSON.
+- **Python 3:** servidor HTTP para execução local e para os testes.
+- **Node.js, npm e Playwright:** instalação das dependências de desenvolvimento e testes automatizados em Chromium.
+- **Git e GitHub:** versionamento, issues, pull requests e releases; GitHub Pages para publicação estática.
+
+## Pré-requisitos
+
+Para clonar o repositório, instale Git. Para executar pelo servidor local documentado, tenha Python 3 e um navegador atualizado. A aplicação não exige dependências npm para funcionar.
+
+Para executar os testes, também são necessários Node.js **20 ou superior**, npm e o Chromium instalado pelo Playwright. A versão mínima do Node.js corresponde ao requisito das dependências registradas em `Experiencias-Praticas/package-lock.json`.
+
 ## Organização
 
 ```text
 Experiencias-Praticas/
 ├── html/                 # quatro páginas da aplicação
 ├── css/estilos.css       # estilos compartilhados
-├── js/                  # navegação, cadastro e projetos
+├── js/                  # navegação, temas, cadastro e projetos
 ├── imagens/             # ilustrações locais
 ├── validacao/           # evidências de validação
 ├── package.json
@@ -21,7 +36,7 @@ Experiencias-Praticas/
 
 Abra `html/index.html` no navegador e use o menu para visitar as quatro páginas. Não é necessário instalar dependências.
 
-A imagem do enunciado identifica a página inicial e a página de projetos sociais, mas não define a terceira. `participe.html` é uma escolha provisória, a ajustar quando os demais requisitos estiverem disponíveis. O nome da ONG e os conteúdos são exemplos fictícios.
+As quatro páginas são Início, Projetos sociais, Participe e Cadastro. O nome da ONG e os conteúdos são exemplos fictícios.
 
 ## Como ler o HTML
 
@@ -81,9 +96,25 @@ npm test
 `site.spec.js` verifica navegação, carregamento de recursos, ausência de transbordamento horizontal, acesso por teclado, campos inválidos, máscaras, correção do cadastro e funcionamento sem JavaScript. A configuração em `playwright.config.js` executa os cenários com larguras de desktop e celular, iniciando um servidor local na porta 8765. As dependências e os resultados gerados são ignorados pelo Git.
 
 
+## Temas claro, escuro e alto contraste
+
+O seletor **Tema**, no cabeçalho das quatro páginas, oferece **Sistema**, **Claro**, **Escuro** e **Alto contraste**. É um `select` nativo com rótulo, disponível por teclado e também com o menu móvel fechado.
+
+A opção Sistema acompanha `prefers-color-scheme` e `prefers-contrast`, dando prioridade ao contraste aumentado. A escolha manual prevalece e fica em `localStorage`, na chave `lacos-tema`; voltar a Sistema remove essa preferência. Se o armazenamento estiver bloqueado, a troca continua funcionando na página atual. Sem JavaScript, o seletor fica oculto e as media queries CSS acompanham o sistema.
+
+`js/tema.js` define `data-tema` no elemento `html` antes do carregamento do CSS. As paletas usam variáveis compartilhadas em `css/estilos.css`, incluindo textos, fundos, controles, foco e mensagens de sucesso/erro. O alto contraste usa fundo preto, textos brancos, links amarelos sublinhados e foco ciano. O CSS preserva as cores forçadas do sistema (`forced-colors`).
+
+Após esta implementação, **50 testes Playwright passaram**, nos perfis desktop e celular, incluindo persistência nas quatro páginas, teclado, preferência do sistema, armazenamento bloqueado, ausência de JavaScript e cores forçadas. A [verificação de contraste](Experiencias-Praticas/validacao/contraste.json) passou em **48 medições**: 42 pares de texto/fundo acima de 4,5:1 e seis medições da borda e do foco do seletor acima de 3:1. Os menores contrastes de texto da amostra foram 6,02:1 (claro), 8,72:1 (escuro) e 12,44:1 (alto contraste). Esses resultados não constituem auditoria integral de acessibilidade nem teste manual com leitores de tela.
+
+Para repetir a medição após instalar as dependências e o Chromium, execute na raiz:
+
+```bash
+node Experiencias-Praticas/validacao/verificar-contraste.cjs
+```
+
 ## Estado atual do projeto
 
-A implementação atual está organizada na pasta `Experiencias-Praticas` e mantém uma arquitetura multipágina: `html/index.html`, `html/projetos.html`, `html/participe.html` e `html/cadastro.html` são documentos independentes. A apresentação está em `css/estilos.css`; os comportamentos estão em `js/cadastro.js`, `js/navegacao.js` e `js/projetos.js`; os recursos gráficos ficam em `imagens/`.
+A implementação atual está organizada na pasta `Experiencias-Praticas` e mantém uma arquitetura multipágina: `html/index.html`, `html/projetos.html`, `html/participe.html` e `html/cadastro.html` são documentos independentes. A apresentação está em `css/estilos.css`; os comportamentos estão em `js/cadastro.js`, `js/navegacao.js`, `js/projetos.js` e `js/tema.js`; os recursos gráficos ficam em `imagens/`.
 
 O projeto já possui navegação responsiva, submenu, menu hambúrguer, máscaras e validação nativa do cadastro, feedback visual, Grid de 12 colunas, Flexbox, testes Playwright e relatórios W3C. Os arquivos de teste ficam em `site.spec.js` e podem ser executados com `npm ci` e `npm test` dentro de `Experiencias-Praticas`.
 
@@ -117,7 +148,7 @@ A aplicação usa Vanilla JavaScript e não importa frameworks ou bibliotecas po
 
 ### Modularização JavaScript
 
-Os comportamentos são separados por responsabilidade: `navegacao.js` controla menu e dropdown, `cadastro.js` controla formulário, validação e persistência, e `projetos.js` renderiza os cards a partir do template. Cada página carrega somente os scripts necessários, com `defer`.
+Os comportamentos são separados por responsabilidade: `navegacao.js` controla menu e dropdown, `cadastro.js` controla formulário, validação e persistência, e `projetos.js` renderiza os cards a partir do template. Os scripts de navegação, cadastro e projetos usam `defer`. O script compartilhado `tema.js` é carregado antes do CSS para aplicar a preferência de cores antes da primeira pintura; registra o controle após `DOMContentLoaded`.
 
 
 ### Diagnóstico e correções
@@ -135,17 +166,28 @@ As páginas são independentes e podem ser acessadas pelo menu: `index.html`, `p
 
 ## Rodar localmente
 
-Para servir a aplicação sem depender de um servidor remoto, use Python 3 na raiz do repositório:
+1. Clone o repositório e entre na pasta criada:
+
+```bash
+git clone https://github.com/rita-moura/desenvolvimento-front-end-para-web.git
+cd desenvolvimento-front-end-para-web
+```
+
+2. Na raiz do repositório, inicie o servidor com Python 3:
 
 ```bash
 python3 -m http.server 8001 --bind 127.0.0.1 --directory Experiencias-Praticas
 ```
 
-Abra <http://127.0.0.1:8001/html/index.html>. Mantenha o terminal do servidor aberto enquanto navega. Para encerrar, pressione `Ctrl+C`.
+3. Abra <http://127.0.0.1:8001/html/index.html>. Mantenha o terminal do servidor aberto enquanto navega. Para encerrar, pressione `Ctrl+C`.
+
+## Build e publicação
+
+Não há etapa de compilação nem comando `npm run build`: o projeto usa HTML, CSS, JavaScript e imagens servidos diretamente. O GitHub Pages publica a versão da branch `main`, acessível pelo link no início deste README. Para executar localmente, basta seguir os passos da seção anterior.
 
 ## Executar os testes
 
-Os testes Playwright ficam na pasta `Experiencias-Praticas` e cobrem navegação, menu móvel, dropdown, responsividade, template de projetos, formulário, validação nativa, persistência e feedback visual.
+Os testes Playwright ficam na pasta `Experiencias-Praticas` e cobrem navegação, menu móvel, dropdown, responsividade, template de projetos, formulário, validação nativa, persistência e feedback visual. Em outro terminal, a partir da raiz do repositório, instale as dependências registradas no lockfile, instale o navegador de teste e execute a suíte:
 
 ```bash
 cd Experiencias-Praticas

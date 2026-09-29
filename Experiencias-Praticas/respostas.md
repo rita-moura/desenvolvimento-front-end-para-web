@@ -410,29 +410,33 @@ Nesta etapa, passei a usar GitFlow no mesmo repositório. Criei develop a partir
 
 Adicione cada linha como um registro separado. Mensagens até 100 caracteres; descrições até 300. Os commits antigos continuam no histórico; os exemplos abaixo são da entrega realizada nesta etapa.
 
-| Mensagem de commit ou tag da release | Descrição e justificativa da alteração |
-|---|---|
-| fix(a11y): preservar foco ao alternar o menu responsivo | Commit 7e893a3: corrigiu a perda de foco ao cruzar o breakpoint do menu e adicionou dois testes de regressão. A correção mantém o controle ativo visível para quem usa teclado. |
-| fix(nav): alinhar acionador do submenu com Projetos sociais | Commit 7be0d37: substituiu o acionador em uma segunda linha por uma seta junto ao link, com nome acessível e área de toque de 44px. Melhorou a associação visual do submenu. |
-| fix(nav): usar nome da ONG como link para o inicio | Commit fa2e8cf: tornou o nome da ONG um link para index.html e removeu a opção Início do menu. Os testes passaram a verificar o retorno à página inicial. |
-| fix(nav): posicionar Projetos sociais no fim do menu | Commit 3d54a34: definiu a ordem Participe, Cadastro e Projetos sociais, com seta no final e dropdown alinhado à direita. Também corrigiu um link de início duplicado detectado durante os testes. |
-| chore(release): preparar versao 1.0.1 | Commit f2bfab5: atualizou package.json e package-lock.json para 1.0.1, mantendo os arquivos de versão consistentes para a entrega. |
-| docs(epiv): documentar fluxo e evidencias da entrega | Documentou a execução local, os testes, as branches e os registros reais do GitHub. Atualizou as respostas da atividade para refletir o fluxo adotado nesta etapa. |
-| v1.0.1 | Release com correções compatíveis de navegação, testes e documentação. Incrementa PATCH sobre 1.0.0, já declarado no projeto. A política é MAJOR para incompatibilidades, MINOR para novas funcionalidades compatíveis e PATCH para correções. É a primeira tag publicada deste repositório. |
+
+| Mensagem de commit ou tag da release                        | Descrição e justificativa da alteração                                                                                                                                                                                                                                                       |
+| ----------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| fix(a11y): preservar foco ao alternar o menu responsivo     | Commit 7e893a3: corrigiu a perda de foco ao cruzar o breakpoint do menu e adicionou dois testes de regressão. A correção mantém o controle ativo visível para quem usa teclado.                                                                                                              |
+| fix(nav): alinhar acionador do submenu com Projetos sociais | Commit 7be0d37: substituiu o acionador em uma segunda linha por uma seta junto ao link, com nome acessível e área de toque de 44px. Melhorou a associação visual do submenu.                                                                                                                 |
+| fix(nav): usar nome da ONG como link para o inicio          | Commit fa2e8cf: tornou o nome da ONG um link para index.html e removeu a opção Início do menu. Os testes passaram a verificar o retorno à página inicial.                                                                                                                                    |
+| fix(nav): posicionar Projetos sociais no fim do menu        | Commit 3d54a34: definiu a ordem Participe, Cadastro e Projetos sociais, com seta no final e dropdown alinhado à direita. Também corrigiu um link de início duplicado detectado durante os testes.                                                                                            |
+| chore(release): preparar versao 1.0.1                       | Commit f2bfab5: atualizou package.json e package-lock.json para 1.0.1, mantendo os arquivos de versão consistentes para a entrega.                                                                                                                                                           |
+| docs(epiv): documentar fluxo e evidencias da entrega        | Documentou a execução local, os testes, as branches e os registros reais do GitHub. Atualizou as respostas da atividade para refletir o fluxo adotado nesta etapa.                                                                                                                           |
+| v1.0.1                                                      | Release com correções compatíveis de navegação, testes e documentação. Incrementa PATCH sobre 1.0.0, já declarado no projeto. A política é MAJOR para incompatibilidades, MINOR para novas funcionalidades compatíveis e PATCH para correções. É a primeira tag publicada deste repositório. |
+
 
 ### Versionamento 3 — Issues, milestones e pull requests
 
 Adicione cada linha como um registro separado. Tipos até 150 caracteres; descrições até 500.
 
-| Tipo de registo | Descrição do contexto e alterações realizadas |
-|---|---|
-| Issue #1 — Preservação de foco | Registrei a perda de foco ao mudar o breakpoint do menu. Dois testes reproduziram o defeito antes da correção; depois, a suíte passou. A solução foi desenvolvida em feature/acessibilidade-menu e integrada pelo PR #3. |
-| Issue #2 — Documentação da entrega | Organizei a atualização do README e das respostas com execução local, testes e evidências de GitFlow. O registro diferencia os commits antigos em main das práticas adotadas nesta etapa. |
-| Issue #5 — Organização do menu | Registrei a melhoria visual solicitada: aproximar a seta de Projetos sociais, usar o nome da ONG para voltar ao início e posicionar Projetos sociais depois de Cadastro. A implementação passou pelo PR #6. |
-| Milestone — Experiência Prática IV — v1.0.1 | Agrupei as issues de acessibilidade, documentação e navegação em uma entrega comum. O milestone também reuniu os PRs das melhorias e da release, permitindo acompanhar o trabalho até sua conclusão. |
-| Pull request #3 — Correção de foco | Integrei feature/acessibilidade-menu em develop após reproduzir a falha e validar a correção. O PR descreve o problema e os testes. A revisão foi individual; não houve aprovação de outro colaborador. |
-| Pull request #6 — Melhoria do menu | Integrei feature/submenu-projetos em develop. O PR documenta o acionador com seta, o nome da ONG como link inicial e a ordem final do menu. Foram verificados teclado, desktop, celular e funcionamento sem JavaScript. |
-| Pull request #4 — Release v1.0.1 | Reuni as duas melhorias e a documentação em release/1.0.1 e integrei a entrega em main. O PR vincula as issues, registra 32 testes aprovados e prepara a publicação da tag v1.0.1. Após a entrega, main retornou para develop. |
+
+| Tipo de registo                             | Descrição do contexto e alterações realizadas                                                                                                                                                                                  |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Issue #1 — Preservação de foco              | Registrei a perda de foco ao mudar o breakpoint do menu. Dois testes reproduziram o defeito antes da correção; depois, a suíte passou. A solução foi desenvolvida em feature/acessibilidade-menu e integrada pelo PR #3.       |
+| Issue #2 — Documentação da entrega          | Organizei a atualização do README e das respostas com execução local, testes e evidências de GitFlow. O registro diferencia os commits antigos em main das práticas adotadas nesta etapa.                                      |
+| Issue #5 — Organização do menu              | Registrei a melhoria visual solicitada: aproximar a seta de Projetos sociais, usar o nome da ONG para voltar ao início e posicionar Projetos sociais depois de Cadastro. A implementação passou pelo PR #6.                    |
+| Milestone — Experiência Prática IV — v1.0.1 | Agrupei as issues de acessibilidade, documentação e navegação em uma entrega comum. O milestone também reuniu os PRs das melhorias e da release, permitindo acompanhar o trabalho até sua conclusão.                           |
+| Pull request #3 — Correção de foco          | Integrei feature/acessibilidade-menu em develop após reproduzir a falha e validar a correção. O PR descreve o problema e os testes. A revisão foi individual; não houve aprovação de outro colaborador.                        |
+| Pull request #6 — Melhoria do menu          | Integrei feature/submenu-projetos em develop. O PR documenta o acionador com seta, o nome da ONG como link inicial e a ordem final do menu. Foram verificados teclado, desktop, celular e funcionamento sem JavaScript.        |
+| Pull request #4 — Release v1.0.1            | Reuni as duas melhorias e a documentação em release/1.0.1 e integrei a entrega em main. O PR vincula as issues, registra 32 testes aprovados e prepara a publicação da tag v1.0.1. Após a entrega, main retornou para develop. |
+
 
 **Links para comprovação**
 
@@ -446,3 +450,121 @@ Adicione cada linha como um registro separado. Tipos até 150 caracteres; descri
 - [Release v1.0.1](https://github.com/rita-moura/desenvolvimento-front-end-para-web/releases/tag/v1.0.1)
 
 **Limite das evidências:** os testes desta entrega cobrem Chromium em desktop e celular. A correção de foco não comprova, por si só, conformidade integral com WCAG 2.1 AA. A aplicação continua multipágina; esta entrega não implementou SPA.
+
+### Documentação 1 — Seções principais do README.md
+
+Adicione cada linha como uma seção separada. Nomes até 100 caracteres; descrições até 300.
+
+| Nome da seção | Descrição e tecnologias mencionadas |
+| --- | --- |
+| Laços da Comunidade — Experiências Práticas de Front-end | Apresenta o site de uma ONG fictícia, seu objetivo acadêmico de praticar front-end e o link de acesso à aplicação publicada no GitHub Pages. |
+| Tecnologias utilizadas | Lista HTML5 para estrutura, CSS3 com Grid e Flexbox, JavaScript puro para interações e localStorage com JSON. Também identifica Python 3, Node.js, npm, Playwright, Git, GitHub e GitHub Pages. |
+| Pré-requisitos | Informa Git para clonagem, Python 3 e navegador para execução local. Para testes, exige Node.js 20 ou superior, npm e Chromium instalado pelo Playwright. O site funciona sem dependências npm. |
+| Organização | Mostra a árvore de Experiencias-Praticas, separando HTML, CSS, JavaScript, imagens, validações e testes. Identifica package.json, playwright.config.js, site.spec.js e respostas.md. |
+| Como ler o HTML | Explica tags semânticas, hierarquia h1, h2 e h3, texto alternativo e recursos de acessibilidade, como aria-current, aria-labelledby e o link para pular ao conteúdo principal. |
+| Estado atual do projeto | Descreve a arquitetura multipágina e os comportamentos JavaScript: templates, eventos, validação e persistência em localStorage. Explica a separação dos scripts e registra que a migração para SPA ainda não foi implementada. |
+| Rodar localmente | Documenta git clone, entrada na pasta e execução de python3 -m http.server 8001 --bind 127.0.0.1 --directory Experiencias-Praticas. Informa o endereço local para abrir index.html e Ctrl+C para encerrar o servidor. |
+| Build e publicação | Esclarece que não há compilação nem npm run build. HTML, CSS, JavaScript e imagens são servidos diretamente; a publicação estática usa GitHub Pages a partir da branch main. |
+| Executar os testes | Apresenta npm ci, npx playwright install chromium, npm test e npm run test:ui. Explica os testes Playwright, o servidor Python na porta 8765 e os cenários de navegação, formulário e responsividade. |
+| Estratégia de branches | Documenta o GitFlow adotado nesta etapa: main para publicação, develop para integração, feature/* para melhorias e release/1.0.1 para entrega. Explica o uso futuro de hotfix/* e a revisão individual. |
+| Commits e releases | Explica o padrão type(scope): descrição e o versionamento MAJOR, MINOR e PATCH. Registra a tag anotada v1.0.1 e justifica o incremento PATCH pelas correções compatíveis de navegação. |
+| Registros da Experiência Prática IV | Reúne links de issues, milestone, pull requests e release no GitHub, além das evidências de 32 testes Playwright em Chromium nos perfis desktop e celular e dos limites da verificação de acessibilidade. |
+
+### Documentação 2 — Instalação local e práticas de versionamento
+
+Copie apenas o conteúdo do bloco para o campo de resposta (até 1.000 caracteres).
+
+```text
+Documentei os pré-requisitos: Git, Python 3 e navegador; para testes, Node.js 20 ou superior e npm. Primeiro, executar git clone https://github.com/rita-moura/desenvolvimento-front-end-para-web.git e entrar em desenvolvimento-front-end-para-web. Na raiz, iniciar python3 -m http.server 8001 --bind 127.0.0.1 --directory Experiencias-Praticas e abrir http://127.0.0.1:8001/html/index.html. Ctrl+C encerra o servidor. Para testar, em outro terminal na raiz, executar cd Experiencias-Praticas, npm ci, npx playwright install chromium e npm test, nessa ordem. O site é estático e não exige build. Sobre versionamento, descrevi GitFlow com main, develop, feature/* e release/*; hotfix/* ficou previsto para urgências. Registrei commits no padrão type(scope): descrição, versionamento MAJOR/MINOR/PATCH e a tag v1.0.1. Incluí links de issues, milestone, pull requests e release, informando que a revisão foi individual, com inspeção e testes.
+```
+
+### Acessibilidade 1 — Alterações semânticas e WAI-ARIA
+
+Adicione cada linha como um registro separado. Elementos até 100 caracteres; justificativas até 300. As entradas descrevem recursos presentes no código atual.
+
+| Elemento modificado ou tag implementada | Justificação e impacto na acessibilidade |
+| --- | --- |
+| header, nav, main e footer — landmarks | Organizei as quatro páginas com cabeçalho, navegação, conteúdo principal e rodapé semânticos. Esses marcos identificam as regiões do documento e facilitam a navegação por leitores de tela, sem depender de divs genéricas ou de roles redundantes. |
+| nav com aria-label e links com aria-current | Nomeei o menu como Navegação principal e a navegação interna de projetos como Nesta página usando aria-label. Apliquei aria-current="page" ao link da página atual, permitindo distinguir as navegações e identificar a localização no site. |
+| main id="conteudo" e link Pular para o conteúdo | Incluí um link no início de cada página que aponta para o conteúdo principal. Ele fica visível ao receber foco e permite a quem usa teclado saltar o menu repetido para acessar diretamente o conteúdo. |
+| h1, h2 e h3 — hierarquia de títulos | Usei um h1 por página, h2 para assuntos principais e h3 para subdivisões. A hierarquia expressa a organização do conteúdo e facilita localizar assuntos pela navegação de títulos dos leitores de tela. |
+| section, article e aside com aria-labelledby | Associei seções e o aviso complementar aos títulos por aria-labelledby. Nos cards de projetos, o JavaScript atribui IDs aos títulos e os relaciona aos articles, identificando cada conteúdo independente por seu próprio nome. |
+| button do menu com aria-expanded e aria-controls | Implementei um botão nativo para abrir o menu móvel. aria-controls aponta para menu-principal e aria-expanded é atualizado pelo JavaScript conforme a abertura. O atributo hidden acompanha a visibilidade do menu, mantendo estado e apresentação coerentes. |
+| details e summary — submenu de projetos | Usei details e summary para um submenu operável por teclado e funcional sem JavaScript. O summary contém o texto acessível Explorar projetos; a seta decorativa usa aria-hidden="true". O estado de abertura é fornecido pela semântica nativa. |
+| Menu e submenu — gerenciamento de foco | Ao pressionar Escape, o JavaScript fecha o submenu ou menu móvel e devolve o foco ao acionador correspondente. Ao mudar o breakpoint, transfere o foco quando o controle ativo seria ocultado. O CSS mantém indicação de foco visível. |
+| label, fieldset e legend — formulário | Associei rótulos aos campos por for/id e envolvi o checkbox em label. Agrupei dados pessoais, endereço e interesse em fieldsets com legends, fornecendo nomes e contexto para compreender os controles durante o preenchimento. |
+| form e campos com aria-describedby | Associei o formulário à orientação inicial e os campos de CPF, telefone e CEP às instruções de formato. O JavaScript acrescenta o ID da mensagem de erro a aria-describedby, preservando a ajuda existente para cada campo. |
+| Campos com aria-invalid e validação nativa | Atualizo aria-invalid conforme a validade do campo e mantenho required, tipos HTML, pattern e Constraint Validation API. As mensagens explicam o erro em texto, e a validação nativa permanece ativa para bloquear o envio inválido e orientar a correção. |
+| Mensagens de erro com aria-live="polite" | Criei mensagens de erro junto aos campos com aria-live="polite". O JavaScript atualiza seu texto durante a validação, permitindo anunciar mudanças aos leitores de tela sem exigir que o usuário procure visualmente cada mensagem. |
+| Seletor de tema com label e select nativos | Implementei um select com label Tema e opções Sistema, Claro, Escuro e Alto contraste. O controle nativo expõe seu nome e a opção selecionada às tecnologias assistivas, mantendo o foco durante a troca e dispensando roles redundantes. |
+| Resultado do cadastro com role="status" | Defini role="status" no elemento de resultado do cadastro. O JavaScript informa quando é necessário revisar campos ou quando a validação termina com sucesso, permitindo comunicar o feedback sem deslocar o foco para a mensagem. |
+
+### Acessibilidade 2 — Componentes, teclado e leitores de tela
+
+Adicione cada linha como um componente separado. Nomes até 50 caracteres; descrições até 300.
+
+| Nome do componente | Descrição do ajuste ou problema retificado |
+| --- | --- |
+| Link Pular para o conteúdo | Incluí o link antes do cabeçalho e o tornei visível ao receber foco. Com Tab e Enter, o usuário acessa o conteúdo principal sem percorrer todos os links do menu, reduzindo a repetição na navegação por teclado. |
+| Menu principal e link da página inicial | Usei links nativos na ordem do HTML e o nome da ONG como acesso à página inicial. aria-label identifica a navegação e aria-current="page" indica a página ativa. A sequência de Tab acompanha os controles sem tabindex positivo. |
+| Botão do menu móvel | Usei button nativo, com aria-controls e aria-expanded atualizado ao abrir ou fechar o menu. O menu fechado recebe hidden, retirando seus links da sequência de Tab. Escape fecha o menu aberto e devolve o foco ao botão. |
+| Submenu Projetos sociais | Usei details e summary, acionáveis por teclado. O acionador recebeu o nome acessível Explorar projetos, e a seta decorativa usa aria-hidden. Escape fecha o submenu e devolve o foco ao summary; sem JavaScript, a abertura nativa continua disponível. |
+| Menu ao mudar o tamanho da tela | Corrigi a perda de foco quando a mudança de breakpoint ocultava o controle ativo. O script direciona o foco ao botão móvel, ao primeiro link ou ao summary, conforme o caso, preservando o foco externo ao menu. Há testes de regressão para esses cenários. |
+| Indicadores visuais de foco | Defini :focus-visible com outline de 3px e afastamento de 4px para destacar o elemento ativo. Campos e botões também possuem estilos de foco, permitindo acompanhar visualmente o percurso do teclado sem depender do estado hover. |
+| Campos e grupos do formulário de cadastro | Associei labels aos campos e organizei grupos com fieldset e legend. Mantive controles HTML nativos na ordem do documento. aria-describedby vincula instruções e erros aos campos, oferecendo contexto para o preenchimento com teclado e leitores de tela. |
+| Seletor de tema | Incluí um select nativo com label Tema, disponível fora do menu móvel recolhível. Permite escolher Sistema, Claro, Escuro ou Alto contraste por teclado, mantém o foco após a mudança e recebe um contorno visível adaptado à paleta. |
+| Validação e mensagens do cadastro | Mantive a validação nativa para bloquear o envio inválido e focar o primeiro campo com erro. aria-invalid indica inconsistências, aria-live="polite" sinaliza atualizações das mensagens e role="status" identifica o resultado da validação sem deslocar o foco. |
+
+**Verificação:** os ajustes foram conferidos no HTML, CSS e JavaScript. A suíte Playwright contém cenários de teclado e foco; não há registro de teste manual com NVDA ou VoiceOver que confirme a verbalização nesses leitores.
+
+### Acessibilidade 3 — Modos de cor e estratégia de contraste
+
+Copie apenas o conteúdo do bloco para o campo de resposta (até 1.500 caracteres).
+
+```text
+Implementei os temas Claro, Escuro e Alto contraste nas quatro páginas, selecionados pelo controle Tema no cabeçalho. O select nativo tem label, funciona por teclado e mantém o foco ao trocar a aparência. A opção Sistema acompanha prefers-color-scheme e prefers-contrast, priorizando contraste aumentado. Uma escolha manual prevalece e é salva em localStorage na chave lacos-tema, sendo restaurada ao recarregar ou navegar. Voltar a Sistema remove a preferência salva. Se o armazenamento estiver bloqueado, a troca continua funcionando na página atual. O arquivo tema.js aplica data-tema ao html antes do CSS; variáveis compartilhadas definem textos, fundos, links, campos, botões, foco e feedback. No tema escuro, usei superfícies verde-escuras e textos claros. No alto contraste, adotei fundo preto, texto branco, links amarelos sublinhados e foco ciano. As mensagens de erro e sucesso também têm paletas próprias e texto explicativo. Sem JavaScript, media queries acompanham o sistema; forced-colors preserva as cores forçadas do dispositivo. Validei 48 medições com Playwright/Chromium e a fórmula WCAG: 42 pares de texto/fundo acima de 4,5:1 e seis medições de borda/foco do seletor acima de 3:1. Os menores contrastes de texto foram 6,02:1, 8,72:1 e 12,44:1 nos temas claro, escuro e alto contraste. Os 50 testes passaram em desktop e celular.
+```
+
+### Acessibilidade 4 — Elementos visuais e contraste verificado
+
+Adicione cada linha como um registro separado. Elementos até 100 caracteres; cores e rácio até 150; ferramenta até 100. Todos os registros abaixo medem texto sobre seu fundo.
+
+| Elemento | Cores utilizadas e rácio obtido | Ferramenta de validação utilizada |
+| --- | --- | --- |
+| Claro — Texto principal | Texto #193b32; fundo #f4f6f0; contraste 11,26:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Claro — Texto de apresentação | Texto #486358; fundo #f4f6f0; contraste 6,02:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Claro — Links do menu | Texto #205c4a; fundo #ffffff; contraste 7,80:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Claro — Seletor de tema | Texto #193b32; fundo #ffffff; contraste 12,26:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Claro — Botão de cadastro | Texto #ffffff; fundo #205c4a; contraste 7,80:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Claro — Botão de cadastro em hover | Texto #ffffff; fundo #193b32; contraste 12,26:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Claro — Erro junto ao campo | Texto #a31515; fundo #ffffff; contraste 7,85:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Claro — Resultado com erro | Texto #7d1515; fundo #fbe8e8; contraste 8,95:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Claro — Resultado com sucesso | Texto #155c3c; fundo #e4f4ea; contraste 7,01:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Escuro — Texto principal | Texto #edf5ef; fundo #101c17; contraste 15,75:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Escuro — Texto de apresentação | Texto #bed2c5; fundo #101c17; contraste 11,01:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Escuro — Links do menu | Texto #8be0b5; fundo #192c24; contraste 9,41:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Escuro — Seletor de tema | Texto #edf5ef; fundo #192c24; contraste 13,25:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Escuro — Botão de cadastro | Texto #10231c; fundo #8be0b5; contraste 10,50:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Escuro — Botão de cadastro em hover | Texto #10231c; fundo #edf5ef; contraste 14,78:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Escuro — Erro junto ao campo | Texto #ffb4b4; fundo #192c24; contraste 8,72:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Escuro — Resultado com erro | Texto #ffd3d3; fundo #482323; contraste 10,07:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Escuro — Resultado com sucesso | Texto #b6f2cc; fundo #163d2b; contraste 9,54:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Alto contraste — Texto principal | Texto #ffffff; fundo #000000; contraste 21,00:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Alto contraste — Texto de apresentação | Texto #ffffff; fundo #000000; contraste 21,00:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Alto contraste — Links do menu | Texto #ffff00; fundo #000000; contraste 19,56:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Alto contraste — Seletor de tema | Texto #ffffff; fundo #000000; contraste 21,00:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Alto contraste — Botão de cadastro | Texto #000000; fundo #ffff00; contraste 19,56:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Alto contraste — Botão de cadastro em hover | Texto #000000; fundo #ffffff; contraste 21,00:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Alto contraste — Erro junto ao campo | Texto #ffb4b4; fundo #000000; contraste 12,44:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Alto contraste — Resultado com erro | Texto #ffffff; fundo #000000; contraste 21,00:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+| Alto contraste — Resultado com sucesso | Texto #ffffff; fundo #000000; contraste 21,00:1. | Playwright/Chromium + script JavaScript (fórmula WCAG) |
+
+**Evidências:** [48 medições com precisão completa](validacao/contraste.json) e [script de verificação](validacao/verificar-contraste.cjs). O relatório também inclui campos, instruções, rodapé, link ativo e contraste não textual do seletor. Para reproduzir, com as dependências e o Chromium instalados, execute na raiz:
+
+```bash
+node Experiencias-Praticas/validacao/verificar-contraste.cjs
+```
+
+O script lê estilos computados em Chromium e calcula (Lmaior + 0,05) / (Lmenor + 0,05), seguindo a [referência de contraste da WCAG](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html). A comparação usa valores completos; a tabela exibe duas casas decimais. A borda do seletor obteve 3,86:1, 6,60:1 e 21:1; o foco obteve 5,27:1, 10,21:1 e 16,75:1, respectivamente nos temas claro, escuro e alto contraste. Essas seis medições não textuais foram comparadas com 3:1.
+
+**Verificação funcional:** 50 testes Playwright aprovados em Chromium, nos perfis desktop e celular. As medições cobrem a amostra documentada; não equivalem a uma auditoria completa WCAG ou a testes manuais com NVDA/VoiceOver. As imagens mantêm suas cores originais.

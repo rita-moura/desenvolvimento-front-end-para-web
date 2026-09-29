@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cadastro | Laços da Comunidade</title>
   <script src="../js/cadastro.js" defer></script>
+  <script src="../js/tema.js"></script>
   <link rel="stylesheet" href="../css/estilos.css">
   <script src="../js/navegacao.js" defer></script>
 </head>
@@ -28,6 +29,15 @@
         </details></li>
       </ul>
     </nav>
+    <div class="preferencias-tema" hidden>
+      <label for="tema">Tema</label>
+      <select id="tema" name="tema">
+        <option value="sistema">Sistema</option>
+        <option value="claro">Claro</option>
+        <option value="escuro">Escuro</option>
+        <option value="contraste">Alto contraste</option>
+      </select>
+    </div>
   </header>
   <main id="conteudo">
     <h1>Cadastro de participação</h1>
