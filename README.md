@@ -11,13 +11,14 @@ Site de uma ONG fictícia para praticar estrutura semântica, navegação e hier
 - **JavaScript puro:** menu, máscaras, validação, templates de projetos e rascunho em `localStorage` com JSON.
 - **Python 3:** servidor HTTP para execução local e para os testes.
 - **Node.js, npm e Playwright:** instalação das dependências de desenvolvimento e testes automatizados em Chromium.
+- **esbuild e html-minifier-terser:** build de produção com minificação de JavaScript, CSS e HTML.
 - **Git e GitHub:** versionamento, issues, pull requests e releases; GitHub Pages para publicação estática.
 
 ## Pré-requisitos
 
 Para clonar o repositório, instale Git. Para executar pelo servidor local documentado, tenha Python 3 e um navegador atualizado. A aplicação não exige dependências npm para funcionar.
 
-Para executar os testes, também são necessários Node.js **20 ou superior**, npm e o Chromium instalado pelo Playwright. A versão mínima do Node.js corresponde ao requisito das dependências registradas em `Experiencias-Praticas/package-lock.json`.
+Para gerar a build, são necessários Node.js **20 ou superior** e npm. Para os testes, também é necessário o Chromium instalado pelo Playwright. A versão mínima do Node.js corresponde ao requisito das dependências registradas em `Experiencias-Praticas/package-lock.json`.
 
 ## Organização
 
@@ -28,9 +29,12 @@ Experiencias-Praticas/
 ├── js/                  # navegação, temas, cadastro e projetos
 ├── imagens/             # ilustrações locais
 ├── validacao/           # evidências de validação
+├── scripts/build.mjs    # build de produção e relatório de redução
+├── dist/                # saída gerada; ignorada pelo Git
 ├── package.json
 ├── playwright.config.js
 ├── site.spec.js
+├── playwright.producao.config.js
 └── respostas.md
 ```
 
@@ -143,7 +147,7 @@ O cadastro salva um rascunho demonstrativo em `localStorage` com `JSON.stringify
 
 ### Dependências externas
 
-A aplicação usa Vanilla JavaScript e não importa frameworks ou bibliotecas por CDN. `@playwright/test` é uma dependência de desenvolvimento usada somente nos testes automatizados; não é carregada pelo site.
+A aplicação usa Vanilla JavaScript e não importa frameworks ou bibliotecas por CDN. `@playwright/test`, `esbuild` e `html-minifier-terser` são dependências de desenvolvimento para testes e build; não são carregadas pelo site.
 
 
 ### Modularização JavaScript
@@ -183,7 +187,31 @@ python3 -m http.server 8001 --bind 127.0.0.1 --directory Experiencias-Praticas
 
 ## Build e publicação
 
-Não há etapa de compilação nem comando `npm run build`: o projeto usa HTML, CSS, JavaScript e imagens servidos diretamente. O GitHub Pages publica a versão da branch `main`, acessível pelo link no início deste README. Para executar localmente, basta seguir os passos da seção anterior.
+A aplicação continua estática e multipágina. A build de produção usa [esbuild](https://esbuild.github.io/api/#minify) para JavaScript/CSS e [html-minifier-terser](https://github.com/terser/html-minifier-terser) para HTML. Na raiz do repositório, execute:
+
+```bash
+cd Experiencias-Praticas
+npm ci
+npm run build
+npm run preview
+```
+
+Abra <http://127.0.0.1:8002/html/index.html>. `Ctrl+C` encerra a prévia. O comando `build` recria somente `Experiencias-Praticas/dist/`; os fontes permanecem intactos. A saída contém `html/`, `css/`, `js/` e `imagens/`, com os mesmos caminhos relativos. As imagens são copiadas sem alteração. Testes, dependências, respostas e relatórios ficam fora da saída.
+
+A configuração está em `scripts/build.mjs`: entradas separadas, `bundle: true`, `minify: true`, formato IIFE para scripts clássicos e alvos Chrome 109, Firefox 115 e Safari 15.4. O HTML tem comentários removidos e espaços reduzidos de forma conservadora, preservando atributos, tags, templates e a ordem de carregamento. `tema.js` continua antes do CSS; os demais scripts mantêm `defer`.
+
+A última medição reduziu **45.243 para 35.455 bytes (21,63%)** nos nove arquivos de código: HTML **12,48%**, CSS **20,93%** e JavaScript **38,39%**. A comparação usa bytes UTF-8, sem gzip/Brotli e sem imagens. O relatório [minificacao.json](Experiencias-Praticas/validacao/minificacao.json) é regenerado na build e contém valores por arquivo, totais e hashes SHA-256.
+
+Para validar a saída de produção, com o Chromium instalado:
+
+```bash
+npm run test:build
+node validacao/verificar-contraste.cjs --build
+```
+
+`test:build` gera a build e executa a mesma suíte, servindo exclusivamente `dist/` na porta 8765. Foram aprovados **50 testes** nos perfis desktop/celular e **48 medições de contraste** na saída minificada. As evidências estão em [validacao/minificacao.md](Experiencias-Praticas/validacao/minificacao.md) e [contraste-producao.json](Experiencias-Praticas/validacao/contraste-producao.json).
+
+O GitHub Pages permanece com a publicação existente a partir de `main`. Gerar `dist/` localmente não publica uma nova versão: a saída precisa ser enviada ao destino de hospedagem na etapa de deploy. `dist/` é ignorada pelo Git e pode ser recriada com `npm ci` e `npm run build`.
 
 ## Executar os testes
 
@@ -196,7 +224,7 @@ npx playwright install chromium
 npm test
 ```
 
-Para abrir a interface interativa do Playwright, use `npm run test:ui`. Os testes iniciam automaticamente um servidor local na porta 8765. O site publicado não precisa de Node.js; Node.js e Playwright são necessários apenas para os testes.
+Para abrir a interface interativa do Playwright, use `npm run test:ui`. Os testes iniciam automaticamente um servidor local na porta 8765. O site publicado não precisa de Node.js; Node.js é usado para build e testes, e Playwright para os testes.
 
 
 ## Estratégia de branches
@@ -230,4 +258,4 @@ A tag anotada **v1.0.1** identifica a primeira release publicada. O projeto já 
 
 O nome **Laços da Comunidade** leva à página inicial. A ordem do menu é **Participe → Cadastro → Projetos sociais ▾**. A seta abre o submenu; o link Projetos sociais abre a página completa. O acionador tem nome acessível, foco visível e área de toque de 44 × 44px. O elemento `details` mantém o submenu funcional sem JavaScript.
 
-Os **32 testes Playwright** passaram em Chromium, com perfis desktop e celular. As evidências estão em [validacao/epiv.md](Experiencias-Praticas/validacao/epiv.md). Isso não substitui uma auditoria completa WCAG 2.1 AA. A aplicação permanece multipágina e não exige etapa de build: o GitHub Pages serve HTML, CSS, JavaScript e imagens diretamente da branch `main`.
+Os **32 testes Playwright** passaram em Chromium, com perfis desktop e celular. As evidências estão em [validacao/epiv.md](Experiencias-Praticas/validacao/epiv.md). Isso não substitui uma auditoria completa WCAG 2.1 AA. Essa entrega usava os fontes diretamente no GitHub Pages. A etapa posterior de otimização acrescentou a build de produção descrita acima, preservando a arquitetura multipágina.

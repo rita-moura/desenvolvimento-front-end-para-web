@@ -4,6 +4,8 @@ const { chromium } = require('@playwright/test');
 const { resolve } = require('node:path');
 const { pathToFileURL } = require('node:url');
 const { writeFileSync } = require('node:fs');
+const producao = process.argv.includes('--build');
+const raizSite = resolve(__dirname, producao ? '../dist' : '..');
 function luminancia(rgb) {
   const c = rgb.map(v => v / 255).map(v => v <= 0.04045 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
   return c[0] * 0.2126 + c[1] * 0.7152 + c[2] * 0.0722;
@@ -34,7 +36,7 @@ function hex(rgb) { return '#' + rgb.map(v => v.toString(16).padStart(2, '0')).j
     }
     for (tema of ['claro', 'escuro', 'contraste']) {
       async function abrir(pagina) {
-        await page.goto(pathToFileURL(resolve(__dirname, `../html/${pagina}.html`)).href);
+        await page.goto(pathToFileURL(resolve(raizSite, `html/${pagina}.html`)).href);
         await page.getByLabel('Tema', { exact: true }).selectOption(tema);
         await page.mouse.move(0, 0);
         await page.waitForTimeout(250);
@@ -84,12 +86,13 @@ function hex(rgb) { return '#' + rgb.map(v => v.toString(16).padStart(2, '0')).j
       await page.evaluate(() => localStorage.removeItem('lacos-cadastro-rascunho'));
     }
     const report = {
+      versao: producao ? 'build minificada (dist)' : 'fontes',
       ferramenta: 'Playwright/Chromium + script JavaScript (fórmula WCAG)',
       referencia: 'https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html',
       escopo: 'Três temas; textos (4,5:1), borda e foco do seletor (3:1). Cores computadas com fundos opacos e validação real do formulário. Não é auditoria integral.',
       medicoes
     };
-    writeFileSync(resolve(__dirname, 'contraste.json'), JSON.stringify(report, null, 2) + '\n');
+    writeFileSync(resolve(__dirname, producao ? 'contraste-producao.json' : 'contraste.json'), JSON.stringify(report, null, 2) + '\n');
     for (const t of ['claro', 'escuro', 'contraste']) {
       const grupo = medicoes.filter(m => m.tema === t);
       console.log(t, grupo.length, 'medições;', grupo.filter(m => !m.aprovado));

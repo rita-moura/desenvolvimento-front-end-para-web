@@ -464,7 +464,7 @@ Adicione cada linha como uma seção separada. Nomes até 100 caracteres; descri
 | Como ler o HTML | Explica tags semânticas, hierarquia h1, h2 e h3, texto alternativo e recursos de acessibilidade, como aria-current, aria-labelledby e o link para pular ao conteúdo principal. |
 | Estado atual do projeto | Descreve a arquitetura multipágina e os comportamentos JavaScript: templates, eventos, validação e persistência em localStorage. Explica a separação dos scripts e registra que a migração para SPA ainda não foi implementada. |
 | Rodar localmente | Documenta git clone, entrada na pasta e execução de python3 -m http.server 8001 --bind 127.0.0.1 --directory Experiencias-Praticas. Informa o endereço local para abrir index.html e Ctrl+C para encerrar o servidor. |
-| Build e publicação | Esclarece que não há compilação nem npm run build. HTML, CSS, JavaScript e imagens são servidos diretamente; a publicação estática usa GitHub Pages a partir da branch main. |
+| Build e publicação | Documenta npm run build com esbuild e html-minifier-terser, a saída dist, npm run preview e os testes da produção. Registra a redução medida e distingue a build local da publicação no GitHub Pages. |
 | Executar os testes | Apresenta npm ci, npx playwright install chromium, npm test e npm run test:ui. Explica os testes Playwright, o servidor Python na porta 8765 e os cenários de navegação, formulário e responsividade. |
 | Estratégia de branches | Documenta o GitFlow adotado nesta etapa: main para publicação, develop para integração, feature/* para melhorias e release/1.0.1 para entrega. Explica o uso futuro de hotfix/* e a revisão individual. |
 | Commits e releases | Explica o padrão type(scope): descrição e o versionamento MAJOR, MINOR e PATCH. Registra a tag anotada v1.0.1 e justifica o incremento PATCH pelas correções compatíveis de navegação. |
@@ -475,7 +475,7 @@ Adicione cada linha como uma seção separada. Nomes até 100 caracteres; descri
 Copie apenas o conteúdo do bloco para o campo de resposta (até 1.000 caracteres).
 
 ```text
-Documentei os pré-requisitos: Git, Python 3 e navegador; para testes, Node.js 20 ou superior e npm. Primeiro, executar git clone https://github.com/rita-moura/desenvolvimento-front-end-para-web.git e entrar em desenvolvimento-front-end-para-web. Na raiz, iniciar python3 -m http.server 8001 --bind 127.0.0.1 --directory Experiencias-Praticas e abrir http://127.0.0.1:8001/html/index.html. Ctrl+C encerra o servidor. Para testar, em outro terminal na raiz, executar cd Experiencias-Praticas, npm ci, npx playwright install chromium e npm test, nessa ordem. O site é estático e não exige build. Sobre versionamento, descrevi GitFlow com main, develop, feature/* e release/*; hotfix/* ficou previsto para urgências. Registrei commits no padrão type(scope): descrição, versionamento MAJOR/MINOR/PATCH e a tag v1.0.1. Incluí links de issues, milestone, pull requests e release, informando que a revisão foi individual, com inspeção e testes.
+Documentei os pré-requisitos: Git, Python 3 e navegador; para testes, Node.js 20 ou superior e npm. Primeiro, executar git clone https://github.com/rita-moura/desenvolvimento-front-end-para-web.git e entrar em desenvolvimento-front-end-para-web. Na raiz, iniciar python3 -m http.server 8001 --bind 127.0.0.1 --directory Experiencias-Praticas e abrir http://127.0.0.1:8001/html/index.html. Ctrl+C encerra o servidor. Para testar, em outro terminal na raiz, executar cd Experiencias-Praticas, npm ci, npx playwright install chromium e npm test, nessa ordem. Para produção, documentei npm run build. Sobre versionamento, descrevi GitFlow com main, develop, feature/* e release/*; hotfix/* ficou previsto para urgências. Registrei commits no padrão type(scope): descrição, versionamento MAJOR/MINOR/PATCH e a tag v1.0.1. Incluí links de issues, milestone, pull requests e release, informando que a revisão foi individual, com inspeção e testes.
 ```
 
 ### Acessibilidade 1 — Alterações semânticas e WAI-ARIA
@@ -568,3 +568,31 @@ node Experiencias-Praticas/validacao/verificar-contraste.cjs
 O script lê estilos computados em Chromium e calcula (Lmaior + 0,05) / (Lmenor + 0,05), seguindo a [referência de contraste da WCAG](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html). A comparação usa valores completos; a tabela exibe duas casas decimais. A borda do seletor obteve 3,86:1, 6,60:1 e 21:1; o foco obteve 5,27:1, 10,21:1 e 16,75:1, respectivamente nos temas claro, escuro e alto contraste. Essas seis medições não textuais foram comparadas com 3:1.
 
 **Verificação funcional:** 50 testes Playwright aprovados em Chromium, nos perfis desktop e celular. As medições cobrem a amostra documentada; não equivalem a uma auditoria completa WCAG ou a testes manuais com NVDA/VoiceOver. As imagens mantêm suas cores originais.
+
+---
+
+# Otimização e deploy para produção
+
+## Preparação e minificação de ficheiros
+
+Cada resposta abaixo respeita o limite de 1.000 caracteres do formulário.
+
+### Minificação 1 — Ferramenta de bundler e configuração
+
+```text
+Utilizei esbuild 0.28.2 como bundler de JavaScript e CSS, complementado por html-minifier-terser 7.2.0 para HTML. Configurei scripts/build.mjs com cinco entradas: css/estilos.css e os scripts cadastro.js, navegacao.js, projetos.js e tema.js. Ativei bundle e minify, com formato IIFE e alvos Chrome 109, Firefox 115 e Safari 15.4. O HTML recebe remoção de comentários e redução conservadora de espaços, preservando atributos, tags e caminhos. O comando npm run build recria dist com as pastas html, css, js e imagens; os fontes permanecem legíveis e as imagens são copiadas sem alteração. tema.js continua carregando antes do CSS, e os demais scripts preservam defer. As dependências estão fixadas no package.json e no lockfile. npm run preview serve a build local; npm run test:build executa os testes sobre dist. A build gera ainda validacao/minificacao.json com tamanhos, percentuais e hashes dos arquivos.
+```
+
+### Minificação 2 — Percentagem de redução e arquivos afetados
+
+```text
+A redução total medida foi de aproximadamente 21,63%: os nove arquivos passaram de 45.243 para 35.455 bytes, economizando 9.788 bytes. Os quatro HTML (index, projetos, participe e cadastro) passaram de 19.824 para 17.350 bytes, redução de 12,48%. css/estilos.css passou de 13.999 para 11.069 bytes, redução de 20,93%. Os quatro JavaScript passaram de 11.420 para 7.036 bytes, redução de 38,39%; individualmente: cadastro.js 37,87%, navegacao.js 44,80%, projetos.js 23,14% e tema.js 48,56%. O script calcula (1 - tamanho final / tamanho original) × 100 usando bytes UTF-8 reais dos fontes e da saída dist. Os valores completos e hashes SHA-256 estão em validacao/minificacao.json. A medição não inclui imagens, relatórios, dependências, o CSS antigo não utilizado nem compressão HTTP por gzip/Brotli; portanto, representa a redução dos arquivos de código, não do peso total do site.
+```
+
+### Minificação 3 — Preservação da lógica e desafios
+
+```text
+O principal cuidado foi preservar a ordem dos scripts: tema.js precisa aplicar a preferência antes do CSS, enquanto os demais dependem do DOM e mantêm defer. Gerei entradas separadas em formato IIFE para isolar variáveis e evitar colisões após renomeações internas. No HTML, usei redução conservadora de espaços, mantive atributos ARIA, IDs, templates e tags, evitando unir palavras ou quebrar seletores. Preservei os caminhos relativos de imagens, links, CSS e JavaScript e mantive os fontes originais para diagnóstico. Executei os 50 testes Playwright sobre dist em desktop e celular, cobrindo navegação, teclado, máscaras, validação, rascunho, temas e ausência de JavaScript; todos passaram. Repeti as 48 medições de contraste na build, também aprovadas. Assim, verifiquei os comportamentos existentes na saída minificada, sem presumir que gerar arquivos menores, por si só, garantiria o funcionamento.
+```
+
+**Evidências:** [configuração da build](scripts/build.mjs), [relatório de tamanhos](validacao/minificacao.json), [verificação da produção](validacao/minificacao.md) e [contraste da build](validacao/contraste-producao.json).

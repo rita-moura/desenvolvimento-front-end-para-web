@@ -1,0 +1,113 @@
+{
+  "ferramentas": {
+    "esbuild": "0.28.2",
+    "html-minifier-terser": "7.2.0"
+  },
+  "escopo": "Bytes UTF-8 dos quatro HTML, um CSS e quatro JS usados no site; sem gzip/Brotli. Imagens copiadas sem alteração e excluídas deste cálculo.",
+  "formula": "(1 - bytesMinificado / bytesOriginal) * 100",
+  "arquivos": [
+    {
+      "arquivo": "css/estilos.css",
+      "tipo": "css",
+      "bytesOriginal": 13999,
+      "bytesMinificado": 11069,
+      "reducaoPercentual": 20.930066433316664,
+      "sha256Original": "a48a7dd99bb4b77315f195e85e4636289da97e7d58b882b4f5e7bd1902c2e72c",
+      "sha256Minificado": "e5afced10f0502fff41ca945508616dd4ff331caa9bc9e128f165db874fe888f"
+    },
+    {
+      "arquivo": "html/cadastro.html",
+      "tipo": "html",
+      "bytesOriginal": 6383,
+      "bytesMinificado": 5758,
+      "reducaoPercentual": 9.791634027886575,
+      "sha256Original": "07237c064e3027453aff59467b491d9b6e171e46deffd116cdf3c1666b731c48",
+      "sha256Minificado": "1d80581585ba1d78dc01effcb81f442c3b56b5064d2266a939ad12a1f548fbb8"
+    },
+    {
+      "arquivo": "html/index.html",
+      "tipo": "html",
+      "bytesOriginal": 4448,
+      "bytesMinificado": 3633,
+      "reducaoPercentual": 18.322841726618712,
+      "sha256Original": "f4f850dd3fd32f36aae24dbb669f4afea9c0733bad5e6e155ab5e87f86ddd305",
+      "sha256Minificado": "f9b1ce4ff1da73a21634e8e92a373844584980cbd724462f7c77e2537ed10935"
+    },
+    {
+      "arquivo": "html/participe.html",
+      "tipo": "html",
+      "bytesOriginal": 3511,
+      "bytesMinificado": 3063,
+      "reducaoPercentual": 12.75989746510966,
+      "sha256Original": "e2f6e3675295cce09bce67bffeb2d83802cee42f2ca3a09c5837749185e4bef3",
+      "sha256Minificado": "d3d8fddee4fb99cabfe60a2d2dc5da4f09e8b2efa8fd0aa346afb6f3ee5b0237"
+    },
+    {
+      "arquivo": "html/projetos.html",
+      "tipo": "html",
+      "bytesOriginal": 5482,
+      "bytesMinificado": 4896,
+      "reducaoPercentual": 10.689529368843488,
+      "sha256Original": "366b474e1c456c49b5cb980fb4c24653fa25e7fccd57ac5ecdb8572b9f5a27ba",
+      "sha256Minificado": "4e2d9d33fa5d1686f65fef29b840fa3d128d67adead4e2b529b04d04f0eaeb05"
+    },
+    {
+      "arquivo": "js/cadastro.js",
+      "tipo": "js",
+      "bytesOriginal": 6198,
+      "bytesMinificado": 3851,
+      "reducaoPercentual": 37.86705388835108,
+      "sha256Original": "13971866f86b9ab6d1ac179cae68018f53c85f9cc7fe9e14ed3c8044adb624b8",
+      "sha256Minificado": "8815e1a897591409023fd33fea1eae248e8fce7c9021e1442822f06ad2a0a535"
+    },
+    {
+      "arquivo": "js/navegacao.js",
+      "tipo": "js",
+      "bytesOriginal": 1790,
+      "bytesMinificado": 988,
+      "reducaoPercentual": 44.80446927374302,
+      "sha256Original": "0b4b2e3bf4dca80528202e78d6dc3f619241b451ed377456a2aa89cc3eecd855",
+      "sha256Minificado": "34bb5df1c25f7cfe3ddb32a2184d79441736e4f69c2f519b753390a7b6d8b681"
+    },
+    {
+      "arquivo": "js/projetos.js",
+      "tipo": "js",
+      "bytesOriginal": 1698,
+      "bytesMinificado": 1305,
+      "reducaoPercentual": 23.144876325088337,
+      "sha256Original": "105feeebe1f052dac9aca253a1bce8d9dcae4d4abed5a97fbde1e36a5112d153",
+      "sha256Minificado": "c1b18c577a745c678395bb4bada7708020a71258bd9d4c6022922f954cb6f490"
+    },
+    {
+      "arquivo": "js/tema.js",
+      "tipo": "js",
+      "bytesOriginal": 1734,
+      "bytesMinificado": 892,
+      "reducaoPercentual": 48.55824682814303,
+      "sha256Original": "2a98a3db91d29f9ae484171e7fea63938d9e19e1d0a32de9e75617d79b79f620",
+      "sha256Minificado": "e48102e05664e2dc121cafaeebea63d701cf44027bd15e3fc66494e684362d67"
+    }
+  ],
+  "porTipo": {
+    "html": {
+      "bytesOriginal": 19824,
+      "bytesMinificado": 17350,
+      "reducaoPercentual": 12.479822437449561
+    },
+    "css": {
+      "bytesOriginal": 13999,
+      "bytesMinificado": 11069,
+      "reducaoPercentual": 20.930066433316664
+    },
+    "js": {
+      "bytesOriginal": 11420,
+      "bytesMinificado": 7036,
+      "reducaoPercentual": 38.388791593695274
+    }
+  },
+  "total": {
+    "bytesOriginal": 45243,
+    "bytesMinificado": 35455,
+    "reducaoPercentual": 21.63428596688991
+  }
+}
