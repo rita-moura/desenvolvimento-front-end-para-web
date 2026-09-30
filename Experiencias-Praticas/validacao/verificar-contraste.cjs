@@ -2,7 +2,7 @@
 // Fórmula: https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html
 const { chromium } = require('@playwright/test');
 const { resolve } = require('node:path');
-const { pathToFileURL } = require('node:url');
+const servir = require('./servidor-local.cjs');
 const { writeFileSync } = require('node:fs');
 const producao = process.argv.includes('--build');
 const raizSite = resolve(__dirname, producao ? '../dist' : '..');
@@ -12,6 +12,7 @@ function luminancia(rgb) {
 }
 function hex(rgb) { return '#' + rgb.map(v => v.toString(16).padStart(2, '0')).join(''); }
 (async () => {
+  const servidor = await servir(raizSite);
   const browser = await chromium.launch({ headless: true });
   try {
     const page = await browser.newPage({ viewport: { width: 1280, height: 900 }, colorScheme: 'light' });
@@ -36,7 +37,7 @@ function hex(rgb) { return '#' + rgb.map(v => v.toString(16).padStart(2, '0')).j
     }
     for (tema of ['claro', 'escuro', 'contraste']) {
       async function abrir(pagina) {
-        await page.goto(pathToFileURL(resolve(raizSite, `html/${pagina}.html`)).href);
+        await page.goto(`${servidor.url}/html/index.html${pagina === 'index' ? '' : `?pagina=${pagina}`}`);
         await page.getByLabel('Tema', { exact: true }).selectOption(tema);
         await page.mouse.move(0, 0);
         await page.waitForTimeout(250);
@@ -98,5 +99,5 @@ function hex(rgb) { return '#' + rgb.map(v => v.toString(16).padStart(2, '0')).j
       console.log(t, grupo.length, 'medições;', grupo.filter(m => !m.aprovado));
     }
     if (medicoes.some(m => !m.aprovado)) process.exitCode = 1;
-  } finally { await browser.close(); }
+  } finally { await browser.close(); await servidor.fechar(); }
 })().catch(error => { console.error(error); process.exitCode = 1; });

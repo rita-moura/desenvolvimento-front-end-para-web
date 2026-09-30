@@ -1,0 +1,90 @@
+name: Validar e publicar site
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    permissions:
+      contents: read
+      pages: read
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Experiencias-Praticas
+    steps:
+      - name: Obter código versionado
+        uses: actions/checkout@v6
+      - name: Configurar Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: Experiencias-Praticas/package-lock.json
+      - name: Configurar Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+      - name: Instalar dependências
+        run: npm ci
+      - name: Instalar Chromium e dependências do sistema
+        run: npx playwright install --with-deps chromium
+      - name: Testar fontes
+        run: npm test
+      - name: Gerar e testar build minificada
+        run: npm run test:build
+      - name: Verificar contraste e imagens da build
+        run: |
+          node validacao/verificar-contraste.cjs --build
+          node validacao/verificar-imagens.cjs
+      - name: Conferir código consolidado
+        run: |
+          npm run export:source
+          git diff --exit-code -- entrega/codigo-fonte-completo.txt
+      - name: Guardar evidências
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: evidencias-${{ github.run_id }}
+          path: |
+            Experiencias-Praticas/validacao/minificacao.json
+            Experiencias-Praticas/validacao/contraste-producao.json
+            Experiencias-Praticas/validacao/imagens.json
+            Experiencias-Praticas/test-results/
+      - name: Preparar site com endereço existente
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: npm run pages:prepare
+      - name: Configurar GitHub Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+      - name: Enviar artefato de publicação
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: Experiencias-Praticas/.pages
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar build validada
+        id: deployment
+        uses: actions/deploy-pages@v4

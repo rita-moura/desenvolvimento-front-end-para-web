@@ -1,30 +1,202 @@
-<!-- Arquivo: html/cadastro.html -->
+Laços da Comunidade — código final da aplicação e automação
+Repositório: https://github.com/rita-moura/desenvolvimento-front-end-para-web
+Os separadores indicam arquivos independentes; este texto não é um único HTML.
+Testes, verificadores, PNG, WebP e package-lock.json acompanham o repositório; os binários não são incorporados neste campo textual.
+
+============================================================
+ARQUIVO: html/index.html
+============================================================
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cadastro | Laços da Comunidade</title>
-  <script src="../js/cadastro.js" defer></script>
-  <link rel="stylesheet" href="../estilos.css">
+  <meta name="description" content="Conheça a ONG fictícia Laços da Comunidade e suas iniciativas sociais.">
+  <title>Início | Laços da Comunidade</title>
+  <script src="../js/tema.js"></script>
+  <link rel="stylesheet" href="../css/estilos.css">
+  <script type="module" src="../js/app.js"></script>
 </head>
 <body>
-  <a href="#conteudo">Pular para o conteúdo</a>
+  <a href="#app">Pular para o conteúdo</a>
+  <!-- header reúne a identificação e a navegação principal do site. -->
   <header>
-    <p>Laços da Comunidade</p>
-    <nav aria-label="Navegação principal">
+    <a data-rota="inicio" class="marca" href="index.html" aria-current="page">Laços da Comunidade</a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu-principal" hidden><span aria-hidden="true">☰</span> Menu</button>
+    <nav id="menu-principal" aria-label="Navegação principal">
       <ul>
-        <li><a href="index.html">Início</a></li>
-        <li><a href="projetos.html">Projetos sociais</a></li>
-        <li><a href="participe.html">Participe</a></li>
-        <li><a href="cadastro.html" aria-current="page">Cadastro</a></li>
+        <li><a data-rota="participe" href="index.html?pagina=participe">Participe</a></li>
+        <li><a data-rota="cadastro" href="index.html?pagina=cadastro">Cadastro</a></li>
+        <li class="nav-projetos"><a data-rota="projetos" href="index.html?pagina=projetos">Projetos sociais</a><details class="submenu">
+          <summary title="Explorar projetos"><span class="sr-only">Explorar projetos</span><svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="m4 6 4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></summary>
+          <ul class="submenu-lista">
+            <li><a href="index.html?pagina=projetos#aprender">Aprender juntos</a></li>
+            <li><a href="index.html?pagina=projetos#leitura">Leitura para todos</a></li>
+            <li><a href="index.html?pagina=projetos#voluntariado">Voluntariado</a></li>
+            <li><a href="index.html?pagina=projetos#doacoes">Doações</a></li>
+          </ul>
+        </details></li>
       </ul>
     </nav>
+    <div class="preferencias-tema" hidden>
+      <label for="tema">Tema</label>
+      <select id="tema" name="tema">
+        <option value="sistema">Sistema</option>
+        <option value="claro">Claro</option>
+        <option value="escuro">Escuro</option>
+        <option value="contraste">Alto contraste</option>
+      </select>
+    </div>
   </header>
-  <main id="conteudo">
+
+  <noscript><p class="aviso-sem-js">O conteúdo inicial está disponível. Ative o JavaScript para navegar entre projetos, participação e cadastro nesta aplicação.</p></noscript>
+
+  <!-- main identifica o conteúdo principal e exclusivo desta página. -->
+  <main id="app" tabindex="-1">
+    <h1>Juntos por uma comunidade mais acolhedora</h1>
+    <p>A Laços da Comunidade é uma ONG fictícia dedicada à educação, à convivência e ao apoio a famílias.</p>
+
+    <picture>
+      <source srcset="../imagens/leitura-comunitaria.svg" type="image/svg+xml">
+      <source srcset="../imagens/leitura-comunitaria.webp" type="image/webp">
+    <img src="../imagens/leitura-comunitaria.png"
+         alt="Livro aberto, símbolo das iniciativas de educação e leitura da ONG."
+         width="800" height="400" style="max-width: 100%; height: auto;">
+    </picture>
+
+    <!-- Cada section reúne um assunto e recebe um título descritivo. -->
+    <section aria-labelledby="sobre">
+      <h2 id="sobre">Quem somos</h2>
+      <p>Reunimos pessoas que desejam compartilhar conhecimentos e construir oportunidades na comunidade.</p>
+      <h3>Nossa missão</h3>
+      <p>Promover o acesso à educação e fortalecer os vínculos entre os moradores.</p>
+      <h3>Nossos valores</h3>
+      <ul>
+        <li>Respeito à diversidade.</li>
+        <li>Solidariedade nas ações cotidianas.</li>
+        <li>Transparência e responsabilidade.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="iniciativas">
+      <h2 id="iniciativas">Nossas iniciativas</h2>
+      <p>Os projetos oferecem apoio aos estudos e oportunidades de leitura para crianças, jovens e adultos.</p>
+      <a href="index.html?pagina=projetos">Conheça os projetos sociais</a>
+    </section>
+    <section aria-labelledby="contato">
+      <h2 id="contato">Entre em contato</h2>
+      <p>Dados fictícios para fins acadêmicos; não são canais reais de atendimento.</p>
+      <!-- address identifica as informações de contato da organização. -->
+      <address>
+        <p>Laços da Comunidade</p>
+        <p>E-mail: <a href="mailto:contato@lacos.example">contato@lacos.example</a></p>
+        <p>Endereço: Rua Exemplo, 100 — Bairro Comunidade, Cidade Exemplo.</p>
+      </address>
+    </section>
+  </main>
+
+  <template id="vista-projetos">
+
+    <h1>Projetos sociais</h1>
+    <p>Conheça as iniciativas que aproximam moradores e ampliam o acesso ao conhecimento.</p>
+    <nav aria-label="Nesta página">
+      <ul>
+        <li><a href="#aprender">Aprender juntos</a></li>
+        <li><a href="#leitura">Leitura para todos</a></li>
+        <li><a href="#voluntariado">Trabalho voluntário</a></li>
+        <li><a href="#doacoes">Campanhas de doação</a></li>
+      </ul>
+    </nav>
+
+    <section id="lista-projetos" class="lista-projetos" aria-label="Projetos disponíveis">
+      <template id="projeto-template">
+        <article class="card-projeto">
+          <h2 data-campo="titulo"></h2>
+          <p data-campo="descricao"></p>
+          <h3>Objetivo</h3>
+          <p data-campo="objetivo"></p>
+          <h3>Atividades</h3>
+          <ul data-campo="atividades"></ul>
+        </article>
+      </template>
+    </section>
+
+    <section aria-labelledby="voluntariado">
+      <h2 id="voluntariado">Trabalho voluntário</h2>
+      <p>Você pode compartilhar tempo e conhecimentos nas atividades dos projetos.</p>
+      <h3>Formas de atuação</h3>
+      <ul>
+        <li>Apoiar tarefas escolares no projeto Aprender juntos.</li>
+        <li>Conduzir rodas de leitura no projeto Leitura para todos.</li>
+        <li>Organizar livros e materiais educativos.</li>
+      </ul>
+      <h3>Como se envolver</h3>
+      <ol>
+        <li>Conheça os projetos e escolha uma atividade de seu interesse.</li>
+        <li>Defina os dias e horários em que poderia colaborar.</li>
+        <li>Em uma ONG real, converse com a equipe para combinar a participação e receber orientações.</li>
+      </ol>
+      <p><a href="index.html?pagina=participe">Conheça as orientações de participação</a>.</p>
+    </section>
+
+    <section aria-labelledby="doacoes">
+      <h2 id="doacoes">Campanhas de doação</h2>
+      <p>Neste exemplo acadêmico, as campanhas apoiam os dois projetos educativos. Não há arrecadação real de dinheiro ou materiais.</p>
+      <h3>Doação de materiais</h3>
+      <p>A campanha proposta reúne livros em bom estado, cadernos e lápis. Os materiais seriam separados e destinados às atividades de estudo e ao acervo comunitário.</p>
+      <h3>Contribuição financeira</h3>
+      <p>O apoio financeiro seria destinado à compra de materiais educativos e à manutenção das atividades de leitura e acompanhamento escolar.</p>
+      <ol>
+        <li>Conheça a finalidade da campanha e o projeto que deseja apoiar.</li>
+        <li>Em uma ONG real, consulte a equipe para confirmar os canais oficiais de doação.</li>
+        <li>Após contribuir, acompanhe a prestação de contas da campanha.</li>
+      </ol>
+      <h3>Organização e transparência</h3>
+      <p>No modelo proposto, a equipe identifica as necessidades, divulga a campanha, registra as contribuições e distribui os recursos. A prestação de contas informaria os valores arrecadados, os materiais recebidos e sua aplicação nos projetos.</p>
+      <p><a href="index.html#contato">Consulte a seção de contato demonstrativa da ONG</a>. Os dados são fictícios; este site não processa doações nem inscrições.</p>
+    </section>
+
+  </template>
+
+  <template id="vista-participe">
+
+    <h1>Participe da nossa comunidade</h1>
+    <p>Há diferentes maneiras de contribuir com as iniciativas apresentadas neste projeto.</p>
+
+    <section aria-labelledby="voluntariado">
+      <h2 id="voluntariado">Voluntariado</h2>
+      <p>Pessoas com diferentes experiências podem colaborar com as atividades educativas.</p>
+      <ul>
+        <li>Ajudar estudantes com suas tarefas.</li>
+        <li>Participar das rodas de leitura.</li>
+        <li>Organizar livros e materiais educativos.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="passos">
+      <h2 id="passos">Antes de participar</h2>
+      <ol>
+        <li>Conheça os <a href="index.html?pagina=projetos">projetos sociais</a>.</li>
+        <li>Escolha uma atividade de acordo com seus interesses.</li>
+        <li>Reflita sobre o tempo que você poderia dedicar à atividade.</li>
+      </ol>
+    </section>
+
+    <p><a href="index.html?pagina=cadastro">Experimente o formulário de cadastro</a>.</p>
+
+    <!-- aside contém uma observação complementar ao conteúdo principal. -->
+    <aside aria-labelledby="aviso">
+      <h2 id="aviso">Sobre esta demonstração</h2>
+      <p>Este site é um exercício de HTML5 semântico. Não há inscrições ou coleta de dados reais.</p>
+    </aside>
+
+  </template>
+
+  <template id="vista-cadastro">
+
     <h1>Cadastro de participação</h1>
-    <p id="orientacao">Exercício acadêmico: use apenas dados fictícios. Os dados não são enviados nem armazenados. Todos os campos são obrigatórios, exceto o complemento.</p>
-    <noscript><p>Ative o JavaScript para experimentar as máscaras e a validação demonstrativa.</p></noscript>
+    <p id="orientacao">Exercício acadêmico: use apenas dados fictícios. Os dados não são enviados; um rascunho pode ficar salvo apenas neste navegador. Todos os campos são obrigatórios, exceto o complemento.</p>
+
     <form aria-describedby="orientacao">
       <!-- Habilitado pelo script: impede envio acidental se o JavaScript estiver indisponível. -->
       <fieldset id="campos" disabled>
@@ -61,80 +233,8 @@
       </fieldset>
     </form>
     <p id="resultado" role="status"></p>
-  </main>
-  <footer><p>Laços da Comunidade — projeto acadêmico. Organização e ações fictícias.</p></footer>
-</body>
-</html>
 
-
-<!-- Arquivo: html/index.html -->
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Conheça a ONG fictícia Laços da Comunidade e suas iniciativas sociais.">
-  <title>Início | Laços da Comunidade</title>
-  <link rel="stylesheet" href="../estilos.css">
-</head>
-<body>
-  <a href="#conteudo">Pular para o conteúdo</a>
-  <!-- header reúne a identificação e a navegação principal do site. -->
-  <header>
-    <p>Laços da Comunidade</p>
-    <nav aria-label="Navegação principal">
-      <ul>
-        <li><a href="index.html" aria-current="page">Início</a></li>
-        <li><a href="projetos.html">Projetos sociais</a></li>
-        <li><a href="participe.html">Participe</a></li>
-        <li><a href="cadastro.html">Cadastro</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <!-- main identifica o conteúdo principal e exclusivo desta página. -->
-  <main id="conteudo">
-    <h1>Juntos por uma comunidade mais acolhedora</h1>
-    <p>A Laços da Comunidade é uma ONG fictícia dedicada à educação, à convivência e ao apoio a famílias.</p>
-
-    <picture>
-      <source srcset="../imagens/leitura-comunitaria.svg" type="image/svg+xml">
-      <source srcset="../imagens/leitura-comunitaria.webp" type="image/webp">
-    <img src="../imagens/leitura-comunitaria.png"
-         alt="Livro aberto, símbolo das iniciativas de educação e leitura da ONG."
-         width="800" height="400" style="max-width: 100%; height: auto;">
-    </picture>
-
-    <!-- Cada section reúne um assunto e recebe um título descritivo. -->
-    <section aria-labelledby="sobre">
-      <h2 id="sobre">Quem somos</h2>
-      <p>Reunimos pessoas que desejam compartilhar conhecimentos e construir oportunidades na comunidade.</p>
-      <h3>Nossa missão</h3>
-      <p>Promover o acesso à educação e fortalecer os vínculos entre os moradores.</p>
-      <h3>Nossos valores</h3>
-      <ul>
-        <li>Respeito à diversidade.</li>
-        <li>Solidariedade nas ações cotidianas.</li>
-        <li>Transparência e responsabilidade.</li>
-      </ul>
-    </section>
-
-    <section aria-labelledby="iniciativas">
-      <h2 id="iniciativas">Nossas iniciativas</h2>
-      <p>Os projetos oferecem apoio aos estudos e oportunidades de leitura para crianças, jovens e adultos.</p>
-      <a href="projetos.html">Conheça os projetos sociais</a>
-    </section>
-    <section aria-labelledby="contato">
-      <h2 id="contato">Entre em contato</h2>
-      <p>Dados fictícios para fins acadêmicos; não são canais reais de atendimento.</p>
-      <!-- address identifica as informações de contato da organização. -->
-      <address>
-        <p>Laços da Comunidade</p>
-        <p>E-mail: <a href="mailto:contato@lacos.example">contato@lacos.example</a></p>
-        <p>Endereço: Rua Exemplo, 100 — Bairro Comunidade, Cidade Exemplo.</p>
-      </address>
-    </section>
-  </main>
+  </template>
 
   <!-- footer apresenta informações de encerramento do site. -->
   <footer>
@@ -143,169 +243,1028 @@
 </body>
 </html>
 
-
-<!-- Arquivo: html/participe.html -->
+============================================================
+ARQUIVO: html/projetos.html
+============================================================
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Saiba como colaborar com as iniciativas da ONG fictícia Laços da Comunidade.">
-  <title>Participe | Laços da Comunidade</title>
-  <link rel="stylesheet" href="../estilos.css">
+  <title>Laços da Comunidade — endereço atualizado</title>
+  <noscript><meta http-equiv="refresh" content="0;url=index.html?pagina=projetos"></noscript>
 </head>
 <body>
-  <a href="#conteudo">Pular para o conteúdo</a>
-  <header>
-    <p>Laços da Comunidade</p>
-    <nav aria-label="Navegação principal">
-      <ul>
-        <li><a href="index.html">Início</a></li>
-        <li><a href="projetos.html">Projetos sociais</a></li>
-        <li><a href="participe.html" aria-current="page">Participe</a></li>
-        <li><a href="cadastro.html">Cadastro</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main id="conteudo">
-    <h1>Participe da nossa comunidade</h1>
-    <p>Há diferentes maneiras de contribuir com as iniciativas apresentadas neste projeto.</p>
-
-    <section aria-labelledby="voluntariado">
-      <h2 id="voluntariado">Voluntariado</h2>
-      <p>Pessoas com diferentes experiências podem colaborar com as atividades educativas.</p>
-      <ul>
-        <li>Ajudar estudantes com suas tarefas.</li>
-        <li>Participar das rodas de leitura.</li>
-        <li>Organizar livros e materiais educativos.</li>
-      </ul>
-    </section>
-
-    <section aria-labelledby="passos">
-      <h2 id="passos">Antes de participar</h2>
-      <ol>
-        <li>Conheça os <a href="projetos.html">projetos sociais</a>.</li>
-        <li>Escolha uma atividade de acordo com seus interesses.</li>
-        <li>Reflita sobre o tempo que você poderia dedicar à atividade.</li>
-      </ol>
-    </section>
-
-    <p><a href="cadastro.html">Experimente o formulário de cadastro</a>.</p>
-
-    <!-- aside contém uma observação complementar ao conteúdo principal. -->
-    <aside aria-labelledby="aviso">
-      <h2 id="aviso">Sobre esta demonstração</h2>
-      <p>Este site é um exercício de HTML5 semântico. Não há inscrições ou coleta de dados reais.</p>
-    </aside>
-  </main>
-
-  <footer>
-    <p>Laços da Comunidade — projeto acadêmico. Organização e ações fictícias.</p>
-  </footer>
+  <p><a href="index.html?pagina=projetos">Abrir esta seção na aplicação Laços da Comunidade</a>.</p>
+  <script>location.replace("index.html?pagina=projetos" + location.hash);</script>
 </body>
 </html>
 
-
-<!-- Arquivo: html/projetos.html -->
+============================================================
+ARQUIVO: html/participe.html
+============================================================
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Conheça os projetos sociais da ONG fictícia Laços da Comunidade.">
-  <title>Projetos sociais | Laços da Comunidade</title>
-  <link rel="stylesheet" href="../estilos.css">
+  <title>Laços da Comunidade — endereço atualizado</title>
+  <noscript><meta http-equiv="refresh" content="0;url=index.html?pagina=participe"></noscript>
 </head>
 <body>
-  <a href="#conteudo">Pular para o conteúdo</a>
-  <header>
-    <p>Laços da Comunidade</p>
-    <nav aria-label="Navegação principal">
-      <ul>
-        <li><a href="index.html">Início</a></li>
-        <li><a href="projetos.html" aria-current="page">Projetos sociais</a></li>
-        <li><a href="participe.html">Participe</a></li>
-        <li><a href="cadastro.html">Cadastro</a></li>
-      </ul>
-    </nav>
-  </header>
-
-  <main id="conteudo">
-    <h1>Projetos sociais</h1>
-    <p>Conheça as iniciativas que aproximam moradores e ampliam o acesso ao conhecimento.</p>
-    <nav aria-label="Nesta página">
-      <ul>
-        <li><a href="#aprender">Aprender juntos</a></li>
-        <li><a href="#leitura">Leitura para todos</a></li>
-        <li><a href="#voluntariado">Trabalho voluntário</a></li>
-        <li><a href="#doacoes">Campanhas de doação</a></li>
-      </ul>
-    </nav>
-
-    <!-- article faz sentido aqui porque cada projeto tem uma descrição independente. -->
-    <article aria-labelledby="aprender">
-      <h2 id="aprender">Aprender juntos</h2>
-      <p>Apoio aos estudos para crianças e adolescentes, com atividades de leitura e matemática.</p>
-      <h3>Objetivo</h3>
-      <p>Incentivar a autonomia e a confiança dos estudantes durante a aprendizagem.</p>
-      <h3>Atividades</h3>
-      <ul>
-        <li>Acompanhamento de tarefas escolares.</li>
-        <li>Jogos educativos em grupo.</li>
-      </ul>
-    </article>
-
-    <article aria-labelledby="leitura">
-      <h2 id="leitura">Leitura para todos</h2>
-      <p>Encontros de leitura e troca de livros para pessoas de todas as idades.</p>
-      <h3>Objetivo</h3>
-      <p>Ampliar o acesso aos livros e criar espaços para compartilhar histórias.</p>
-      <h3>Atividades</h3>
-      <ul>
-        <li>Rodas de leitura.</li>
-        <li>Organização de um acervo comunitário.</li>
-      </ul>
-    </article>
-
-    <section aria-labelledby="voluntariado">
-      <h2 id="voluntariado">Trabalho voluntário</h2>
-      <p>Você pode compartilhar tempo e conhecimentos nas atividades dos projetos.</p>
-      <h3>Formas de atuação</h3>
-      <ul>
-        <li>Apoiar tarefas escolares no projeto Aprender juntos.</li>
-        <li>Conduzir rodas de leitura no projeto Leitura para todos.</li>
-        <li>Organizar livros e materiais educativos.</li>
-      </ul>
-      <h3>Como se envolver</h3>
-      <ol>
-        <li>Conheça os projetos e escolha uma atividade de seu interesse.</li>
-        <li>Defina os dias e horários em que poderia colaborar.</li>
-        <li>Em uma ONG real, converse com a equipe para combinar a participação e receber orientações.</li>
-      </ol>
-      <p><a href="participe.html">Conheça as orientações de participação</a>.</p>
-    </section>
-
-    <section aria-labelledby="doacoes">
-      <h2 id="doacoes">Campanhas de doação</h2>
-      <p>Neste exemplo acadêmico, as campanhas apoiam os dois projetos educativos. Não há arrecadação real de dinheiro ou materiais.</p>
-      <h3>Doação de materiais</h3>
-      <p>A campanha proposta reúne livros em bom estado, cadernos e lápis. Os materiais seriam separados e destinados às atividades de estudo e ao acervo comunitário.</p>
-      <h3>Contribuição financeira</h3>
-      <p>O apoio financeiro seria destinado à compra de materiais educativos e à manutenção das atividades de leitura e acompanhamento escolar.</p>
-      <ol>
-        <li>Conheça a finalidade da campanha e o projeto que deseja apoiar.</li>
-        <li>Em uma ONG real, consulte a equipe para confirmar os canais oficiais de doação.</li>
-        <li>Após contribuir, acompanhe a prestação de contas da campanha.</li>
-      </ol>
-      <h3>Organização e transparência</h3>
-      <p>No modelo proposto, a equipe identifica as necessidades, divulga a campanha, registra as contribuições e distribui os recursos. A prestação de contas informaria os valores arrecadados, os materiais recebidos e sua aplicação nos projetos.</p>
-      <p><a href="index.html#contato">Consulte a seção de contato demonstrativa da ONG</a>. Os dados são fictícios; este site não processa doações nem inscrições.</p>
-    </section>
-  </main>
-
-  <footer>
-    <p>Laços da Comunidade — projeto acadêmico. Organização e ações fictícias.</p>
-  </footer>
+  <p><a href="index.html?pagina=participe">Abrir esta seção na aplicação Laços da Comunidade</a>.</p>
+  <script>location.replace("index.html?pagina=participe" + location.hash);</script>
 </body>
 </html>
+
+============================================================
+ARQUIVO: html/cadastro.html
+============================================================
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Laços da Comunidade — endereço atualizado</title>
+  <noscript><meta http-equiv="refresh" content="0;url=index.html?pagina=cadastro"></noscript>
+</head>
+<body>
+  <p><a href="index.html?pagina=cadastro">Abrir esta seção na aplicação Laços da Comunidade</a>.</p>
+  <script>location.replace("index.html?pagina=cadastro" + location.hash);</script>
+</body>
+</html>
+
+============================================================
+ARQUIVO: css/estilos.css
+============================================================
+/* Estilos compartilhados: estrutura semântica preservada nas quatro páginas. */
+/* Tokens globais: paleta semântica, cinco níveis de fonte e escala de 4px. */
+:root {
+  color-scheme: light;
+  --verde: #205c4a; /* primária: links, botões e navegação ativa */
+  --escuro: #193b32; /* texto principal e hover */
+  --secundaria: #e8f0e9; /* superfícies de apoio */
+  --ilustracao: #e8f2ef;
+  --fundo: #f4f6f0;
+  --superficie: #ffffff;
+  --borda: #d4dfd6; /* bordas decorativas */
+  --borda-campo: #718779; /* contornos de controles */
+  --texto-suave: #486358;
+  --erro: #a31515;
+  --foco: #956100;
+  --texto-botao: #ffffff;
+  --sucesso-texto: #155c3c;
+  --sucesso-fundo: #e4f4ea;
+  --sucesso-borda: #238653;
+  --erro-texto: #7d1515;
+  --erro-fundo: #fbe8e8;
+  --fonte-familia: system-ui, sans-serif;
+  --fonte-1: 0.875rem;
+  --fonte-2: 1rem;
+  --fonte-3: 1.25rem;
+  --fonte-4: 1.75rem;
+  --fonte-5: clamp(2rem, 5vw, 3.5rem);
+  --linha-texto: 1.65;
+  --linha-titulo: 1.2;
+  --espaco-1: 0.25rem;
+  --espaco-2: 0.5rem;
+  --espaco-3: 0.75rem;
+  --espaco-4: 1rem;
+  --espaco-5: 1.5rem;
+  --espaco-6: 2rem;
+  --espaco-7: 3rem;
+  --espaco-8: 4rem;
+}
+
+/* Temas explícitos e fallback do sistema quando JavaScript está indisponível. */
+:root[data-tema="escuro"] {
+  color-scheme: dark;
+  --verde: #8be0b5;
+  --escuro: #edf5ef;
+  --secundaria: #243d33;
+  --ilustracao: #243d33;
+  --fundo: #101c17;
+  --superficie: #192c24;
+  --borda: #567565;
+  --borda-campo: #95b5a4;
+  --texto-suave: #bed2c5;
+  --erro: #ffb4b4;
+  --foco: #ffd166;
+  --texto-botao: #10231c;
+  --sucesso-texto: #b6f2cc;
+  --sucesso-fundo: #163d2b;
+  --sucesso-borda: #8be0b5;
+  --erro-texto: #ffd3d3;
+  --erro-fundo: #482323;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema]) {
+    color-scheme: dark;
+    --verde: #8be0b5;
+    --escuro: #edf5ef;
+    --secundaria: #243d33;
+    --ilustracao: #243d33;
+    --fundo: #101c17;
+    --superficie: #192c24;
+    --borda: #567565;
+    --borda-campo: #95b5a4;
+    --texto-suave: #bed2c5;
+    --erro: #ffb4b4;
+    --foco: #ffd166;
+    --texto-botao: #10231c;
+    --sucesso-texto: #b6f2cc;
+    --sucesso-fundo: #163d2b;
+    --sucesso-borda: #8be0b5;
+    --erro-texto: #ffd3d3;
+    --erro-fundo: #482323;
+  }
+}
+:root[data-tema="contraste"] {
+  color-scheme: dark;
+  --verde: #ffff00;
+  --escuro: #ffffff;
+  --secundaria: #000000;
+  --ilustracao: #000000;
+  --fundo: #000000;
+  --superficie: #000000;
+  --borda: #ffffff;
+  --borda-campo: #ffffff;
+  --texto-suave: #ffffff;
+  --erro: #ffb4b4;
+  --foco: #00ffff;
+  --texto-botao: #000000;
+  --sucesso-texto: #ffffff;
+  --sucesso-fundo: #000000;
+  --sucesso-borda: #ffffff;
+  --erro-texto: #ffffff;
+  --erro-fundo: #000000;
+}
+@media (prefers-contrast: more) {
+  :root:not([data-tema]) {
+    color-scheme: dark;
+    --verde: #ffff00;
+    --escuro: #ffffff;
+    --secundaria: #000000;
+    --ilustracao: #000000;
+    --fundo: #000000;
+    --superficie: #000000;
+    --borda: #ffffff;
+    --borda-campo: #ffffff;
+    --texto-suave: #ffffff;
+    --erro: #ffb4b4;
+    --foco: #00ffff;
+    --texto-botao: #000000;
+    --sucesso-texto: #ffffff;
+    --sucesso-fundo: #000000;
+    --sucesso-borda: #ffffff;
+    --erro-texto: #ffffff;
+    --erro-fundo: #000000;
+  }
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--escuro); background: var(--fundo); font-family: var(--fonte-familia); font-size: var(--fonte-2); line-height: var(--linha-texto); }
+a { color: var(--verde); text-underline-offset: .2em; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--foco); outline-offset: 4px; }
+body > a:first-child { position: absolute; left: 1rem; top: -6rem; padding: var(--espaco-3) var(--espaco-4); background: var(--superficie); z-index: 2; }
+body > a:first-child:focus { top: 1rem; }
+header { background: var(--superficie); border-bottom: 1px solid var(--borda); padding: var(--espaco-5) max(var(--espaco-5), calc((100% - 1080px) / 2)); display: flex; align-items: center; justify-content: space-between; gap: var(--espaco-4); flex-wrap: wrap; }
+header > .marca { display: inline-flex; align-items: center; min-height: 44px; color: var(--escuro); font-size: var(--fonte-3); font-weight: 800; letter-spacing: -.04em; text-decoration: none; }
+header > .marca:hover { text-decoration: underline; }
+nav ul { display: flex; flex-wrap: wrap; gap: var(--espaco-2); list-style: none; padding: 0; margin: 0; }
+nav a { display: inline-block; padding: var(--espaco-3) var(--espaco-3); border-radius: .5rem; text-decoration: none; font-weight: 600; }
+nav a:hover { background: var(--secundaria); }
+nav a[aria-current] { background: var(--verde); color: var(--texto-botao); }
+main { max-width: 1080px; margin: 0 auto; padding: var(--espaco-8) var(--espaco-5); }
+h1, h2, h3 { line-height: var(--linha-titulo); }
+h1 { font-size: var(--fonte-5); max-width: 850px; letter-spacing: -.045em; margin: 0 0 var(--espaco-5); }
+h2 { font-size: var(--fonte-4); margin-top: 0; }
+h3 { font-size: var(--fonte-3); margin-top: var(--espaco-6); }
+main > p:first-of-type { font-size: var(--fonte-3); max-width: 760px; color: var(--texto-suave); }
+main > section, main > article, main > aside { margin-top: var(--espaco-5); padding: var(--espaco-6); background: var(--superficie); border: 1px solid var(--borda); border-radius: 1rem; }
+main > article { border-left: 5px solid var(--verde); }
+main > aside { background: var(--secundaria); }
+main > nav { margin: var(--espaco-6) 0; }
+picture { display: block; margin: var(--espaco-6) 0; padding: var(--espaco-4); background: var(--ilustracao); border-radius: 1rem; }
+picture img { display: block; width: 100%; max-height: 350px; object-fit: contain; }
+li { margin-bottom: var(--espaco-1); }
+address { font-style: normal; overflow-wrap: anywhere; }
+footer { padding: var(--espaco-6) var(--espaco-5); text-align: center; border-top: 1px solid var(--borda); color: var(--texto-suave); font-size: var(--fonte-1); }
+form { margin-top: var(--espaco-6); }
+fieldset { min-width: 0; border: 1px solid var(--borda); border-radius: 1rem; padding: var(--espaco-5); margin: 0 0 var(--espaco-5); background: var(--superficie); }
+#campos { border: 0; padding: 0; background: transparent; }
+#campos > legend { margin-bottom: var(--espaco-4); font-size: var(--fonte-1); color: var(--texto-suave); }
+#campos > fieldset { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--espaco-4) var(--espaco-5); }
+legend { padding: 0 var(--espaco-2); font-weight: 700; font-size: var(--fonte-3); }
+fieldset p { margin: 0; min-width: 0; }
+fieldset br { display: none; }
+label { display: block; font-weight: 600; margin-bottom: var(--espaco-2); }
+input:not([type="checkbox"]), select { display: block; width: 100%; min-height: 48px; padding: var(--espaco-3) var(--espaco-3); border: 1px solid var(--borda-campo); border-radius: .4rem; background: var(--superficie); color: var(--escuro); font: inherit; }
+input[type="checkbox"] { width: 1.2rem; height: 1.2rem; accent-color: var(--verde); vertical-align: middle; }
+small { font-size: var(--fonte-1); display: block; color: var(--texto-suave); margin-top: var(--espaco-2); }
+button { border: 0; border-radius: .5rem; background: var(--verde); color: var(--texto-botao); padding: var(--espaco-4) var(--espaco-5); font: inherit; font-weight: 700; cursor: pointer; }
+button { transition: background-color .18s ease, box-shadow .18s ease, transform .08s ease; }
+button:hover { background: var(--escuro); box-shadow: 0 4px 10px rgb(25 59 50 / 25%); }
+button:focus-visible { box-shadow: 0 0 0 4px rgb(149 96 0 / 30%); }
+button:active { transform: translateY(1px); box-shadow: none; }
+button:disabled { opacity: .6; cursor: not-allowed; box-shadow: none; }
+input:not([type="checkbox"]):hover, select:hover { border-color: var(--verde); }
+input:not([type="checkbox"]):focus, select:focus { border-color: var(--verde); box-shadow: 0 0 0 3px rgb(32 92 74 / 18%); }
+input:required:valid:not(:placeholder-shown), select:required:valid { border-color: var(--verde); }
+input:required:invalid:not(:placeholder-shown), select:required:invalid { border-color: var(--erro); }
+.erro { display: block; color: var(--erro); margin-top: var(--espaco-1); font-size: var(--fonte-1); }
+[aria-invalid="true"] { border-color: var(--erro) !important; outline: 1px solid var(--erro); }
+.feedback { padding: var(--espaco-4); border-left: 4px solid; border-radius: .25rem; }
+.feedback-sucesso { color: var(--sucesso-texto); background: var(--sucesso-fundo); border-color: var(--sucesso-borda); }
+.feedback-erro { color: var(--erro-texto); background: var(--erro-fundo); border-color: var(--erro); }
+#resultado:not(:empty) { padding: var(--espaco-4); border-left-width: 4px; border-left-style: solid; }
+/* Layout macro mobile-first: 12 trilhas permanecem em todas as larguras. */
+main {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--espaco-4);
+  width: 100%;
+  max-width: 1080px;
+  padding: var(--espaco-6) var(--espaco-4);
+}
+main > * { grid-column: 1 / -1; min-width: 0; }
+main > section, main > article, main > aside, main > picture, main > nav,
+main > form, main > p, main > h1 { margin-top: 0; margin-bottom: 0; }
+main > section, main > article, main > aside { padding: var(--espaco-4); }
+header { flex-direction: column; align-items: flex-start; padding: var(--espaco-4); }
+#campos > fieldset { grid-template-columns: minmax(0, 1fr); padding: var(--espaco-4); }
+button { width: 100%; }
+/* Celulares maiores: mais espaço para os componentes. */
+@media (min-width: 480px) {
+  main { padding-inline: var(--espaco-5); gap: var(--espaco-5); }
+  header { padding-inline: var(--espaco-5); }
+  main > section, main > article, main > aside { padding: var(--espaco-5); }
+}
+/* Tablets: campos em pares e botão com largura do conteúdo. */
+@media (min-width: 768px) {
+  #campos > fieldset { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: var(--espaco-5); }
+  button { width: auto; }
+  main { padding-block: var(--espaco-7); }
+}
+/* Desktop: projetos com seis colunas; navegação horizontal no cabeçalho. */
+@media (min-width: 1024px) {
+  main > article { grid-column: span 6; }
+  header { flex-direction: row; align-items: center; padding-inline: max(var(--espaco-5), calc((100% - 1080px) / 2)); }
+  main > section, main > article, main > aside { padding: var(--espaco-6); }
+}
+/* Desktop amplo: formulário centralizado em dez das doze colunas. */
+@media (min-width: 1280px) {
+  main { max-width: 1200px; gap: var(--espaco-6); }
+  main > form, main > #resultado { grid-column: 2 / 12; }
+  header { padding-inline: max(var(--espaco-5), calc((100% - 1200px) / 2)); }
+}
+/* Panorâmico: contêiner limitado e formulário de oito colunas. */
+@media (min-width: 1536px) {
+  main { max-width: 1440px; padding-block: var(--espaco-8); }
+  main > form, main > #resultado { grid-column: 3 / 11; }
+  header { padding-inline: max(var(--espaco-5), calc((100% - 1440px) / 2)); }
+}
+
+/* Navegação progressiva: details funciona também sem JavaScript. */
+[hidden] { display: none !important; }
+.menu-toggle { width: auto; min-height: 44px; }
+#menu-principal { width: 100%; }
+#menu-principal > ul { flex-direction: column; }
+#menu-principal > ul > li { position: relative; }
+/* A seta pertence visualmente ao link Projetos sociais; a lista móvel expande abaixo. */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0; }
+.nav-projetos > a { display: block; margin-right: 44px; }
+.submenu summary { position: absolute; right: 0; top: 3px; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; cursor: pointer; color: var(--verde); border-radius: .5rem; list-style: none; }
+.submenu summary::-webkit-details-marker { display: none; }
+.submenu[open] > summary { background: var(--secundaria); }
+.submenu[open] > summary svg { transform: rotate(180deg); }
+.submenu summary:hover { background: var(--secundaria); }
+.submenu summary:focus-visible { outline: 3px solid var(--foco); outline-offset: 2px; }
+.submenu-lista { display: none; }
+.submenu[open] > .submenu-lista { display: flex; flex-direction: column; gap: var(--espaco-1); padding: var(--espaco-2); background: var(--superficie); border: 1px solid var(--borda); border-radius: .5rem; }
+.submenu-lista a { display: block; }
+#menu-principal a, .submenu summary { transition: background-color .18s ease, color .18s ease; }
+@media (min-width: 1024px) {
+  #menu-principal { width: auto; }
+  #menu-principal > ul { flex-direction: row; align-items: flex-start; }
+  .submenu[open] > .submenu-lista { position: absolute; top: 100%; right: 0; min-width: 230px; z-index: 10; box-shadow: 0 8px 20px rgb(0 0 0 / 12%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #menu-principal a, .submenu summary, button { transition: none; }
+}
+
+.lista-projetos { display: contents; }
+.card-projeto { grid-column: 1 / -1; }
+@media (min-width: 1024px) { .card-projeto { grid-column: span 6; } }
+
+/* Preferências fora do menu recolhível: sempre acessíveis por teclado. */
+.preferencias-tema { display: flex; align-items: center; gap: var(--espaco-2); max-width: 100%; }
+.preferencias-tema label { margin: 0; font-size: var(--fonte-1); }
+.preferencias-tema select { width: auto; max-width: 100%; min-height: 44px; }
+[aria-invalid="true"]:focus-visible { outline: 3px solid var(--foco); outline-offset: 4px; }
+:root[data-tema="contraste"] a { text-decoration: underline; }
+:root[data-tema="contraste"] button { border: 2px solid var(--verde); }
+@media (prefers-contrast: more) {
+  :root:not([data-tema]) a { text-decoration: underline; }
+  :root:not([data-tema]) button { border: 2px solid var(--verde); }
+}
+/* Preserva a paleta de cores forçadas do sistema operacional. */
+@media (forced-colors: active) {
+  button { border: 2px solid ButtonText; }
+  :focus-visible, [aria-invalid="true"]:focus-visible { outline-color: Highlight; }
+  button, input, select { box-shadow: none; }
+}
+
+.aviso-sem-js { padding: var(--espaco-4); color: var(--escuro); background: var(--secundaria); }
+
+============================================================
+ARQUIVO: js/app.js
+============================================================
+import { renderHome, renderProjetos, renderParticipe, renderCadastro, renderNaoEncontrada } from './vistas.js';
+import { iniciarNavegacao } from './navegacao.js';
+
+const app = document.querySelector('#app');
+const entrada = new URL('index.html', location.href);
+const menu = iniciarNavegacao();
+// Query strings mantêm links diretos e recargas no GitHub Pages sem regras de rewrite.
+const rotas = {
+  inicio: { titulo: 'Início', render: renderHome },
+  projetos: { titulo: 'Projetos sociais', render: renderProjetos },
+  participe: { titulo: 'Participe', render: renderParticipe },
+  cadastro: { titulo: 'Cadastro', render: renderCadastro }
+};
+let rotaAtual;
+function nomeDaRota(url) { return url.searchParams.get('pagina') || 'inicio'; }
+function focarDestino(url) {
+  let id;
+  try { id = decodeURIComponent(url.hash.slice(1)); } catch { id = ''; }
+  const alvo = (id && document.getElementById(id)) || app.querySelector('h1') || app;
+  if (!alvo.hasAttribute('tabindex')) alvo.setAttribute('tabindex', '-1');
+  alvo.focus({ preventScroll: true });
+  if (id && document.getElementById(id)) alvo.scrollIntoView();
+  else window.scrollTo(0, 0);
+}
+function apresentar(url, moverFoco = true) {
+  const nome = nomeDaRota(url);
+  const rota = Object.hasOwn(rotas, nome) ? rotas[nome] : { titulo: 'Página não encontrada', render: renderNaoEncontrada };
+  if (rotaAtual !== nome) {
+    // Não recria a Home no primeiro carregamento; preserva a imagem já carregada.
+    if (rotaAtual !== undefined || nome !== 'inicio') rota.render(app);
+    rotaAtual = nome;
+  }
+  document.title = `${rota.titulo} | Laços da Comunidade`;
+  for (const link of document.querySelectorAll('header [data-rota]')) {
+    if (link.dataset.rota === nome) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  }
+  menu.fechar();
+  if (moverFoco || url.hash) focarDestino(url);
+}
+// Só intercepta cliques comuns em links desta aplicação. Novas abas e downloads permanecem nativos.
+document.addEventListener('click', event => {
+  if (event.defaultPrevented || event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+  const link = event.target.closest('a[href]');
+  if (!link || link.hasAttribute('download') || (link.target && link.target !== '_self')) return;
+  const url = new URL(link.href, location.href);
+  if (url.origin !== entrada.origin || url.pathname !== entrada.pathname) return;
+  event.preventDefault();
+  if (url.href !== location.href) history.pushState({ rota: nomeDaRota(url) }, '', url.href);
+  apresentar(url);
+});
+window.addEventListener('popstate', () => apresentar(new URL(location.href)));
+history.replaceState({ rota: nomeDaRota(new URL(location.href)) }, '', location.href);
+apresentar(new URL(location.href), false);
+
+============================================================
+ARQUIVO: js/vistas.js
+============================================================
+import { inicializarCadastro } from './cadastro.js';
+import { renderizarProjetos } from './projetos.js';
+
+// A Home já está no HTML para continuar legível sem JavaScript.
+const inicio = document.createElement('template');
+for (const node of document.querySelector('#app').childNodes) inicio.content.append(node.cloneNode(true));
+function montar(app, modelo) {
+  app.replaceChildren(modelo.content.cloneNode(true));
+}
+export function renderHome(app) {
+  montar(app, inicio);
+}
+export function renderProjetos(app) {
+  montar(app, document.querySelector('#vista-projetos'));
+  renderizarProjetos(app); // Reutiliza projeto-template e textContent.
+}
+export function renderParticipe(app) {
+  montar(app, document.querySelector('#vista-participe'));
+}
+export function renderCadastro(app) {
+  montar(app, document.querySelector('#vista-cadastro'));
+  inicializarCadastro(app); // Cada nova vista recebe seus próprios listeners.
+}
+export function renderNaoEncontrada(app) {
+  const titulo = document.createElement('h1');
+  titulo.textContent = 'Página não encontrada';
+  const link = document.createElement('a');
+  link.href = 'index.html';
+  link.textContent = 'Voltar ao início';
+  app.replaceChildren(titulo, link);
+}
+
+============================================================
+ARQUIVO: js/tema.js
+============================================================
+// Executado antes do CSS para aplicar a preferência antes da primeira pintura.
+(() => {
+  const chave = 'lacos-tema';
+  const temas = ['claro', 'escuro', 'contraste'];
+  const escuro = matchMedia('(prefers-color-scheme: dark)');
+  const contraste = matchMedia('(prefers-contrast: more)');
+  let preferencia = 'sistema';
+  function lerPreferencia() {
+    try {
+      const salva = localStorage.getItem(chave);
+      return temas.includes(salva) ? salva : 'sistema';
+    } catch {
+      return 'sistema';
+    }
+  }
+  function aplicar() {
+    document.documentElement.dataset.tema = preferencia === 'sistema'
+      ? (contraste.matches ? 'contraste' : escuro.matches ? 'escuro' : 'claro')
+      : preferencia;
+    const seletor = document.querySelector('#tema');
+    if (seletor) seletor.value = preferencia;
+  }
+  preferencia = lerPreferencia();
+  aplicar();
+  escuro.addEventListener('change', aplicar);
+  contraste.addEventListener('change', aplicar);
+  window.addEventListener('storage', event => {
+    if (event.key !== chave && event.key !== null) return;
+    preferencia = lerPreferencia();
+    aplicar();
+  });
+  document.addEventListener('DOMContentLoaded', () => {
+    const seletor = document.querySelector('#tema');
+    seletor.value = preferencia;
+    seletor.addEventListener('change', () => {
+      preferencia = temas.includes(seletor.value) ? seletor.value : 'sistema';
+      try {
+        if (preferencia === 'sistema') localStorage.removeItem(chave);
+        else localStorage.setItem(chave, preferencia);
+      } catch {
+        // A troca continua disponível nesta página quando o armazenamento é bloqueado.
+      }
+      aplicar();
+    });
+    seletor.closest('.preferencias-tema').hidden = false;
+  });
+})();
+
+============================================================
+ARQUIVO: js/navegacao.js
+============================================================
+export function iniciarNavegacao() {
+  // A navegação permanece disponível quando o JavaScript está desativado.
+  const menu = document.querySelector('#menu-principal');
+  const toggle = document.querySelector('.menu-toggle');
+  const submenu = document.querySelector('.submenu');
+  const desktop = matchMedia('(min-width: 1024px)');
+  function fecharMenu(devolverFoco = false) {
+    toggle.setAttribute('aria-expanded', 'false');
+    submenu.open = false;
+    menu.hidden = !desktop.matches;
+    if (devolverFoco) toggle.focus();
+  }
+  function adaptarMenu() {
+    // Capture o foco antes de ocultar controles no novo tamanho de tela.
+    const ativo = document.activeElement;
+    const focoNoMenu = menu.contains(ativo);
+    const focoNoToggle = ativo === toggle;
+    const focoNoSubmenu = submenu.querySelector('.submenu-lista').contains(ativo);
+    toggle.hidden = desktop.matches;
+    fecharMenu();
+    if (!desktop.matches && focoNoMenu) toggle.focus();
+    else if (desktop.matches && focoNoToggle) menu.querySelector('a').focus();
+    else if (desktop.matches && focoNoSubmenu) submenu.querySelector('summary').focus();
+  }
+  toggle.addEventListener('click', () => {
+    const aberto = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!aberto));
+    menu.hidden = aberto;
+    if (aberto) submenu.open = false;
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key !== 'Escape') return;
+    if (submenu.open) {
+      submenu.open = false;
+      submenu.querySelector('summary').focus();
+    } else if (!desktop.matches && !menu.hidden) fecharMenu(true);
+  });
+  document.addEventListener('click', event => {
+    if (!event.target.closest('header')) fecharMenu();
+  });
+  menu.addEventListener('click', event => {
+    if (event.target.closest('a')) fecharMenu();
+  });
+  desktop.addEventListener('change', adaptarMenu);
+  adaptarMenu();
+  return { fechar: fecharMenu };
+}
+
+============================================================
+ARQUIVO: js/projetos.js
+============================================================
+const projetos = [
+  {
+    id: 'aprender',
+    titulo: 'Aprender juntos',
+    descricao: 'Apoio aos estudos para crianças e adolescentes, com atividades de leitura e matemática.',
+    objetivo: 'Incentivar a autonomia e a confiança dos estudantes durante a aprendizagem.',
+    atividades: ['Acompanhamento de tarefas escolares.', 'Jogos educativos em grupo.']
+  },
+  {
+    id: 'leitura',
+    titulo: 'Leitura para todos',
+    descricao: 'Encontros de leitura e troca de livros para pessoas de todas as idades.',
+    objetivo: 'Ampliar o acesso aos livros e criar espaços para compartilhar histórias.',
+    atividades: ['Rodas de leitura.', 'Organização de um acervo comunitário.']
+  }
+];
+
+export function renderizarProjetos(container) {
+const lista = container.querySelector('#lista-projetos');
+const modelo = container.querySelector('#projeto-template');
+const fragmento = document.createDocumentFragment();
+
+projetos.forEach(projeto => {
+  const artigo = modelo.content.cloneNode(true);
+  const elemento = artigo.querySelector('article');
+  elemento.id = projeto.id;
+  elemento.setAttribute('aria-labelledby', `titulo-${projeto.id}`);
+  artigo.querySelector('[data-campo="titulo"]').id = `titulo-${projeto.id}`;
+  artigo.querySelector('[data-campo="titulo"]').textContent = projeto.titulo;
+  artigo.querySelector('[data-campo="descricao"]').textContent = projeto.descricao;
+  artigo.querySelector('[data-campo="objetivo"]').textContent = projeto.objetivo;
+  const atividades = artigo.querySelector('[data-campo="atividades"]');
+  projeto.atividades.forEach(texto => {
+    const item = document.createElement('li');
+    item.textContent = texto;
+    atividades.append(item);
+  });
+  fragmento.append(artigo);
+});
+
+lista.append(fragmento);
+
+}
+
+============================================================
+ARQUIVO: js/cadastro.js
+============================================================
+export function inicializarCadastro(container) {
+  // Máscaras formatam a entrada; pattern verifica o formato final.
+  const form = container.querySelector('form');
+  const resultado = container.querySelector('#resultado');
+  const STORAGE_KEY = 'lacos-cadastro-rascunho';
+  const mascaras = {
+    cpf: valor => valor.replace(/\D/g, '').slice(0, 11)
+      .replace(/^(\d{3})(\d)/, '$1.$2')
+      .replace(/^(\d{3}\.\d{3})(\d)/, '$1.$2')
+      .replace(/(\d{3})(\d{1,2})$/, '$1-$2'),
+    cep: valor => valor.replace(/\D/g, '').slice(0, 8).replace(/^(\d{5})(\d)/, '$1-$2'),
+    telefone: valor => {
+      const digitos = valor.replace(/\D/g, '').slice(0, 11);
+      if (digitos.length <= 2) return digitos;
+      const assinante = digitos.slice(2);
+      const separador = assinante.length > 8 ? 5 : 4;
+      return `(${digitos.slice(0, 2)}) ${assinante.slice(0, separador)}${assinante.length > separador ? '-' + assinante.slice(separador) : ''}`;
+    }
+  };
+  function cpfValido(valor) {
+    const numeros = valor.replace(/\D/g, '');
+    if (!/^\d{11}$/.test(numeros) || /^(\d)\1{10}$/.test(numeros)) return false;
+    for (let tamanho = 9; tamanho <= 10; tamanho++) {
+      let soma = 0;
+      for (let i = 0; i < tamanho; i++) soma += Number(numeros[i]) * (tamanho + 1 - i);
+      const digito = (soma * 10 % 11) % 10;
+      if (digito !== Number(numeros[tamanho])) return false;
+    }
+    return true;
+  }
+  for (const [id, mascara] of Object.entries(mascaras)) {
+    const campo = document.getElementById(id);
+    campo.addEventListener('input', () => {
+      const posicao = campo.selectionStart;
+      const digitosAntes = campo.value.slice(0, posicao).replace(/\D/g, '').length;
+      campo.value = mascara(campo.value);
+      let cursor = 0;
+      let contagem = 0;
+      while (cursor < campo.value.length && contagem < digitosAntes) {
+        if (/\d/.test(campo.value[cursor])) contagem++;
+        cursor++;
+      }
+      campo.setSelectionRange(cursor, cursor);
+      if (id === 'cpf') campo.setCustomValidity(campo.value && !cpfValido(campo.value) ? 'Informe um CPF com 11 dígitos e dígitos verificadores válidos.' : '');
+    });
+  }
+  const hoje = new Date();
+  container.querySelector('#nascimento').max = `${hoje.getFullYear()}-${String(hoje.getMonth() + 1).padStart(2, '0')}-${String(hoje.getDate()).padStart(2, '0')}`;
+  // Mensagens persistentes associadas a cada campo, além da validação nativa.
+  const campos = [...form.querySelectorAll('input, select')];
+  function dadosDoFormulario() {
+    return Object.fromEntries(campos.map(campo => [campo.name, campo.type === 'checkbox' ? campo.checked : campo.value]));
+  }
+  function salvarRascunho() {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(dadosDoFormulario())); } catch { /* O cadastro funciona mesmo sem armazenamento. */ }
+  }
+  function restaurarRascunho() {
+    try {
+      const salvo = localStorage.getItem(STORAGE_KEY);
+      if (!salvo) return;
+      const dados = JSON.parse(salvo);
+      if (!dados || typeof dados !== 'object' || Array.isArray(dados)) throw new Error('Rascunho inválido');
+      campos.forEach(campo => {
+        if (!(campo.name in dados)) return;
+        if (campo.type === 'checkbox') campo.checked = Boolean(dados[campo.name]);
+        else campo.value = dados[campo.name];
+      });
+    } catch {
+      try { localStorage.removeItem(STORAGE_KEY); } catch { /* Armazenamento indisponível. */ }
+    }
+  }
+
+  function validar(campo) {
+    campo.setCustomValidity('');
+    const valor = campo.value.trim();
+    let mensagem = '';
+    if (!campo.validity.valid) {
+      mostrarErro(campo);
+      return false;
+    }
+    if (valor) {
+      if (campo.id === 'nome' && (valor.length < 3 || !/^[\p{L}]+(?:[ ’'-][\p{L}]+)+$/u.test(valor))) mensagem = 'Informe nome e sobrenome, usando letras.';
+      if (campo.id === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor)) mensagem = 'Informe um e-mail como nome@exemplo.com.';
+      if (campo.id === 'cpf' && !cpfValido(valor)) mensagem = 'Informe um CPF com 11 dígitos e dígitos verificadores válidos.';
+      if (campo.id === 'telefone' && !/^\([1-9][0-9]\) (?:[2-5][0-9]{3}|9[0-9]{4})-[0-9]{4}$/.test(valor)) mensagem = 'Informe DDD e telefone: (11) 3333-4444 ou (11) 98888-7777.';
+      if (campo.id === 'cep' && (!/^[0-9]{5}-[0-9]{3}$/.test(valor) || valor === '00000-000')) mensagem = 'Informe um CEP com 8 dígitos, no formato 00000-000.';
+      if (campo.id === 'nascimento' && (valor > campo.max || Number(valor.slice(0, 4)) < 1)) mensagem = 'Informe uma data de nascimento válida, sem datas futuras.';
+      if (campo.id === 'numero' && !/^(?:[0-9]+[a-zA-Z]?|s\/n)$/i.test(valor)) mensagem = 'Informe um número, como 100 ou 100A, ou s/n.';
+    }
+    campo.setCustomValidity(mensagem);
+    mostrarErro(campo);
+    return campo.validity.valid;
+  }
+  function mostrarErro(campo) {
+    campo.setAttribute('aria-invalid', String(!campo.validity.valid));
+    document.getElementById(`erro-${campo.id}`).textContent = campo.validationMessage;
+  }
+  for (const campo of campos) {
+    if (!campo.id) campo.id = campo.name;
+    const erro = document.createElement('span');
+    erro.id = `erro-${campo.id}`;
+    erro.className = 'erro';
+    erro.setAttribute('aria-live', 'polite');
+    campo.closest('p').append(erro);
+    campo.setAttribute('aria-describedby', [campo.getAttribute('aria-describedby'), erro.id].filter(Boolean).join(' '));
+    // Não cancela invalid: o navegador mantém sua mensagem e seu foco padrão.
+    campo.addEventListener('invalid', () => mostrarErro(campo));
+    campo.addEventListener('blur', () => validar(campo));
+    campo.addEventListener('input', () => {
+      salvarRascunho();
+      resultado.textContent = '';
+      validar(campo);
+    });
+    campo.addEventListener('change', () => { validar(campo); salvarRascunho(); });
+  }
+  // A validação interativa nativa ocorre antes do evento submit.
+  form.querySelector('button[type="submit"]').addEventListener('click', () => {
+    if (!form.checkValidity()) {
+      resultado.className = 'feedback feedback-erro';
+      resultado.textContent = 'Revise os campos indicados antes de continuar.';
+    }
+  });
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    const invalidos = campos.filter(campo => !validar(campo));
+    if (invalidos.length) {
+      resultado.className = 'feedback feedback-erro';
+      resultado.textContent = 'Revise os campos indicados antes de continuar.';
+      form.reportValidity();
+      return;
+    }
+    resultado.className = 'feedback feedback-sucesso';
+    resultado.textContent = 'Cadastro de exemplo validado! Nenhum dado foi enviado. O rascunho fica apenas neste navegador quando disponível.';
+  });
+  restaurarRascunho();
+  container.querySelector('#campos').disabled = false;
+}
+
+============================================================
+ARQUIVO: imagens/leitura-comunitaria.svg
+============================================================
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="400" viewBox="0 0 800 400">
+  <rect width="800" height="400" rx="24" fill="#e8f2ef"/>
+  <circle cx="400" cy="195" r="160" fill="#c8e3da"/>
+  <path d="M180 110 Q290 70 400 125 Q510 70 620 110 V300 Q510 260 400 315 Q290 260 180 300Z" fill="#fff" stroke="#24584c" stroke-width="8" stroke-linejoin="round"/>
+  <path d="M400 125 V315" stroke="#24584c" stroke-width="8"/>
+  <g fill="none" stroke="#76a395" stroke-width="8" stroke-linecap="round">
+    <path d="M220 150 Q290 130 360 160 M220 195 Q290 175 360 205 M220 240 Q290 220 360 250"/>
+    <path d="M440 160 Q510 130 580 150 M440 205 Q510 175 580 195 M440 250 Q510 220 580 240"/>
+  </g>
+</svg>
+
+============================================================
+ARQUIVO: package.json
+============================================================
+{
+  "name": "lacos-da-comunidade",
+  "version": "1.0.1",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "build": "node scripts/build.mjs",
+    "preview": "python3 -m http.server 8002 --bind 127.0.0.1 --directory dist",
+    "test:build": "npm run build && playwright test --config=playwright.producao.config.js",
+    "pages:prepare": "node scripts/preparar-pages.mjs",
+    "export:source": "node scripts/exportar-codigo.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "esbuild": "0.28.2",
+    "html-minifier-terser": "7.2.0"
+  }
+}
+
+============================================================
+ARQUIVO: .gitignore
+============================================================
+node_modules/
+test-results/
+playwright-report/
+dist/
+.pages/
+
+============================================================
+ARQUIVO: scripts/build.mjs
+============================================================
+import { build, version as esbuildVersion } from 'esbuild';
+import { minify } from 'html-minifier-terser';
+import { createRequire } from 'node:module';
+import { createHash } from 'node:crypto';
+import { readFile, writeFile, mkdir, rm, cp } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const require = createRequire(import.meta.url);
+const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const destino = resolve(raiz, 'dist');
+const entradas = ['css/estilos.css', 'js/app.js', 'js/tema.js'];
+const paginas = ['index', 'projetos', 'participe', 'cadastro'].map(nome => `html/${nome}.html`);
+
+// Apenas o diretório gerado é limpo; os fontes continuam legíveis e versionados.
+await rm(destino, { recursive: true, force: true });
+await mkdir(resolve(destino, 'html'), { recursive: true });
+const resultadoBuild = await build({
+  absWorkingDir: raiz,
+  entryPoints: entradas,
+  outbase: '.',
+  outdir: destino,
+  bundle: true,
+  metafile: true,
+  format: 'iife',
+  platform: 'browser',
+  target: ['chrome109', 'firefox115', 'safari15.4'],
+  minify: true,
+  charset: 'utf8',
+  legalComments: 'inline',
+  sourcemap: false,
+  logLevel: 'warning'
+});
+
+for (const arquivo of paginas) {
+  const html = await readFile(resolve(raiz, arquivo), 'utf8');
+  const resultado = await minify(html, {
+    collapseWhitespace: true,
+    conservativeCollapse: true,
+    removeComments: true,
+    minifyCSS: true,
+    removeAttributeQuotes: false,
+    removeOptionalTags: false
+  });
+  // Caminhos, atributos ARIA, IDs e ordem dos scripts são preservados.
+  await writeFile(resolve(destino, arquivo), resultado);
+}
+await cp(resolve(raiz, 'imagens'), resolve(destino, 'imagens'), {
+  recursive: true,
+  filter: origem => !origem.endsWith('.gitkeep')
+});
+
+const arquivos = [];
+for (const arquivo of [...paginas, ...entradas].sort()) {
+  const saida = Object.entries(resultadoBuild.metafile.outputs).find(([nome]) => resolve(raiz, nome) === resolve(destino, arquivo));
+  const caminhosFonte = saida ? Object.keys(saida[1].inputs).sort() : [arquivo];
+  const fontes = [];
+  for (const caminho of caminhosFonte) {
+    const conteudo = await readFile(resolve(raiz, caminho));
+    fontes.push({ arquivo: caminho, bytes: conteudo.length, sha256: createHash('sha256').update(conteudo).digest('hex') });
+  }
+  const bytesOriginal = fontes.reduce((soma, fonte) => soma + fonte.bytes, 0);
+  const minificado = await readFile(resolve(destino, arquivo));
+  arquivos.push({
+    arquivo, fontes, tipo: arquivo.split('.').pop(), bytesOriginal,
+    bytesMinificado: minificado.length,
+    reducaoPercentual: (1 - minificado.length / bytesOriginal) * 100,
+    sha256Minificado: createHash('sha256').update(minificado).digest('hex')
+  });
+}
+function resumir(itens) {
+  const bytesOriginal = itens.reduce((soma, item) => soma + item.bytesOriginal, 0);
+  const bytesMinificado = itens.reduce((soma, item) => soma + item.bytesMinificado, 0);
+  return { bytesOriginal, bytesMinificado, reducaoPercentual: (1 - bytesMinificado / bytesOriginal) * 100 };
+}
+const relatorio = {
+  ferramentas: { esbuild: esbuildVersion, 'html-minifier-terser': require('html-minifier-terser/package.json').version },
+  escopo: 'Bytes UTF-8: index da SPA, três redirecionamentos, CSS e módulos JS. app.js agrupa seus módulos conforme o metafile do esbuild; cada fonte é contada uma vez. Sem imagens ou gzip/Brotli.',
+  formula: '(1 - bytesMinificado / bytesOriginal) * 100',
+  arquivos,
+  porTipo: Object.fromEntries(['html', 'css', 'js'].map(tipo => [tipo, resumir(arquivos.filter(item => item.tipo === tipo))])),
+  total: resumir(arquivos)
+};
+await mkdir(resolve(raiz, 'validacao'), { recursive: true });
+await writeFile(resolve(raiz, 'validacao/minificacao.json'), JSON.stringify(relatorio, null, 2) + '\n');
+console.log(`Build gerada em dist/: ${relatorio.total.bytesOriginal} → ${relatorio.total.bytesMinificado} bytes (${relatorio.total.reducaoPercentual.toFixed(2)}% de redução).`);
+for (const [tipo, dados] of Object.entries(relatorio.porTipo)) console.log(`${tipo.toUpperCase()}: ${dados.reducaoPercentual.toFixed(2)}% de redução.`);
+
+============================================================
+ARQUIVO: scripts/preparar-pages.mjs
+============================================================
+import { cp, mkdir, rm, writeFile, access } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const destino = resolve(raiz, '.pages');
+await access(resolve(raiz, 'dist/html/index.html'));
+// O caminho antigo permanece válido; somente a saída já validada é copiada.
+await rm(destino, { recursive: true, force: true });
+await mkdir(destino, { recursive: true });
+await cp(resolve(raiz, 'dist'), resolve(destino, 'Experiencias-Praticas'), { recursive: true });
+await writeFile(resolve(destino, 'index.html'), '<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="0;url=Experiencias-Praticas/html/index.html"><title>Laços da Comunidade</title></head><body><a href="Experiencias-Praticas/html/index.html">Abrir o site Laços da Comunidade</a></body></html>\n');
+console.log('Artefato do GitHub Pages preparado em .pages/.');
+
+============================================================
+ARQUIVO: scripts/exportar-codigo.mjs
+============================================================
+import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const arquivos = [
+  'html/index.html', 'html/projetos.html', 'html/participe.html', 'html/cadastro.html',
+  'css/estilos.css', 'js/app.js', 'js/vistas.js', 'js/tema.js', 'js/navegacao.js', 'js/projetos.js', 'js/cadastro.js',
+  'imagens/leitura-comunitaria.svg', 'package.json', '.gitignore',
+  'scripts/build.mjs', 'scripts/preparar-pages.mjs', 'scripts/exportar-codigo.mjs',
+  'playwright.config.js', 'playwright.producao.config.js',
+  '../.github/workflows/pages.yml'
+];
+let texto = 'Laços da Comunidade — código final da aplicação e automação\n';
+texto += 'Repositório: https://github.com/rita-moura/desenvolvimento-front-end-para-web\n';
+texto += 'Os separadores indicam arquivos independentes; este texto não é um único HTML.\n';
+texto += 'Testes, verificadores, PNG, WebP e package-lock.json acompanham o repositório; os binários não são incorporados neste campo textual.\n';
+for (const arquivo of arquivos) {
+  texto += `\n${'='.repeat(60)}\nARQUIVO: ${arquivo}\n${'='.repeat(60)}\n`;
+  texto += (await readFile(resolve(raiz, arquivo), 'utf8')).trimEnd() + '\n';
+}
+if (texto.length > 100000) throw new Error(`O código excede o campo de 100.000 caracteres: ${texto.length}.`);
+await mkdir(resolve(raiz, 'entrega'), { recursive: true });
+await writeFile(resolve(raiz, 'entrega/codigo-fonte-completo.txt'), texto);
+console.log(`Código consolidado: ${texto.length}/100000 caracteres, ${arquivos.length} arquivos.`);
+
+============================================================
+ARQUIVO: playwright.config.js
+============================================================
+const { defineConfig } = require('@playwright/test');
+module.exports = defineConfig({
+  testDir: '.', testMatch: 'site.spec.js',
+  use: { baseURL: 'http://127.0.0.1:8765', browserName: 'chromium' },
+  projects: [
+    { name: 'desktop', use: { viewport: { width: 1280, height: 900 } } },
+    { name: 'celular', use: { viewport: { width: 375, height: 812 } } }
+  ],
+  webServer: { command: 'python3 -m http.server 8765 --bind 127.0.0.1', url: 'http://127.0.0.1:8765/html/index.html', reuseExistingServer: false },
+  reporter: 'list'
+});
+
+============================================================
+ARQUIVO: playwright.producao.config.js
+============================================================
+const { defineConfig } = require('@playwright/test');
+const base = require('./playwright.config');
+
+// Reutiliza todos os testes e perfis, servindo somente a saída minificada.
+module.exports = defineConfig({
+  ...base,
+  outputDir: 'test-results/producao',
+  webServer: {
+    ...base.webServer,
+    command: 'python3 -m http.server 8765 --bind 127.0.0.1 --directory dist'
+  }
+});
+
+============================================================
+ARQUIVO: ../.github/workflows/pages.yml
+============================================================
+name: Validar e publicar site
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    permissions:
+      contents: read
+      pages: read
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: Experiencias-Praticas
+    steps:
+      - name: Obter código versionado
+        uses: actions/checkout@v6
+      - name: Configurar Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: Experiencias-Praticas/package-lock.json
+      - name: Configurar Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.x'
+      - name: Instalar dependências
+        run: npm ci
+      - name: Instalar Chromium e dependências do sistema
+        run: npx playwright install --with-deps chromium
+      - name: Testar fontes
+        run: npm test
+      - name: Gerar e testar build minificada
+        run: npm run test:build
+      - name: Verificar contraste e imagens da build
+        run: |
+          node validacao/verificar-contraste.cjs --build
+          node validacao/verificar-imagens.cjs
+      - name: Conferir código consolidado
+        run: |
+          npm run export:source
+          git diff --exit-code -- entrega/codigo-fonte-completo.txt
+      - name: Guardar evidências
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: evidencias-${{ github.run_id }}
+          path: |
+            Experiencias-Praticas/validacao/minificacao.json
+            Experiencias-Praticas/validacao/contraste-producao.json
+            Experiencias-Praticas/validacao/imagens.json
+            Experiencias-Praticas/test-results/
+      - name: Preparar site com endereço existente
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        run: npm run pages:prepare
+      - name: Configurar GitHub Pages
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/configure-pages@v5
+      - name: Enviar artefato de publicação
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: Experiencias-Praticas/.pages
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Publicar build validada
+        id: deployment
+        uses: actions/deploy-pages@v4

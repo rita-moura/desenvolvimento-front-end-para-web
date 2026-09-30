@@ -1,0 +1,216 @@
+{
+  "ferramenta": "Playwright/Chromium e tamanhos em bytes do sistema de arquivos",
+  "escopo": "Build local; seleção e layout medidos em navegador. Bytes dos recursos solicitados, sem cabeçalhos ou compressão HTTP. Não mede tempo global, LCP ou desempenho público.",
+  "formatos": [
+    {
+      "formato": "svg",
+      "arquivo": "imagens/leitura-comunitaria.svg",
+      "bytes": 703,
+      "largura": 800,
+      "altura": 400
+    },
+    {
+      "formato": "webp",
+      "arquivo": "imagens/leitura-comunitaria.webp",
+      "bytes": 9438,
+      "largura": 800,
+      "altura": 400
+    },
+    {
+      "formato": "png",
+      "arquivo": "imagens/leitura-comunitaria.png",
+      "bytes": 24588,
+      "largura": 800,
+      "altura": 400
+    }
+  ],
+  "cenarios": [
+    {
+      "larguraViewport": 375,
+      "dpr": 1,
+      "selecionada": "leitura-comunitaria.svg",
+      "larguraCaixa": 311,
+      "alturaCaixa": 155.5,
+      "objectFit": "contain",
+      "semOverflow": true,
+      "alt": "Livro aberto, símbolo das iniciativas de educação e leitura da ONG.",
+      "recursos": [
+        {
+          "arquivo": "css/estilos.css",
+          "bytes": 11156
+        },
+        {
+          "arquivo": "html/index.html",
+          "bytes": 11703
+        },
+        {
+          "arquivo": "imagens/leitura-comunitaria.svg",
+          "bytes": 703
+        },
+        {
+          "arquivo": "js/app.js",
+          "bytes": 8461
+        },
+        {
+          "arquivo": "js/tema.js",
+          "bytes": 892
+        }
+      ],
+      "bytesRecursos": 32915
+    },
+    {
+      "larguraViewport": 375,
+      "dpr": 2,
+      "selecionada": "leitura-comunitaria.svg",
+      "larguraCaixa": 311,
+      "alturaCaixa": 155.5,
+      "objectFit": "contain",
+      "semOverflow": true,
+      "alt": "Livro aberto, símbolo das iniciativas de educação e leitura da ONG.",
+      "recursos": [
+        {
+          "arquivo": "css/estilos.css",
+          "bytes": 11156
+        },
+        {
+          "arquivo": "html/index.html",
+          "bytes": 11703
+        },
+        {
+          "arquivo": "imagens/leitura-comunitaria.svg",
+          "bytes": 703
+        },
+        {
+          "arquivo": "js/app.js",
+          "bytes": 8461
+        },
+        {
+          "arquivo": "js/tema.js",
+          "bytes": 892
+        }
+      ],
+      "bytesRecursos": 32915
+    },
+    {
+      "larguraViewport": 768,
+      "dpr": 1,
+      "selecionada": "leitura-comunitaria.svg",
+      "larguraCaixa": 688,
+      "alturaCaixa": 344,
+      "objectFit": "contain",
+      "semOverflow": true,
+      "alt": "Livro aberto, símbolo das iniciativas de educação e leitura da ONG.",
+      "recursos": [
+        {
+          "arquivo": "css/estilos.css",
+          "bytes": 11156
+        },
+        {
+          "arquivo": "html/index.html",
+          "bytes": 11703
+        },
+        {
+          "arquivo": "imagens/leitura-comunitaria.svg",
+          "bytes": 703
+        },
+        {
+          "arquivo": "js/app.js",
+          "bytes": 8461
+        },
+        {
+          "arquivo": "js/tema.js",
+          "bytes": 892
+        }
+      ],
+      "bytesRecursos": 32915
+    },
+    {
+      "larguraViewport": 1280,
+      "dpr": 1,
+      "selecionada": "leitura-comunitaria.svg",
+      "larguraCaixa": 1120,
+      "alturaCaixa": 350,
+      "objectFit": "contain",
+      "semOverflow": true,
+      "alt": "Livro aberto, símbolo das iniciativas de educação e leitura da ONG.",
+      "recursos": [
+        {
+          "arquivo": "css/estilos.css",
+          "bytes": 11156
+        },
+        {
+          "arquivo": "html/index.html",
+          "bytes": 11703
+        },
+        {
+          "arquivo": "imagens/leitura-comunitaria.svg",
+          "bytes": 703
+        },
+        {
+          "arquivo": "js/app.js",
+          "bytes": 8461
+        },
+        {
+          "arquivo": "js/tema.js",
+          "bytes": 892
+        }
+      ],
+      "bytesRecursos": 32915
+    },
+    {
+      "larguraViewport": 1920,
+      "dpr": 2,
+      "selecionada": "leitura-comunitaria.svg",
+      "larguraCaixa": 1360,
+      "alturaCaixa": 350,
+      "objectFit": "contain",
+      "semOverflow": true,
+      "alt": "Livro aberto, símbolo das iniciativas de educação e leitura da ONG.",
+      "recursos": [
+        {
+          "arquivo": "css/estilos.css",
+          "bytes": 11156
+        },
+        {
+          "arquivo": "html/index.html",
+          "bytes": 11703
+        },
+        {
+          "arquivo": "imagens/leitura-comunitaria.svg",
+          "bytes": 703
+        },
+        {
+          "arquivo": "js/app.js",
+          "bytes": 8461
+        },
+        {
+          "arquivo": "js/tema.js",
+          "bytes": 892
+        }
+      ],
+      "bytesRecursos": 32915
+    }
+  ],
+  "comparacoes": [
+    {
+      "formato": "svg",
+      "economiaBytesFrenteAoPNG": 23885,
+      "reducaoPercentual": 97.14088173092566,
+      "economiaTransferenciaMsA1Mbps": 191.08
+    },
+    {
+      "formato": "webp",
+      "economiaBytesFrenteAoPNG": 15150,
+      "reducaoPercentual": 61.61542215714984,
+      "economiaTransferenciaMsA1Mbps": 121.2
+    }
+  ],
+  "estimativa": {
+    "velocidadeBitsPorSegundo": 1000000,
+    "premissas": "Sem cache, latência, DNS/TLS, cabeçalhos, compressão de rede, concorrência ou custo de processamento. Estimativa de transferência, não medição de tempo global.",
+    "bytesPaginaComSVG": 32915,
+    "bytesPaginaHipoteticaComPNG": 56800,
+    "transferenciaComSVGMs": 263.32,
+    "transferenciaComPNGMs": 454.40000000000003
+  }
+}

@@ -7,7 +7,9 @@
     "test:ui": "playwright test --ui",
     "build": "node scripts/build.mjs",
     "preview": "python3 -m http.server 8002 --bind 127.0.0.1 --directory dist",
-    "test:build": "npm run build && playwright test --config=playwright.producao.config.js"
+    "test:build": "npm run build && playwright test --config=playwright.producao.config.js",
+    "pages:prepare": "node scripts/preparar-pages.mjs",
+    "export:source": "node scripts/exportar-codigo.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.63.0",

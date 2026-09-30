@@ -1,4 +1,5 @@
 {
+  "versao": "fontes",
   "ferramenta": "Playwright/Chromium + script JavaScript (fórmula WCAG)",
   "referencia": "https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html",
   "escopo": "Três temas; textos (4,5:1), borda e foco do seletor (3:1). Cores computadas com fundos opacos e validação real do formulário. Não é auditoria integral.",

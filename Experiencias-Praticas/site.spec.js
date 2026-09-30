@@ -1,20 +1,21 @@
 const { test, expect } = require('@playwright/test');
+const rota = pagina => `/html/index.html${pagina === 'index' ? '' : `?pagina=${pagina}`}`;
 
 for (const pagina of ['index', 'projetos', 'participe', 'cadastro']) {
   test(`${pagina}: navegação, recursos e largura da tela`, async ({ page }) => {
     const erros = [];
     page.on('pageerror', erro => erros.push(erro.message));
     page.on('response', resposta => { if (resposta.status() >= 400) erros.push(resposta.url()); });
-    await page.goto(`/html/${pagina}.html`);
+    await page.goto(rota(pagina));
     await expect(page.locator('h1')).toBeVisible();
     await expect(page.locator('#menu-principal > ul > li > a')).toHaveText(['Participe', 'Cadastro', 'Projetos sociais']);
-    await expect(page.locator('[aria-current="page"]')).toHaveAttribute('href', `${pagina}.html`);
+    await expect(page.locator('[aria-current="page"]')).toHaveAttribute('href', rota(pagina).replace('/html/', ''));
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
     expect(await page.locator('header').evaluate(el => getComputedStyle(el).display)).toBe('flex');
     if (pagina === 'index') expect(await page.locator('img').evaluate(el => el.complete && el.naturalWidth > 0)).toBe(true);
     if (await page.locator('.menu-toggle').isVisible()) await page.locator('.menu-toggle').click();
     await page.getByRole('navigation', { name: 'Navegação principal' }).getByRole('link', { name: 'Cadastro', exact: true }).click();
-    await expect(page).toHaveURL(/cadastro.html$/);
+    await expect(page).toHaveURL(/index\.html\?pagina=cadastro$/);
     await page.getByRole('link', { name: 'Laços da Comunidade', exact: true }).click();
     await expect(page).toHaveURL(/index.html$/);
     expect(erros).toEqual([]);
@@ -26,11 +27,11 @@ test('teclado permite pular a navegação', async ({ page }) => {
   await page.keyboard.press('Tab');
   await expect(page.getByRole('link', { name: 'Pular para o conteúdo' })).toBeFocused();
   await page.keyboard.press('Enter');
-  await expect(page).toHaveURL(/#conteudo$/);
+  await expect(page).toHaveURL(/#app$/);
 });
 
 test('cadastro vazio exibe erros acessíveis e foca o primeiro campo', async ({ page }) => {
-  await page.goto('/html/cadastro.html');
+  await page.goto('/html/index.html?pagina=cadastro');
   await page.getByRole('button', { name: 'Validar cadastro de exemplo' }).click();
   await expect(page.locator('#nome')).toBeFocused();
   await expect(page.locator('#nome')).toHaveAttribute('aria-invalid', 'true');
@@ -44,7 +45,7 @@ test('cadastro vazio exibe erros acessíveis e foca o primeiro campo', async ({ 
 });
 
 test('rejeita dados inválidos e permite corrigir o cadastro sem envio', async ({ page }) => {
-  await page.goto('/html/cadastro.html');
+  await page.goto('/html/index.html?pagina=cadastro');
   for (const [id, valor] of Object.entries({ nome: '123', email: 'invalido', cpf: '11111111111', telefone: '0000000000', cep: '00000000', nascimento: '2999-01-01', numero: 'abc' })) {
     await page.locator(`#${id}`).fill(valor);
     await page.locator(`#${id}`).blur();
@@ -67,18 +68,18 @@ test('rejeita dados inválidos e permite corrigir o cadastro sem envio', async (
   expect(await page.evaluate(() => JSON.parse(localStorage.getItem('lacos-cadastro-rascunho')).nome)).toBe('Pessoa Teste');
 });
 
-test('sem JavaScript mantém a demonstração desabilitada', async ({ browser }) => {
+test('sem JavaScript preserva a Home e informa a necessidade para outras vistas', async ({ browser }) => {
   const contexto = await browser.newContext({ javaScriptEnabled: false });
   const page = await contexto.newPage();
-  await page.goto('http://127.0.0.1:8765/html/cadastro.html');
-  await expect(page.locator('#nome')).toBeDisabled();
-  await expect(page.getByRole('button', { name: 'Validar cadastro de exemplo' })).toBeDisabled();
-  await expect(page.locator('noscript')).toBeVisible();
+  await page.goto('http://127.0.0.1:8765/html/index.html?pagina=cadastro');
+  await expect(page.locator('main h1')).toContainText('Juntos');
+  await expect(page.locator('form')).toHaveCount(0);
+  await expect(page.locator('.aviso-sem-js')).toContainText('Ative o JavaScript');
   await contexto.close();
 });
 
 test('restrições HTML bloqueiam o submit com mensagens nativas', async ({ page }) => {
-  await page.goto('/html/cadastro.html');
+  await page.goto('/html/index.html?pagina=cadastro');
   for (const [id, valor, flag] of [['email', 'invalido', 'typeMismatch'], ['cpf', '123', 'patternMismatch'], ['telefone', '11', 'patternMismatch'], ['cep', '12', 'patternMismatch'], ['nascimento', '2999-01-01', 'rangeOverflow']]) {
     const estado = await page.locator(`#${id}`).evaluate((el, {valor, flag}) => {
       el.setCustomValidity('');
@@ -101,7 +102,7 @@ test('Grid de 12 colunas nos limites dos cinco breakpoints', async ({ page }) =>
   for (const largura of [375, 479, 480, 767, 768, 1023, 1024, 1279, 1280, 1535, 1536, 1920]) {
     await page.setViewportSize({ width: largura, height: 900 });
     for (const pagina of ['index', 'projetos', 'participe', 'cadastro']) {
-      await page.goto(`/html/${pagina}.html`);
+      await page.goto(rota(pagina));
       const layout = await page.locator('main').evaluate(el => ({
         colunas: getComputedStyle(el).gridTemplateColumns.split(' ').length,
         semOverflow: document.documentElement.scrollWidth <= innerWidth
@@ -145,13 +146,13 @@ test('menu móvel, dropdown, teclado e mudança de breakpoint', async ({ page })
   await summary.click();
   await expect(page.locator('.submenu-lista')).toHaveCSS('position', 'absolute');
   await page.getByRole('link', { name: 'Voluntariado', exact: true }).click();
-  await expect(page).toHaveURL(/projetos.html#voluntariado$/);
+  await expect(page).toHaveURL(/index\.html\?pagina=projetos#voluntariado$/);
   await page.setViewportSize({ width: 375, height: 812 });
   await expect(menu).toBeHidden();
 });
 
 test('estados visuais de erro e sucesso do formulário', async ({ page }) => {
-  await page.goto('/html/cadastro.html');
+  await page.goto('/html/index.html?pagina=cadastro');
   await page.getByRole('button', { name: 'Validar cadastro de exemplo' }).click();
   await expect(page.locator('#resultado')).toHaveClass(/feedback-erro/);
   await expect(page.locator('#nome')).toHaveAttribute('aria-invalid', 'true');
@@ -166,7 +167,7 @@ test('estados visuais de erro e sucesso do formulário', async ({ page }) => {
 });
 
 test('projetos são renderizados a partir de template e dados JavaScript', async ({ page }) => {
-  await page.goto('/html/projetos.html');
+  await page.goto('/html/index.html?pagina=projetos');
   await expect(page.locator('#projeto-template')).toHaveCount(1);
   await expect(page.locator('#lista-projetos article')).toHaveCount(2);
   await expect(page.locator('#aprender h2')).toHaveText('Aprender juntos');
@@ -174,7 +175,7 @@ test('projetos são renderizados a partir de template e dados JavaScript', async
 });
 
 test('rascunho do cadastro persiste com JSON no localStorage', async ({ page }) => {
-  await page.goto('/html/cadastro.html');
+  await page.goto('/html/index.html?pagina=cadastro');
   await page.locator('#nome').fill('Pessoa Persistida');
   await page.locator('#email').fill('persistida@example.com');
   const salvo = await page.evaluate(() => JSON.parse(localStorage.getItem('lacos-cadastro-rascunho')));
@@ -222,7 +223,7 @@ for (const tema of ['claro', 'escuro', 'contraste']) {
     await page.getByLabel('Tema', { exact: true }).selectOption(tema);
     await page.reload();
     for (const pagina of ['index', 'projetos', 'participe', 'cadastro']) {
-      await page.goto(`/html/${pagina}.html`);
+      await page.goto(rota(pagina));
       await expect(page.locator('html')).toHaveAttribute('data-tema', tema);
       await expect(page.getByLabel('Tema', { exact: true })).toHaveValue(tema);
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -309,7 +310,7 @@ test('sem JavaScript as cores seguem o sistema e o seletor fica oculto', async (
 
 test('cores forçadas preservam controles e foco do sistema', async ({ page }) => {
   await page.emulateMedia({ forcedColors: 'active' });
-  await page.goto('/html/cadastro.html');
+  await page.goto('/html/index.html?pagina=cadastro');
   await page.getByLabel('Tema', { exact: true }).selectOption('contraste');
   const botao = page.locator('button[type="submit"]');
   await botao.focus();
@@ -318,4 +319,105 @@ test('cores forçadas preservam controles e foco do sistema', async ({ page }) =
   await expect(botao).toHaveCSS('forced-color-adjust', 'auto');
   await botao.press('Enter');
   await expect(page.locator('#nome')).toBeFocused();
+});
+
+async function abrirRotaPeloMenu(page, nome) {
+  if (await page.locator('.menu-toggle').isVisible() && await page.locator('#menu-principal').isHidden()) {
+    await page.locator('.menu-toggle').click();
+  }
+  await page.getByRole('navigation', { name: 'Navegação principal' }).getByRole('link', { name: nome, exact: true }).click();
+}
+
+test('SPA troca vistas sem recarregar o documento e atualiza título, foco e menu', async ({ page }) => {
+  await page.goto(rota('index'));
+  await page.evaluate(() => { window.marcaDaSessaoSPA = 'preservada'; });
+  const documentos = [];
+  page.on('request', req => { if (req.isNavigationRequest()) documentos.push(req.url()); });
+  for (const [nome, vista, titulo] of [['Projetos sociais', 'projetos', 'Projetos sociais'], ['Participe', 'participe', 'Participe da nossa comunidade'], ['Cadastro', 'cadastro', 'Cadastro de participação']]) {
+    await abrirRotaPeloMenu(page, nome);
+    await expect(page.locator('main')).toHaveCount(1);
+    await expect(page.locator('#app h1')).toHaveText(titulo);
+    await expect(page.locator('#app h1')).toBeFocused();
+    await expect(page.locator(`[data-rota="${vista}"]`)).toHaveAttribute('aria-current', 'page');
+    await expect(page).toHaveTitle(`${nome} | Laços da Comunidade`);
+  }
+  expect(documentos).toEqual([]);
+  expect(await page.evaluate(() => window.marcaDaSessaoSPA)).toBe('preservada');
+});
+
+test('SPA restaura vistas com Voltar e Avançar, inclusive o estado inicial', async ({ page }) => {
+  await page.goto(rota('index'));
+  await abrirRotaPeloMenu(page, 'Projetos sociais');
+  await abrirRotaPeloMenu(page, 'Cadastro');
+  await page.goBack();
+  await expect(page.locator('#app h1')).toHaveText('Projetos sociais');
+  await expect(page.locator('#lista-projetos article')).toHaveCount(2);
+  await page.goBack();
+  await expect(page.locator('#app h1')).toContainText('Juntos');
+  await page.goForward();
+  await expect(page.locator('#app h1')).toHaveText('Projetos sociais');
+  await page.goForward();
+  await expect(page.locator('#nome')).toBeVisible();
+});
+
+test('SPA preserva rascunho e não duplica mensagens ao remontar o cadastro', async ({ page }) => {
+  await page.goto(rota('cadastro'));
+  await page.locator('#nome').fill('Pessoa Persistida');
+  for (let i = 0; i < 3; i++) {
+    await abrirRotaPeloMenu(page, 'Projetos sociais');
+    await expect(page.locator('#lista-projetos article')).toHaveCount(2);
+    await abrirRotaPeloMenu(page, 'Cadastro');
+    await expect(page.locator('#nome')).toHaveValue('Pessoa Persistida');
+    await expect(page.locator('#erro-nome')).toHaveCount(1);
+  }
+  await page.locator('#cpf').fill('12345678909');
+  await expect(page.locator('#cpf')).toHaveValue('123.456.789-09');
+});
+
+test('SPA aceita rota direta, recarga e âncora de projeto', async ({ page }) => {
+  await page.goto(rota('projetos') + '#leitura');
+  await expect(page.locator('#leitura')).toBeFocused();
+  await page.reload();
+  await expect(page.locator('#leitura')).toBeFocused();
+  await expect(page.locator('#lista-projetos article')).toHaveCount(2);
+});
+
+test('SPA mostra rota desconhecida com retorno funcional e respeita novas abas', async ({ page }) => {
+  await page.goto('/html/index.html?pagina=__proto__');
+  await expect(page.locator('#app h1')).toHaveText('Página não encontrada');
+  await page.getByRole('link', { name: 'Voltar ao início' }).click();
+  await expect(page.locator('#app h1')).toContainText('Juntos');
+  const link = page.locator('[data-rota="projetos"]');
+  await link.evaluate(el => el.target = '_blank');
+  if (await page.locator('.menu-toggle').isVisible()) await page.locator('.menu-toggle').click();
+  const [popup] = await Promise.all([page.waitForEvent('popup'), link.click()]);
+  await expect(popup.locator('#app h1')).toHaveText('Projetos sociais');
+  await expect(page.locator('#app h1')).toContainText('Juntos');
+  await popup.close();
+});
+
+test('endereços antigos encaminham para a SPA preservando âncoras', async ({ page }) => {
+  await page.goto('/html/projetos.html#leitura');
+  await expect(page).toHaveURL(/index\.html\?pagina=projetos#leitura$/);
+  await expect(page.locator('#leitura')).toBeFocused();
+  await page.goto('/html/cadastro.html');
+  await expect(page.locator('#nome')).toBeVisible();
+  await page.goto('/html/participe.html');
+  await expect(page.locator('#app h1')).toHaveText('Participe da nossa comunidade');
+});
+
+test('SPA mantém cadastro utilizável com localStorage indisponível ou rascunho corrompido', async ({ page }) => {
+  const erros = [];
+  page.on('pageerror', error => erros.push(error.message));
+  await page.addInitScript(() => localStorage.setItem('lacos-cadastro-rascunho', 'null'));
+  await page.goto(rota('cadastro'));
+  await expect(page.locator('#nome')).toBeEnabled();
+  await page.evaluate(() => {
+    Storage.prototype.getItem = Storage.prototype.setItem = Storage.prototype.removeItem = () => { throw new Error('Bloqueado'); };
+  });
+  await abrirRotaPeloMenu(page, 'Projetos sociais');
+  await abrirRotaPeloMenu(page, 'Cadastro');
+  await page.locator('#nome').fill('Pessoa Teste');
+  await expect(page.locator('#nome')).toHaveValue('Pessoa Teste');
+  expect(erros).toEqual([]);
 });

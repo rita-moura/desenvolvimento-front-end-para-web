@@ -276,3 +276,5 @@ button { width: 100%; }
   :focus-visible, [aria-invalid="true"]:focus-visible { outline-color: Highlight; }
   button, input, select { box-shadow: none; }
 }
+
+.aviso-sem-js { padding: var(--espaco-4); color: var(--escuro); background: var(--secundaria); }

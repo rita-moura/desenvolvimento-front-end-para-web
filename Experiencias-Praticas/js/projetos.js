@@ -15,8 +15,9 @@ const projetos = [
   }
 ];
 
-const lista = document.querySelector('#lista-projetos');
-const modelo = document.querySelector('#projeto-template');
+export function renderizarProjetos(container) {
+const lista = container.querySelector('#lista-projetos');
+const modelo = container.querySelector('#projeto-template');
 const fragmento = document.createDocumentFragment();
 
 projetos.forEach(projeto => {
@@ -38,3 +39,5 @@ projetos.forEach(projeto => {
 });
 
 lista.append(fragmento);
+
+}

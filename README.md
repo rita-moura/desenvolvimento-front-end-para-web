@@ -6,7 +6,7 @@ Site de uma ONG fictícia para praticar estrutura semântica, navegação e hier
 
 ## Tecnologias utilizadas
 
-- **HTML5:** estrutura semântica das quatro páginas e validação nativa do formulário.
+- **HTML5:** estrutura semântica da SPA e suas quatro vistas e validação nativa do formulário.
 - **CSS3:** estilos compartilhados, Grid, Flexbox e adaptação para desktop e celular.
 - **JavaScript puro:** menu, máscaras, validação, templates de projetos e rascunho em `localStorage` com JSON.
 - **Python 3:** servidor HTTP para execução local e para os testes.
@@ -24,7 +24,7 @@ Para gerar a build, são necessários Node.js **20 ou superior** e npm. Para os 
 
 ```text
 Experiencias-Praticas/
-├── html/                 # quatro páginas da aplicação
+├── html/                 # entrada da SPA e redirecionamentos antigos
 ├── css/estilos.css       # estilos compartilhados
 ├── js/                  # navegação, temas, cadastro e projetos
 ├── imagens/             # ilustrações locais
@@ -38,9 +38,9 @@ Experiencias-Praticas/
 └── respostas.md
 ```
 
-Abra `html/index.html` no navegador e use o menu para visitar as quatro páginas. Não é necessário instalar dependências.
+Sirva a pasta por HTTP com `python3 -m http.server 8000 --directory Experiencias-Praticas` a partir da raiz e abra `http://localhost:8000/html/index.html`. Os módulos ES exigem um servidor HTTP. Não é necessário instalar dependências para consultar os fontes.
 
-As quatro páginas são Início, Projetos sociais, Participe e Cadastro. O nome da ONG e os conteúdos são exemplos fictícios.
+As quatro vistas são Início, Projetos sociais, Participe e Cadastro. O nome da ONG e os conteúdos são exemplos fictícios.
 
 ## Como ler o HTML
 
@@ -75,7 +75,7 @@ A estrutura HTML recebe os estilos compartilhados de `css/estilos.css`. A pasta 
 
 A página `html/cadastro.html` usa `fieldset` e `legend` para agrupar dados pessoais, endereço e participação. Cada campo tem um rótulo; campos obrigatórios usam `required`. Os tipos `email`, `date` e `tel`, os limites de comprimento e os padrões `pattern` ajudam a prevenir erros.
 
-O arquivo `js/cadastro.js` aplica máscaras de CPF, telefone e CEP, confere os dígitos verificadores do CPF e impede datas futuras de nascimento. A máscara não confirma a existência de um CPF, telefone ou CEP. O formulário é demonstrativo: não transmite dados ao servidor, mas salva um rascunho em localStorage; use exemplos fictícios. Sem JavaScript, os campos ficam desabilitados para impedir envio acidental.
+O arquivo `js/cadastro.js` aplica máscaras de CPF, telefone e CEP, confere os dígitos verificadores do CPF e impede datas futuras de nascimento. A máscara não confirma a existência de um CPF, telefone ou CEP. O formulário é demonstrativo: não transmite dados ao servidor, mas salva um rascunho em localStorage; use exemplos fictícios. Sem JavaScript, somente a Home é apresentada, com um aviso; a vista de cadastro depende da renderização da SPA.
 
 O HTML de cadastro foi enviado ao Nu HTML Checker do W3C em 23/09/2026, com zero mensagens após a correção do atributo autocomplete do telefone. Resultado em `validacao/cadastro-w3c.json`. Essa validação verifica a marcação; as máscaras e os dígitos verificadores também foram conferidos separadamente com Node.js.
 
@@ -83,11 +83,11 @@ As validações mostram mensagens junto aos campos ao perderem foco e ao conclui
 
 ## Entrega final
 
-A pasta `entrega` reúne os pacotes ZIP e uma cópia consolidada do HTML. As quatro páginas foram validadas no W3C sem mensagens. A imagem usa `picture` com SVG e WebP e fallback PNG, com texto alternativo na tag `img`. Os relatórios individuais estão em `validacao`.
+A pasta `entrega` reúne os pacotes ZIP e uma cópia consolidada do HTML. Os quatro HTML da etapa anterior foram validados no W3C sem mensagens; esses relatórios históricos não validam o novo index da SPA. A imagem usa `picture` com SVG e WebP e fallback PNG, com texto alternativo na tag `img`. Os relatórios individuais estão em `validacao`.
 
 ## Estilo e testes automatizados
 
-As quatro páginas compartilham `css/estilos.css`. O layout adapta menus e formulários a telas menores e mantém foco visível e mensagens de erro. A organização das páginas e as regras do formulário foram preservadas.
+As quatro vistas compartilham `css/estilos.css`. O layout adapta menus e formulários a telas menores e mantém foco visível e mensagens de erro. A organização das páginas e as regras do formulário foram preservadas.
 
 Para testar, instale Node.js e Python 3. Dentro de `Experiencias-Praticas`, execute:
 
@@ -102,13 +102,13 @@ npm test
 
 ## Temas claro, escuro e alto contraste
 
-O seletor **Tema**, no cabeçalho das quatro páginas, oferece **Sistema**, **Claro**, **Escuro** e **Alto contraste**. É um `select` nativo com rótulo, disponível por teclado e também com o menu móvel fechado.
+O seletor **Tema**, no cabeçalho persistente, oferece **Sistema**, **Claro**, **Escuro** e **Alto contraste**. É um `select` nativo com rótulo, disponível por teclado e também com o menu móvel fechado.
 
 A opção Sistema acompanha `prefers-color-scheme` e `prefers-contrast`, dando prioridade ao contraste aumentado. A escolha manual prevalece e fica em `localStorage`, na chave `lacos-tema`; voltar a Sistema remove essa preferência. Se o armazenamento estiver bloqueado, a troca continua funcionando na página atual. Sem JavaScript, o seletor fica oculto e as media queries CSS acompanham o sistema.
 
 `js/tema.js` define `data-tema` no elemento `html` antes do carregamento do CSS. As paletas usam variáveis compartilhadas em `css/estilos.css`, incluindo textos, fundos, controles, foco e mensagens de sucesso/erro. O alto contraste usa fundo preto, textos brancos, links amarelos sublinhados e foco ciano. O CSS preserva as cores forçadas do sistema (`forced-colors`).
 
-Após esta implementação, **50 testes Playwright passaram**, nos perfis desktop e celular, incluindo persistência nas quatro páginas, teclado, preferência do sistema, armazenamento bloqueado, ausência de JavaScript e cores forçadas. A [verificação de contraste](Experiencias-Praticas/validacao/contraste.json) passou em **48 medições**: 42 pares de texto/fundo acima de 4,5:1 e seis medições da borda e do foco do seletor acima de 3:1. Os menores contrastes de texto da amostra foram 6,02:1 (claro), 8,72:1 (escuro) e 12,44:1 (alto contraste). Esses resultados não constituem auditoria integral de acessibilidade nem teste manual com leitores de tela.
+Após esta implementação, **64 testes Playwright passaram**, nos perfis desktop e celular, incluindo persistência entre as quatro vistas, teclado, preferência do sistema, armazenamento bloqueado, ausência de JavaScript e cores forçadas. A [verificação de contraste](Experiencias-Praticas/validacao/contraste.json) passou em **48 medições**: 42 pares de texto/fundo acima de 4,5:1 e seis medições da borda e do foco do seletor acima de 3:1. Os menores contrastes de texto da amostra foram 6,02:1 (claro), 8,72:1 (escuro) e 12,44:1 (alto contraste). Esses resultados não constituem auditoria integral de acessibilidade nem teste manual com leitores de tela.
 
 Para repetir a medição após instalar as dependências e o Chromium, execute na raiz:
 
@@ -118,21 +118,21 @@ node Experiencias-Praticas/validacao/verificar-contraste.cjs
 
 ## Estado atual do projeto
 
-A implementação atual está organizada na pasta `Experiencias-Praticas` e mantém uma arquitetura multipágina: `html/index.html`, `html/projetos.html`, `html/participe.html` e `html/cadastro.html` são documentos independentes. A apresentação está em `css/estilos.css`; os comportamentos estão em `js/cadastro.js`, `js/navegacao.js`, `js/projetos.js` e `js/tema.js`; os recursos gráficos ficam em `imagens/`.
+A aplicação é uma SPA com entrada em `html/index.html` e `<main id="app">`. `app.js` mantém um objeto de rotas e intercepta links internos; `history.pushState`, `replaceState` e `popstate` permitem navegar sem recarregar o documento e usar Voltar/Avançar. As rotas usam `?pagina=projetos`, `?pagina=participe` e `?pagina=cadastro`, compatíveis com recargas diretas no GitHub Pages. Os três HTML antigos apenas redirecionam links existentes.
 
-O projeto já possui navegação responsiva, submenu, menu hambúrguer, máscaras e validação nativa do cadastro, feedback visual, Grid de 12 colunas, Flexbox, testes Playwright e relatórios W3C. Os arquivos de teste ficam em `site.spec.js` e podem ser executados com `npm ci` e `npm test` dentro de `Experiencias-Praticas`.
+`vistas.js` exporta `renderHome`, `renderProjetos`, `renderParticipe` e `renderCadastro`. A troca atualiza título, `aria-current` e foco; rotas desconhecidas apresentam um retorno ao início. O cabeçalho permanece e o formulário é inicializado a cada montagem, restaurando o rascunho quando disponível. Sem JavaScript, a página inicial permanece legível e um aviso explica a limitação das outras vistas.
 
-A etapa de JavaScript III propõe evoluir essa base para uma SPA. No estado documentado acima, a navegação ainda recarrega documentos HTML; a migração para `history.pushState`, roteamento e renderização em um contêiner principal será uma próxima implementação. Essa distinção mantém a documentação fiel ao código atual.
+A suíte contém 64 testes em desktop e celular. As evidências da correção estão em [validacao/spa.md](Experiencias-Praticas/validacao/spa.md).
 
 
 ### Templates e componentes dinâmicos
 
-A página `Experiencias-Praticas/html/projetos.html` usa o elemento HTML `template` como molde para os cards de projetos. `js/projetos.js` percorre dados estruturados, clona o conteúdo com `cloneNode`, preenche os campos com `textContent` e insere um `DocumentFragment` no DOM. A abordagem evita repetir a marcação e não interpreta dados dinâmicos como HTML.
+A vista Projetos definida em `Experiencias-Praticas/html/index.html` usa o elemento HTML `template` como molde para os cards de projetos. `js/projetos.js` percorre dados estruturados, clona o conteúdo com `cloneNode`, preenche os campos com `textContent` e insere um `DocumentFragment` no DOM. A abordagem evita repetir a marcação e não interpreta dados dinâmicos como HTML.
 
 
 ### Eventos e interações
 
-`js/navegacao.js` trata cliques, Escape e mudanças de breakpoint para o menu e o dropdown. `js/cadastro.js` trata input, blur, change, invalid e submit para máscaras, validação nativa, foco e feedback. A navegação entre documentos continua multipágina; a etapa SPA ainda será implementada.
+`js/navegacao.js` trata cliques, Escape e mudanças de breakpoint para o menu e o dropdown. `js/cadastro.js` trata input, blur, change, invalid e submit para máscaras, validação nativa, foco e feedback. `app.js` trata a navegação interna e o evento `popstate` para restaurar a vista pelo histórico.
 
 
 ### Consistência e feedback do formulário
@@ -152,7 +152,7 @@ A aplicação usa Vanilla JavaScript e não importa frameworks ou bibliotecas po
 
 ### Modularização JavaScript
 
-Os comportamentos são separados por responsabilidade: `navegacao.js` controla menu e dropdown, `cadastro.js` controla formulário, validação e persistência, e `projetos.js` renderiza os cards a partir do template. Os scripts de navegação, cadastro e projetos usam `defer`. O script compartilhado `tema.js` é carregado antes do CSS para aplicar a preferência de cores antes da primeira pintura; registra o controle após `DOMContentLoaded`.
+Os comportamentos são separados por responsabilidade: `navegacao.js` controla menu e dropdown, `cadastro.js` controla formulário, validação e persistência, e `projetos.js` renderiza os cards a partir do template. `app.js` usa `type="module"` e importa as funções locais com `import/export`; `vistas.js` inicializa os comportamentos após montar o conteúdo. O script compartilhado `tema.js` é carregado antes do CSS para aplicar a preferência de cores antes da primeira pintura; registra o controle após `DOMContentLoaded`.
 
 
 ### Diagnóstico e correções
@@ -187,7 +187,7 @@ python3 -m http.server 8001 --bind 127.0.0.1 --directory Experiencias-Praticas
 
 ## Build e publicação
 
-A aplicação continua estática e multipágina. A build de produção usa [esbuild](https://esbuild.github.io/api/#minify) para JavaScript/CSS e [html-minifier-terser](https://github.com/terser/html-minifier-terser) para HTML. Na raiz do repositório, execute:
+A aplicação é uma SPA estática. A build de produção usa [esbuild](https://esbuild.github.io/api/#minify) para JavaScript/CSS e [html-minifier-terser](https://github.com/terser/html-minifier-terser) para HTML. Na raiz do repositório, execute:
 
 ```bash
 cd Experiencias-Praticas
@@ -198,9 +198,9 @@ npm run preview
 
 Abra <http://127.0.0.1:8002/html/index.html>. `Ctrl+C` encerra a prévia. O comando `build` recria somente `Experiencias-Praticas/dist/`; os fontes permanecem intactos. A saída contém `html/`, `css/`, `js/` e `imagens/`, com os mesmos caminhos relativos. As imagens são copiadas sem alteração. Testes, dependências, respostas e relatórios ficam fora da saída.
 
-A configuração está em `scripts/build.mjs`: entradas separadas, `bundle: true`, `minify: true`, formato IIFE para scripts clássicos e alvos Chrome 109, Firefox 115 e Safari 15.4. O HTML tem comentários removidos e espaços reduzidos de forma conservadora, preservando atributos, tags, templates e a ordem de carregamento. `tema.js` continua antes do CSS; os demais scripts mantêm `defer`.
+A configuração está em `scripts/build.mjs`: entradas CSS, app e tema, `bundle: true`, `minify: true`, formato IIFE para scripts clássicos e alvos Chrome 109, Firefox 115 e Safari 15.4. O HTML tem comentários removidos e espaços reduzidos de forma conservadora, preservando atributos, tags, templates e a ordem de carregamento. `tema.js` continua antes do CSS; `app.js` agrupa os módulos e mantém o carregamento após a análise do HTML.
 
-A última medição reduziu **45.243 para 35.455 bytes (21,63%)** nos nove arquivos de código: HTML **12,48%**, CSS **20,93%** e JavaScript **38,39%**. A comparação usa bytes UTF-8, sem gzip/Brotli e sem imagens. O relatório [minificacao.json](Experiencias-Praticas/validacao/minificacao.json) é regenerado na build e contém valores por arquivo, totais e hashes SHA-256.
+A última medição reduziu **45.461 para 33.724 bytes (25,82%)** em onze fontes agrupados em sete saídas: HTML **12,54%**, CSS **20,86%** e JavaScript **42,46%**. A comparação usa bytes UTF-8, sem gzip/Brotli e sem imagens. O relatório [minificacao.json](Experiencias-Praticas/validacao/minificacao.json) é regenerado na build e contém valores por arquivo, totais e hashes SHA-256.
 
 Para validar a saída de produção, com o Chromium instalado:
 
@@ -209,9 +209,33 @@ npm run test:build
 node validacao/verificar-contraste.cjs --build
 ```
 
-`test:build` gera a build e executa a mesma suíte, servindo exclusivamente `dist/` na porta 8765. Foram aprovados **50 testes** nos perfis desktop/celular e **48 medições de contraste** na saída minificada. As evidências estão em [validacao/minificacao.md](Experiencias-Praticas/validacao/minificacao.md) e [contraste-producao.json](Experiencias-Praticas/validacao/contraste-producao.json).
+`test:build` gera a build e executa a mesma suíte, servindo exclusivamente `dist/` na porta 8765. Foram aprovados **64 testes** nos perfis desktop/celular e **48 medições de contraste** na saída minificada. As evidências estão em [validacao/minificacao.md](Experiencias-Praticas/validacao/minificacao.md) e [contraste-producao.json](Experiencias-Praticas/validacao/contraste-producao.json).
 
-O GitHub Pages permanece com a publicação existente a partir de `main`. Gerar `dist/` localmente não publica uma nova versão: a saída precisa ser enviada ao destino de hospedagem na etapa de deploy. `dist/` é ignorada pelo Git e pode ser recriada com `npm ci` e `npm run build`.
+A publicação de produção usa **GitHub Pages com GitHub Actions**, configurado em [.github/workflows/pages.yml](.github/workflows/pages.yml). O workflow valida pushes e pull requests destinados a `main` ou `develop`; somente um push em `main` ou uma execução manual nessa branch pode publicar. O job de deploy depende do sucesso da build e usa o ambiente `github-pages`, com permissões `pages: write` e `id-token: write`.
+
+O runner Ubuntu configura Node.js 22 e Python 3, instala dependências com `npm ci` e Chromium com `npx playwright install --with-deps chromium`. Em seguida, executa os testes dos fontes, a build minificada, os testes da produção e as verificações de contraste e imagens. Também confere se o código consolidado está atualizado e guarda os relatórios como artefatos da execução.
+
+`npm run pages:prepare` copia a build validada para `.pages/Experiencias-Praticas/` e cria uma entrada na raiz que encaminha ao site. Assim, o endereço continua sendo <https://rita-moura.github.io/desenvolvimento-front-end-para-web/Experiencias-Praticas/html/index.html>. As ações oficiais `configure-pages`, `upload-pages-artifact` e `deploy-pages` publicam o artefato. Em Settings → Pages, a origem é **GitHub Actions**.
+
+`dist/` e `.pages/` são ignoradas pelo Git. Uma build local não publica sozinha: o deploy ocorre no workflow de `main` após as verificações. O [histórico de execuções](https://github.com/rita-moura/desenvolvimento-front-end-para-web/actions/workflows/pages.yml) identifica a versão e o resultado de cada execução.
+
+### Código final para a atividade
+
+O arquivo [entrega/codigo-fonte-completo.txt](Experiencias-Praticas/entrega/codigo-fonte-completo.txt) consolida o código da aplicação, SVG, configuração de build e workflow em um texto abaixo do limite de 100.000 caracteres. Os separadores identificam arquivos independentes; esse texto não deve ser executado como um único HTML. Testes, verificadores, PNG, WebP e o lockfile completo estão no repositório. Para atualizar a entrega após mudanças no código, execute `npm run export:source` dentro de `Experiencias-Praticas` e versione também o arquivo gerado.
+
+## Imagens e adaptação às telas
+
+A ilustração usa `picture` com SVG (703 bytes), WebP (9.438 bytes) e PNG (24.588 bytes). O SVG é a primeira fonte e representa uma economia de 97,14% frente ao PNG; o WebP economiza 61,62%. A build copia esses arquivos sem recompressão.
+
+O vetor tem `viewBox="0 0 800 400"`; os formatos raster têm 800 × 400 pixels. O CSS adapta a largura, limita a altura a 350px e usa `object-fit: contain`. Não há variantes raster por resolução com `sizes` ou descritores de largura. Em cinco cenários de viewport/densidade, o Chromium selecionou somente o SVG, sem transbordamento horizontal.
+
+O [relatório das imagens](Experiencias-Praticas/validacao/imagens.json) registra seleção, dimensões e tamanhos dos recursos da página inicial. A economia de 23.885 bytes frente a uma versão hipotética com PNG corresponderia a cerca de 191ms de transferência a 1 Mbit/s, ignorando cache, latência, compressão HTTP e processamento. Essa estimativa não é uma medição do tempo global ou do LCP.
+
+Para reproduzir, após `npm run build`, dentro de `Experiencias-Praticas`:
+
+```bash
+node validacao/verificar-imagens.cjs
+```
 
 ## Executar os testes
 
@@ -258,4 +282,4 @@ A tag anotada **v1.0.1** identifica a primeira release publicada. O projeto já 
 
 O nome **Laços da Comunidade** leva à página inicial. A ordem do menu é **Participe → Cadastro → Projetos sociais ▾**. A seta abre o submenu; o link Projetos sociais abre a página completa. O acionador tem nome acessível, foco visível e área de toque de 44 × 44px. O elemento `details` mantém o submenu funcional sem JavaScript.
 
-Os **32 testes Playwright** passaram em Chromium, com perfis desktop e celular. As evidências estão em [validacao/epiv.md](Experiencias-Praticas/validacao/epiv.md). Isso não substitui uma auditoria completa WCAG 2.1 AA. Essa entrega usava os fontes diretamente no GitHub Pages. A etapa posterior de otimização acrescentou a build de produção descrita acima, preservando a arquitetura multipágina.
+Os **32 testes Playwright** passaram em Chromium, com perfis desktop e celular. As evidências estão em [validacao/epiv.md](Experiencias-Praticas/validacao/epiv.md). Isso não substitui uma auditoria completa WCAG 2.1 AA. Essa entrega usava os fontes diretamente no GitHub Pages. A etapa posterior de otimização acrescentou a build de produção descrita acima, e a correção da Experiência III migrou a navegação para SPA.

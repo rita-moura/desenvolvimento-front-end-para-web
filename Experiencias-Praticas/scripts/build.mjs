@@ -9,24 +9,19 @@ import { fileURLToPath } from 'node:url';
 const require = createRequire(import.meta.url);
 const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const destino = resolve(raiz, 'dist');
-const entradas = [
-  'css/estilos.css',
-  'js/cadastro.js',
-  'js/navegacao.js',
-  'js/projetos.js',
-  'js/tema.js'
-];
+const entradas = ['css/estilos.css', 'js/app.js', 'js/tema.js'];
 const paginas = ['index', 'projetos', 'participe', 'cadastro'].map(nome => `html/${nome}.html`);
 
 // Apenas o diretório gerado é limpo; os fontes continuam legíveis e versionados.
 await rm(destino, { recursive: true, force: true });
 await mkdir(resolve(destino, 'html'), { recursive: true });
-await build({
+const resultadoBuild = await build({
   absWorkingDir: raiz,
   entryPoints: entradas,
   outbase: '.',
   outdir: destino,
   bundle: true,
+  metafile: true,
   format: 'iife',
   platform: 'browser',
   target: ['chrome109', 'firefox115', 'safari15.4'],
@@ -57,15 +52,19 @@ await cp(resolve(raiz, 'imagens'), resolve(destino, 'imagens'), {
 
 const arquivos = [];
 for (const arquivo of [...paginas, ...entradas].sort()) {
-  const original = await readFile(resolve(raiz, arquivo));
+  const saida = Object.entries(resultadoBuild.metafile.outputs).find(([nome]) => resolve(raiz, nome) === resolve(destino, arquivo));
+  const caminhosFonte = saida ? Object.keys(saida[1].inputs).sort() : [arquivo];
+  const fontes = [];
+  for (const caminho of caminhosFonte) {
+    const conteudo = await readFile(resolve(raiz, caminho));
+    fontes.push({ arquivo: caminho, bytes: conteudo.length, sha256: createHash('sha256').update(conteudo).digest('hex') });
+  }
+  const bytesOriginal = fontes.reduce((soma, fonte) => soma + fonte.bytes, 0);
   const minificado = await readFile(resolve(destino, arquivo));
   arquivos.push({
-    arquivo,
-    tipo: arquivo.split('.').pop(),
-    bytesOriginal: original.length,
+    arquivo, fontes, tipo: arquivo.split('.').pop(), bytesOriginal,
     bytesMinificado: minificado.length,
-    reducaoPercentual: (1 - minificado.length / original.length) * 100,
-    sha256Original: createHash('sha256').update(original).digest('hex'),
+    reducaoPercentual: (1 - minificado.length / bytesOriginal) * 100,
     sha256Minificado: createHash('sha256').update(minificado).digest('hex')
   });
 }
@@ -76,7 +75,7 @@ function resumir(itens) {
 }
 const relatorio = {
   ferramentas: { esbuild: esbuildVersion, 'html-minifier-terser': require('html-minifier-terser/package.json').version },
-  escopo: 'Bytes UTF-8 dos quatro HTML, um CSS e quatro JS usados no site; sem gzip/Brotli. Imagens copiadas sem alteração e excluídas deste cálculo.',
+  escopo: 'Bytes UTF-8: index da SPA, três redirecionamentos, CSS e módulos JS. app.js agrupa seus módulos conforme o metafile do esbuild; cada fonte é contada uma vez. Sem imagens ou gzip/Brotli.',
   formula: '(1 - bytesMinificado / bytesOriginal) * 100',
   arquivos,
   porTipo: Object.fromEntries(['html', 'css', 'js'].map(tipo => [tipo, resumir(arquivos.filter(item => item.tipo === tipo))])),
